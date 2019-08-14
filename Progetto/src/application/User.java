@@ -10,7 +10,7 @@ public class User implements Comparable<User>{
 	private String telefono;
 	private String email;
 	private String librocard;
-	private String pw="";
+	private String pw;
 	
 	
 	public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email, String librocard,
@@ -26,8 +26,8 @@ public class User implements Comparable<User>{
 		this.pw=pw;
 	}
 	
-	public User(String id, String pw) {
-		this.email=id;
+	public User(String email, String pw) {
+		this.email=email;
 		this.pw=pw;
 	}
 	
@@ -47,5 +47,8 @@ public class User implements Comparable<User>{
 			return false;
 	}
 
+	public String toString() {
+		return this.email + " " +  this.pw;
+	}
 
 }

@@ -17,16 +17,16 @@
                   <Font name="Arial Bold Italic" size="14.0" />
                </font>
             </Label>
-            <PasswordField fx:id="IdPasswordField" prefHeight="25.0" prefWidth="165.0" promptText="id" />
-            <PasswordField fx:id="PwPasswordField" promptText="password" />
+            <PasswordField fx:id="emailPasswordField" prefHeight="25.0" prefWidth="165.0" promptText="id" />
+            <PasswordField fx:id="pwPasswordField" promptText="password" />
             <Label fx:id="ErrorLabel" text="Label" />
          </children>
       </VBox>
       <HBox alignment="TOP_CENTER" layoutX="110.0" layoutY="240.0" prefHeight="47.0" prefWidth="380.0" spacing="30.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0">
          <children>
-            <Button fx:id="SignUpButton" mnemonicParsing="false" prefWidth="100.0" text="Sign Up" />
-            <Button fx:id="LoginButton" mnemonicParsing="false" onAction="#LoginButtonPushed" prefWidth="100.0" text="Login" />
-            <Button fx:id="GuestButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Enter as guest" />
+            <Button fx:id="signUpButton" mnemonicParsing="false" prefWidth="100.0" text="Sign Up" />
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#LoginButtonPushed" prefWidth="100.0" text="Login" />
+            <Button fx:id="guestButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Enter as guest" />
          </children>
       </HBox>
    </children>
