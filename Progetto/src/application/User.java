@@ -44,7 +44,7 @@ public class User implements Comparable<User>{
 	}
 	
 	public boolean equals(User other) {
-		if(this.compareTo(other)==0)
+		if(this.compareTo(other)==6)
 			return true;
 		else
 			return false;
