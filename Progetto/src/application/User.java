@@ -41,7 +41,7 @@ public class User implements Comparable<User>{
 	}
 	
 	public boolean equals(User other) {
-		if(this.compareTo(other)==9)
+		
 			return true;
 		else
 			return false;
