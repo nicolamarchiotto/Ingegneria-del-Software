@@ -13,9 +13,6 @@ import javafx.scene.control.PasswordField;
 
 public class SampleController implements Initializable{
 
-	//hbsdjb
-	//hhhhh
-	//hbhjbs
 	
 	@FXML private Button LoginButton;
 	@FXML private Button SignUpButton;

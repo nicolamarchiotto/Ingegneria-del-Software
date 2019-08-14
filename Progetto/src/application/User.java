@@ -2,9 +2,6 @@ package application;
 
 public class User implements Comparable<User>{
 
-/*ascasjcbajhhbsca*/
-//prova prova prova sss hhh
-	
 	private String nome;
 	private String cognome;
 	private String indirizzi;
@@ -44,7 +41,7 @@ public class User implements Comparable<User>{
 	}
 	
 	public boolean equals(User other) {
-		if(this.compareTo(other)==0)
+		if(this.compareTo(other)==9)
 			return true;
 		else
 			return false;
