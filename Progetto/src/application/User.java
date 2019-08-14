@@ -1,8 +1,10 @@
 package application;
 
+public class User implements Comparable<User>{
+
 /*ascasjcbajhhbsca*/
 //prova prova prova sss hhh
-public class User {
+	
 	private String nome;
 	private String cognome;
 	private String indirizzi;
@@ -16,23 +18,37 @@ public class User {
 	
 	public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email, String librocard,
 			String pw) {
-		nome=nome;
-		cognome=cognome;
-		indirizzi=indirizzi;
-		cap=cap;
-		citta=citta;
-		telefono=telefono;
-		email=email;
-		librocard=librocard;
-		pw+=pw;
+		this.nome=nome;
+		this.cognome=cognome;
+		this.indirizzi=indirizzi;
+		this.cap=cap;
+		this.citta=citta;
+		this.telefono=telefono;
+		this.email=email;
+		this.librocard=librocard;
+		this.pw=pw;
 	}
 	
 	public User(String id, String pw) {
-		email=id;
-		pw+=pw;
+		this.email=id;
+		this.pw=pw;
 	}
 	
-	public compareTo(Object other) {
-		other.ins
+	@Override
+	public int compareTo(User other) {
+		if((pw.equals(((User)other).pw)) && (email.equals(((User)other).email)) )
+			return 0;
+		else
+			return -1;
+				
 	}
+	
+	public boolean equals(User other) {
+		if(this.compareTo(other)==0)
+			return true;
+		else
+			return false;
+	}
+
+
 }

@@ -12,6 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 
 public class SampleController implements Initializable{
+
+	//hbsdjb
+	//hhhhh
+	//hbhjbs
 	
 	@FXML private Button LoginButton;
 	@FXML private Button SignUpButton;
@@ -32,9 +36,9 @@ public class SampleController implements Initializable{
 		String idSup=IdPasswordField.getText();
 		String pwSup=PwPasswordField.getText();
 		
-		User userSup = new User(IdPasswordField, PwPasswordField)
+		User userSup = new User(idSup, pwSup);
 		
-		if(!userList.contains(objSup))){
+		if(!userList.contains(userSup)){
 			ErrorLabel.setText("id e/o pw errati");
 		}
 	}

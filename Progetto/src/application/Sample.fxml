@@ -25,7 +25,7 @@
       <HBox alignment="TOP_CENTER" layoutX="110.0" layoutY="240.0" prefHeight="47.0" prefWidth="380.0" spacing="30.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0">
          <children>
             <Button fx:id="SignUpButton" mnemonicParsing="false" prefWidth="100.0" text="Sign Up" />
-            <Button fx:id="LoginButton" mnemonicParsing="false" prefWidth="100.0" text="Login" />
+            <Button fx:id="LoginButton" mnemonicParsing="false" onAction="#LoginButtonPushed" prefWidth="100.0" text="Login" />
             <Button fx:id="GuestButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Enter as guest" />
          </children>
       </HBox>
