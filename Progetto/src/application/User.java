@@ -1,7 +1,7 @@
 package application;
 
 /*ascasjcbajhhbsca*/
-//prova prova prova
+//prova prova prova sss
 public class User {
 	private String nome;
 	private String cognome;
