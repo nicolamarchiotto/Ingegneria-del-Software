@@ -1,6 +1,6 @@
 package application;
 
-public class User implements Comparable<User>{
+public class User implements Comparable<Object>{
 
 	private String nome;
 	private String cognome;
@@ -32,15 +32,16 @@ public class User implements Comparable<User>{
 	}
 	
 	@Override
-	public int compareTo(User other) {
-		if((pw.equals(((User)other).pw)) && (email.equals(((User)other).email)) )
+	public int compareTo(Object other) {
+		if( (other instanceof User) &&  (pw.equals(((User)other).pw)) && (email.equals(((User)other).email)) )
 			return 0;
 		else
 			return -1;
 				
 	}
 	
-	public boolean equals(User other) {
+	
+	public boolean equals(Object other) {
 		if(this.compareTo(other)==0)
 			return true;
 		else
