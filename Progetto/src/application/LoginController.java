@@ -16,10 +16,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class SampleController implements Initializable{
+public class LoginController implements Initializable{
 
 	
 	@FXML private Button loginButton;
@@ -32,8 +31,6 @@ public class SampleController implements Initializable{
 	@FXML private Label ErrorLabel;
 	
 	List<User> userList=new LinkedList<User>();
-	
-	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -52,8 +49,6 @@ public class SampleController implements Initializable{
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("SignUpScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        
-        
         window.setScene(tableViewScene);
         window.show();
     }

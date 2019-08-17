@@ -13,7 +13,7 @@ public class User implements Comparable<Object>{
 	private String pw;
 	
 	
-	public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email, String librocard,
+	public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email,
 			String pw) {
 		this.nome=nome;
 		this.cognome=cognome;
@@ -22,8 +22,10 @@ public class User implements Comparable<Object>{
 		this.citta=citta;
 		this.telefono=telefono;
 		this.email=email;
-		this.librocard=librocard;
 		this.pw=pw;
+		
+		//implementazione Librocard con data, da programmare con un libreria time o rebe lol del genere0
+		//this.librocard=new LibroCard(// )
 	}
 	
 	public User(String email, String pw) {
