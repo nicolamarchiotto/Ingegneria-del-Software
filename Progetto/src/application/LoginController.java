@@ -30,7 +30,7 @@ public class LoginController implements Initializable{
 	
 	@FXML private Label ErrorLabel;
 	
-	List<User> userList=new LinkedList<User>();
+	LinkedList<User> userList=new LinkedList<User>();
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -57,24 +57,20 @@ public class LoginController implements Initializable{
 		String emailSup=emailPasswordField.getText();
 		String pwSup=pwPasswordField.getText();
 		
+		
+		//attenzione eliminare utente in eccesso
 		User userSup = new User(emailSup, pwSup);
 		System.out.println(userSup.toString());
-		
-		if(userSup.equals(userList.get(0))) {
-			System.out.println("sono equals");
-		}
-		else
-			System.out.println("NON sono equals");
-		
 		
 		if(userList.contains(userSup)){
 			ErrorLabel.setText("oke you can pass");
 		}
 		else {		
 			ErrorLabel.setText("id e/o pw errati");
-		}
-		
-		
-		
+		}	
+	}
+	
+	public LinkedList<User> getUserList() {
+		return userList;
 	}
 }

@@ -1,5 +1,7 @@
 package application;
 
+import java.util.List;
+
 public class User implements Comparable<Object>{
 
 	private String nome;
@@ -38,8 +40,22 @@ public class User implements Comparable<Object>{
 		if( (other instanceof User) &&  (pw.equals(((User)other).pw)) && (email.equals(((User)other).email)) )
 			return 0;
 		else
-			return -1;
-				
+			return -1;		
+	}
+	
+	public String getEmail() {
+		return this.email;
+	}
+	
+	//verify->false = email già utilizzata, usane un'altra
+	public boolean verifyId(List<User> l) {
+		for(User u: l) {
+			if(this.email.equals(u.getEmail()))
+				return false;
+			else
+				return true;
+		}
+		return true;
 	}
 	
 	
