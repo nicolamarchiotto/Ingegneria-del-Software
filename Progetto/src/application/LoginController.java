@@ -1,5 +1,6 @@
 package application;
 
+import java.sql.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -24,6 +25,7 @@ public class LoginController implements Initializable{
 	@FXML private Button loginButton;
 	@FXML private Button signUpButton;
 	@FXML private Button guestButton;
+	@FXML private Button dbButton;
 	
 	@FXML private PasswordField emailPasswordField;
 	@FXML private PasswordField pwPasswordField;
@@ -31,6 +33,19 @@ public class LoginController implements Initializable{
 	@FXML private Label ErrorLabel;
 	
 	List<User> userList=new LinkedList<User>();
+	
+	
+	private Connection connect = null; //campo per storare la connessione al DB
+	
+	//costruttore così da collegare il controller al DB
+	public LoginController() {
+		connect = SqliteConnection.dbConnector();
+	}
+	
+	//metodo per poter accedere al connettore al di fuori di questa classe
+	public Connection getDBConnection() {
+		return connect;
+	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -42,6 +57,18 @@ public class LoginController implements Initializable{
 			System.out.println(p1.toString());
 		else
 			System.out.println("vuota");		
+	}
+	
+	
+	//metodo di prova (RIMUOVERE) per visualizzare il DB e provare a vedere se è tutto ok
+	public void DBButtonPushed(ActionEvent event) throws IOException{
+		Parent tableViewParent =  FXMLLoader.load(getClass().getResource("DBWindowShow.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+        Stage window = new Stage(); //facendo new Stage si overlappano le finestre
+        window.setScene(tableViewScene);
+        System.out.println("\n" + connect);
+        window.setX(((Node)event.getSource()).getScene().getWindow().getX()+((Node)event.getSource()).getScene().getWindow().getWidth());
+        window.show();
 	}
 	
     public void SignUpButtonPushed(ActionEvent event) throws IOException
