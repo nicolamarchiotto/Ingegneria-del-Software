@@ -13,7 +13,7 @@ public class DBWindowController {
 	private Connection connect = null;
 
 	public DBWindowController() {
-		LoginController provaPerConnector = new LoginController();
+		LoginController provaPerConnector = new LoginController(); 
 		this.connect = provaPerConnector.getDBConnection();
 	}
 
