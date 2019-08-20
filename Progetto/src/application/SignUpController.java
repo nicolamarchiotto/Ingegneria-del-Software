@@ -89,17 +89,17 @@ public class SignUpController implements Initializable{
 		
 		LinkedList<User> UserList=controller.getUserList();
 		
-		if(sup.verifyId(UserList))
-			/*
-			 * agggiungere alla userlist
-			 * UserList.add(sup);
-			 * non testato
-			 * 
-			 * cambiare scene a schermata principale dove sono mostrati tutti i libri
-			 * magari con popup "iscrizione avvenuta con successo"
-			 */
+		if(sup.verifyId(UserList)) {
 			
+			controller.addToUserList(sup);
+			
+			tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
+	        Scene tableViewScene = new Scene(tableViewParent);
+	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        window.setScene(tableViewScene);
+	        window.show();
 			SignUpErrorLabel.setText("id valido");
+		}
 		else
 			SignUpErrorLabel.setText("Spiacenti la email che hai inserito è già stata utilizzata");
     }

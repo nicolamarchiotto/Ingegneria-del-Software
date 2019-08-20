@@ -1,10 +1,9 @@
 package application;
 
-import java.sql.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -80,7 +79,7 @@ public class LoginController implements Initializable{
         window.show();
     }
   
-	public void LoginButtonPushed() {
+	public void LoginButtonPushed(ActionEvent event) throws IOException {
 		String emailSup=emailPasswordField.getText();
 		String pwSup=pwPasswordField.getText();
 		
@@ -90,11 +89,19 @@ public class LoginController implements Initializable{
 		System.out.println(userSup.toString());
 		
 		if(userList.contains(userSup)){
-			ErrorLabel.setText("oke you can pass");
+			Parent tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
+	        Scene tableViewScene = new Scene(tableViewParent);
+	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        window.setScene(tableViewScene);
+	        window.show();
 		}
 		else {		
 			ErrorLabel.setText("id e/o pw errati");
 		}	
+	}
+	
+	public void addToUserList(User other) {
+		userList.add(other);
 	}
 	
 	public LinkedList<User> getUserList() {
