@@ -1,6 +1,9 @@
 package application;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -38,6 +41,19 @@ public class HomeController implements Initializable{
 		
 		libri.addAll(p1,p2,p3,p4,p5,p6,p7,p8,p9);
 		
+		LoginController provaPerConnector = new LoginController(); 
+		Connection connect = provaPerConnector.getDBConnection();
+		
+		for(Libro l : libri) {
+			String sql = "INSERT INTO BookList(titolo, autore, casaEditrice, annoPubblicazione, genere, prezzo, breveDescrizione, posizioneClass, puntiCarta) VALUES('" + l.titolo.getValue() + "', '" + l.autori.getValue() + "', '" + l.casaeditrice.getValue() + "', '" + l.annopubblicazione + "', '" + l.genere.getValue() + "', '" + l.prezzo + "', '" + l.brevedescrizione.getValue() + "', '" + l.posizione + "', '" + l.punti + "');";   
+			try {   
+	            Statement stmt  = connect.createStatement();  
+	            stmt.executeUpdate(sql);  
+	        } catch (SQLException e1) {  
+	            System.out.println(e1.getMessage());  
+	        }
+		}
+		
 		return libri;
 	}
 	
@@ -53,6 +69,7 @@ public class HomeController implements Initializable{
 		//ObservableList<Libro> libri =getLibri();
 		
 		tableView.setItems(getLibri());
+		
 	}
 
 }

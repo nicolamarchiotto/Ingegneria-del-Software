@@ -3,16 +3,16 @@ package application;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Libro implements Comparable<Object>{
-	private SimpleStringProperty titolo;
-	private SimpleStringProperty autori;
-	private SimpleStringProperty casaeditrice;
-	private int annopubblicazione;
-	private SimpleStringProperty isbn;
-	private SimpleStringProperty genere;
-	private double prezzo;
-	private SimpleStringProperty brevedescrizione;
-	private int posizione;
-	private int punti;
+	public SimpleStringProperty titolo;
+	public SimpleStringProperty autori;
+	public SimpleStringProperty casaeditrice;
+	public int annopubblicazione;
+	public SimpleStringProperty isbn;
+	public SimpleStringProperty genere;
+	public double prezzo;
+	public SimpleStringProperty brevedescrizione;
+	public int posizione;
+	public int punti;
 	
 	
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
