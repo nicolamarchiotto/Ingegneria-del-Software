@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
 public class DBWindowController {
-	@FXML private TextArea listaDBcazzDB;
+	@FXML private TextArea listaDBcazzDB; 
 	@FXML private Button clickToCopyDB;
 	private Connection connect = null;
 
