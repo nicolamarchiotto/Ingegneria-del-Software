@@ -23,6 +23,10 @@ public class DBWindowController {
 	        String sql = "SELECT * FROM UserList";  
 	        
 	        String stringaTotale = "";
+	        
+	        LoginController provaPerConnector = new LoginController(); 
+			this.connect = provaPerConnector.getDBConnection();
+			System.out.println(connect);
 	          
 	        try {   
 	            Statement stmt  = this.connect.createStatement();  
