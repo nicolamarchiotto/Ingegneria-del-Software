@@ -10,20 +10,22 @@ import javafx.scene.control.TextArea;
 public class DBWindowController {
 	@FXML private TextArea listaDBcazzDB;
 	@FXML private Button clickToCopyDB;
+	private Connection connect = null;
 
+	public DBWindowController() {
+		LoginController provaPerConnector = new LoginController();
+		this.connect = provaPerConnector.getDBConnection();
+	}
 
 	
 	public void copyButtonPushed(ActionEvent e) {
-		LoginController provaPerConnector = new LoginController();
-		Connection connect = provaPerConnector.getDBConnection();
 		
 	        String sql = "SELECT * FROM UserList";  
 	        
 	        String stringaTotale = "";
 	          
-	        try {  
-	            Connection conn = connect;  
-	            Statement stmt  = conn.createStatement();  
+	        try {   
+	            Statement stmt  = this.connect.createStatement();  
 	            ResultSet rs    = stmt.executeQuery(sql);  
 	              
 	            // loop through the result set  

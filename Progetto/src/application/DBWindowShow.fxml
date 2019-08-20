@@ -7,6 +7,6 @@
 <AnchorPane prefHeight="516.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DBWindowController">
    <children>
       <TextArea fx:id="listaDBcazzDB" layoutX="38.0" layoutY="26.0" prefHeight="176.0" prefWidth="358.0" />
-      <Button fx:id="clickToCopyDB" layoutX="146.0" layoutY="333.0" mnemonicParsing="false" onAction="#copyButtonPushed" text="copy what's on DB" />
+      <Button fx:id="clickToCopyDB" layoutX="146.0" layoutY="458.0" mnemonicParsing="false" onAction="#copyButtonPushed" text="copy what's on DB" />
    </children>
 </AnchorPane>
