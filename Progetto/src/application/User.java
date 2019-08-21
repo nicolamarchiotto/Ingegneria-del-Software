@@ -28,6 +28,8 @@ public class User implements Comparable<Object>{
 		
 		//implementazione Librocard con data, da programmare con un libreria time o rebe lol del genere0
 		//this.librocard=new LibroCard(// )
+		
+		//implementazione lista di ordini 
 	}
 	
 	public User(String email, String pw) {
@@ -45,6 +47,10 @@ public class User implements Comparable<Object>{
 	
 	public String getEmail() {
 		return this.email;
+	}
+	
+	public String getNome() {
+		return this.nome;
 	}
 	
 	//verify->false = email già utilizzata, usane un'altra
@@ -68,6 +74,10 @@ public class User implements Comparable<Object>{
 
 	public String toString() {
 		return this.email + " " +  this.pw;
+	}
+	
+	public String getPw() {
+		return this.pw.toString();
 	}
 
 }
