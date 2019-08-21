@@ -82,6 +82,22 @@ public class SqliteConnection {
 			}
 		}
 	}
+	
+	//metodo per ricevere tutti i campi di tutte le colonne di una SINGOLA TABELLA
+	public static ResultSet getEverythingFromTableDB(String tableName) {
+		String sql = "SELECT * FROM " + tableName;
+		
+		try {
+			Statement stmt = SqliteConnection.dbConnector().createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			return rs;
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
 }
 	
 

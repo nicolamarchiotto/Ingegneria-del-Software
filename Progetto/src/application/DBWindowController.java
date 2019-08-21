@@ -22,23 +22,18 @@ public class DBWindowController {
 	//metodo per visualizzare tutto il DB (SELECT * FROM UserList)
 	public void copyButtonPushed(ActionEvent e) {
 		
-	        String sql = "SELECT * FROM UserList";  
+	        ResultSet rs = SqliteConnection.getEverythingFromTableDB("UserList");
 	        
 	        String stringaTotale = "";
-	          
-	        try {   
-	            Statement stmt  = SqliteConnection.dbConnector().createStatement();  
-	            ResultSet rs    = stmt.executeQuery(sql);  
 	              
-	            // loop through the result set  
-	            while (rs.next()) {  
-	            	stringaTotale += rs.getString("email") + " - " + rs.getString("password") + "\n";  
-	            }  
+	        // loop through the result set  
+	        try {
+				while (rs.next()) stringaTotale += rs.getString("email") + " - " + rs.getString("password") + "\n";
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}    
 	            
-	            listaDBcazzDB.setText(stringaTotale);
-	        } catch (SQLException e1) {  
-	            System.out.println(e1.getMessage());  
-	        }
+	        listaDBcazzDB.setText(stringaTotale);
 	}
 	       
 	//metodo per inserire una nuova riga nella tabella UserList
