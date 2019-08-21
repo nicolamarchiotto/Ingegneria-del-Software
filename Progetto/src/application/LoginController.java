@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -31,6 +33,9 @@ public class LoginController implements Initializable{
 	
 	@FXML private Label ErrorLabel;
 	
+	private static User userLogged;
+	
+	//da cancellare, lavoreremo solo con quella del DB
 	LinkedList<User> userList=new LinkedList<User>();
 	
 	
@@ -49,13 +54,10 @@ public class LoginController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.ErrorLabel.setText("");
-		User p1=new User("ziapo", "mignolina");
-		userList.add(p1);
 		
-		if(!userList.isEmpty())
-			System.out.println(p1.toString());
-		else
-			System.out.println("vuota");		
+		//ricordati di toglierlo, admin solo in locale
+		User p1=new User("admin", "root");
+		userList.add(p1);
 	}
 	
 	
@@ -87,22 +89,49 @@ public class LoginController implements Initializable{
 		User userSup = new User(emailSup, pwSup);
 		System.out.println(userSup.toString());
 		
+		LinkedList<User> userList=getUserList();
+		
 		if(userList.contains(userSup)){
+			setUserLogged(userSup);
 			Parent tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
-	        Scene tableViewScene = new Scene(tableViewParent);
-	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-	        window.setScene(tableViewScene);
-	        window.show();
-		}
+			Scene tableViewScene = new Scene(tableViewParent);
+		    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+		    window.setScene(tableViewScene);
+		    window.show();
+		}		
 		else {		
 			ErrorLabel.setText("id e/o pw errati");
 		}	
 	}
 	
+	
+	//sarebbe possibile creare un utente di supporto nel DB solo per capire chi è loggato?
+	//mettere tutti i metodi relativi al db in un unico file, anche userlogged
+	
+	public void setUserLogged( User other) {
+		//cercare user u nella lista db e settarlo alla variabile useLogged
+		LinkedList<User> l = getUserList();
+		
+		for(User u: l) {
+			if(u.compareTo(other)==0) {
+				userLogged=u;
+				return;
+			}
+		}
+	}
+	
+	//non sicuro dell'implementazione, sarebbe ,meglio chiederlo direttamnete al DB
+	
+	public User getUserLogged() {
+		return userLogged;
+	}
+	
+	//Deve aggiungere utente a lista
 	public void addToUserList(User other) {
 		userList.add(other);
 	}
 	
+	//deve ritornare lista del DB
 	public LinkedList<User> getUserList() {
 		return userList;
 	}

@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,11 +9,19 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class HomeController implements Initializable{
 
@@ -20,6 +29,12 @@ public class HomeController implements Initializable{
 	@FXML private TableColumn<Libro, String> titoloColumn;
 	@FXML private TableColumn<Libro, String> autoreColumn;
 	@FXML private TableColumn<Libro, Integer> prezzoColumn;
+	
+	@FXML private Button SignOutButton;
+	@FXML private Button PersonalAreaButton;
+	@FXML private Label WellcomeLabel;
+	
+	private User logged;
 	
 	
 	private ObservableList<Libro> getLibri() {
@@ -57,8 +72,28 @@ public class HomeController implements Initializable{
 		return libri;
 	}
 	
+	public void SignOutButtonPushed(ActionEvent event) throws IOException
+    {
+        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
+	
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL arg0, ResourceBundle arg1){
+		
+		//da modificare in seguito
+		LoginController lc = new LoginController(); 
+		logged = lc.getUserLogged();
+		
+		//System.out.println(logged.toString());
+		
+		WellcomeLabel.setText("Welcome " +logged.getEmail()+", good Shopping");
+		
+		
+		
 		//set up the columns in the table
 		titoloColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
@@ -66,7 +101,6 @@ public class HomeController implements Initializable{
 		
 		//populates the tableView with dummy items
 		//setItems must have an ObservableList as parameter, ObservableList almost like ArrayList	
-		//ObservableList<Libro> libri =getLibri();
 		
 		tableView.setItems(getLibri());
 		

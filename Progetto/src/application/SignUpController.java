@@ -73,6 +73,7 @@ public class SignUpController implements Initializable{
 	
 	public void  ConfirmButtonPushed(ActionEvent event) throws IOException
     {
+		
 		if(!vefifyTextField()) {
 			SignUpErrorLabel.setText("Tutti i campi devono essere compilati");
 			return;
@@ -87,11 +88,14 @@ public class SignUpController implements Initializable{
 		
 		LoginController controller = loader.getController();
 		
+		//get UserList from DB
 		LinkedList<User> UserList=controller.getUserList();
 		
 		if(sup.verifyId(UserList)) {
 			
+			//Aggiunge a DB
 			controller.addToUserList(sup);
+			controller.setUserLogged(sup);
 			
 			tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
 	        Scene tableViewScene = new Scene(tableViewParent);
