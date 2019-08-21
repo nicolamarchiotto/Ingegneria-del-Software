@@ -1,7 +1,11 @@
 package application;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,13 +19,6 @@ public class DBWindowController {
 	@FXML private TextField password;
 	@FXML private Button clickToInsertDB;
 
-	private Connection connect = null;
-
-	public DBWindowController() {
-		LoginController provaPerConnector = new LoginController(); 
-		this.connect = provaPerConnector.getDBConnection();
-	}
-
 	//metodo per visualizzare tutto il DB (SELECT * FROM UserList)
 	public void copyButtonPushed(ActionEvent e) {
 		
@@ -30,7 +27,7 @@ public class DBWindowController {
 	        String stringaTotale = "";
 	          
 	        try {   
-	            Statement stmt  = this.connect.createStatement();  
+	            Statement stmt  = SqliteConnection.dbConnector().createStatement();  
 	            ResultSet rs    = stmt.executeQuery(sql);  
 	              
 	            // loop through the result set  
@@ -46,13 +43,32 @@ public class DBWindowController {
 	       
 	//metodo per inserire una nuova riga nella tabella UserList
 	public void insertNewRowButtonPushed(ActionEvent e) {
-		String sql = "INSERT INTO UserList(email, password) VALUES('" + email.getText() + "', '" + password.getText() + "');";   
-		try {   
-            Statement stmt  = this.connect.createStatement();  
-            stmt.executeUpdate(sql);  
-        } catch (SQLException e1) {  
-            System.out.println(e1.getMessage());  
-        }
+		List<User> provaInserimento = new LinkedList<User>();
+		provaInserimento.add(new User(email.getText(), password.getText()));
+		SqliteConnection.insertIntoDB("UserList", provaInserimento);
+		
+		
+		
+		/*ObservableList<Libro> libri = FXCollections.observableArrayList();
+		
+		
+		
+		
+		Libro p1= new Libro("1984", "George Orwell", "Longman", 1949, "", "Romanzo distopico", 9.99, "", 1, 10);
+		Libro p2= new Libro("Guerra e pace", "Lev Tolstoj", "Longman", 1865, "", "Romanzo storico", 19.99, "", 2, 20);
+		Libro p3= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
+		Libro p4= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
+		Libro p5= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
+		Libro p6= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
+		Libro p7= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
+		Libro p8= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
+		Libro p9= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
+		
+		libri.addAll(p1,p2,p3,p4,p5,p6,p7,p8,p9);
+		
+		
+		//FIXME ho provato qui perché HomeController è non funzionante e non voglio mettere mano su qualcosa che stai facendo
+		SqliteConnection.insertIntoDB("BookList", libri);*/
 	}
 	
 	

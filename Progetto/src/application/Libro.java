@@ -3,16 +3,16 @@ package application;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Libro implements Comparable<Object>{
-	public SimpleStringProperty titolo;
-	public SimpleStringProperty autori;
-	public SimpleStringProperty casaeditrice;
-	public int annopubblicazione;
-	public SimpleStringProperty isbn;
-	public SimpleStringProperty genere;
-	public double prezzo;
-	public SimpleStringProperty brevedescrizione;
-	public int posizione;
-	public int punti;
+	private SimpleStringProperty titolo;
+	private SimpleStringProperty autori;
+	private SimpleStringProperty casaeditrice;
+	private int annopubblicazione;
+	private SimpleStringProperty isbn;
+	private SimpleStringProperty genere;
+	private double prezzo;
+	private SimpleStringProperty brevedescrizione;
+	private int posizione;
+	private int punti;
 	
 	
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
@@ -39,8 +39,38 @@ public class Libro implements Comparable<Object>{
 		
 	}
 	
+	
 	public SimpleStringProperty getIsbn() {
 		return this.isbn;
+	}
+	
+	public String getTitolo() {
+		return titolo.get();
+	}
+	
+	public String getAutore() {
+		return autori.get();
+	}
+	public double getPrezzo() {
+		return prezzo;
+	}
+	public String getCasaEditrice() {
+		return this.casaeditrice.get();
+	}
+	public int getAnnoPublicazione() {
+		return this.annopubblicazione;
+	}
+	public String getGenere() {
+		return this.genere.get();
+	}
+	public String getBreveDescrizione() {
+		return this.brevedescrizione.get();
+	}
+	public int getPosizione() {
+		return this.posizione;
+	}
+	public int getPunti() {
+		return this.punti;
 	}
 	
 	public boolean equals(Object other) {
@@ -58,17 +88,6 @@ public class Libro implements Comparable<Object>{
 		return titolo + " " +autori + " " + prezzo;
 	}
 	
-	public String getTitolo() {
-		return titolo.get();
-	}
-	
-	public String getAutore() {
-		return autori.get();
-	}
-	
-	public double getPrezzo() {
-		return prezzo;
-	}
-	
+
 	
 }

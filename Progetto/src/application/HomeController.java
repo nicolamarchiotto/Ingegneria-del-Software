@@ -41,8 +41,6 @@ public class HomeController implements Initializable{
 		ObservableList<Libro> libri = FXCollections.observableArrayList();
 		
 		
-		//public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
-			//	String isbn, String genere, double prezzo, String brevedescrizione, int posizione, int punti)
 		
 		Libro p1= new Libro("1984", "George Orwell", "Longman", 1949, "", "Romanzo distopico", 9.99, "", 1, 10);
 		Libro p2= new Libro("Guerra e pace", "Lev Tolstoj", "Longman", 1865, "", "Romanzo storico", 19.99, "", 2, 20);
@@ -56,18 +54,9 @@ public class HomeController implements Initializable{
 		
 		libri.addAll(p1,p2,p3,p4,p5,p6,p7,p8,p9);
 		
-		LoginController provaPerConnector = new LoginController(); 
-		Connection connect = provaPerConnector.getDBConnection();
 		
-		for(Libro l : libri) {
-			String sql = "INSERT INTO BookList(titolo, autore, casaEditrice, annoPubblicazione, genere, prezzo, breveDescrizione, posizioneClass, puntiCarta) VALUES('" + l.titolo.getValue() + "', '" + l.autori.getValue() + "', '" + l.casaeditrice.getValue() + "', '" + l.annopubblicazione + "', '" + l.genere.getValue() + "', '" + l.prezzo + "', '" + l.brevedescrizione.getValue() + "', '" + l.posizione + "', '" + l.punti + "');";   
-			try {   
-	            Statement stmt  = connect.createStatement();  
-	            stmt.executeUpdate(sql);  
-	        } catch (SQLException e1) {  
-	            System.out.println(e1.getMessage());  
-	        }
-		}
+		SqliteConnection.insertIntoDB("BookList", libri);
+		
 		
 		return libri;
 	}

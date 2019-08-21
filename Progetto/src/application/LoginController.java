@@ -38,19 +38,6 @@ public class LoginController implements Initializable{
 	//da cancellare, lavoreremo solo con quella del DB
 	LinkedList<User> userList=new LinkedList<User>();
 	
-	
-	private Connection connect = null; //campo per storare la connessione al DB
-	
-	//costruttore così da collegare il controller al DB
-	public LoginController() {
-		connect = SqliteConnection.dbConnector();
-	}
-	
-	//metodo per poter accedere al connettore al di fuori di questa classe
-	public Connection getDBConnection() {
-		return connect;
-	}
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.ErrorLabel.setText("");
