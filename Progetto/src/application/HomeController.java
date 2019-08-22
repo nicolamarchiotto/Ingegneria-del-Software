@@ -33,6 +33,8 @@ public class HomeController implements Initializable{
 	@FXML private Button SignOutButton;
 	@FXML private Button PersonalAreaButton;
 	@FXML private Label WellcomeLabel;
+	@FXML private Button SeeDetailesButton;
+	
 	
 	private User logged;
 	
@@ -65,6 +67,26 @@ public class HomeController implements Initializable{
     {
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
+	
+	//change scene to detailedBookView
+	
+	public void SeeDetailesButtonPushed(ActionEvent event) throws IOException
+    {
+		
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource("DetailedBookScene.fxml"));
+		Parent TableViewParent=loader.load();
+		
+		Scene tableViewScene = new Scene(TableViewParent);  
+		
+		DetailedBookController controller=loader.getController();
+		controller.setBookData(tableView.getSelectionModel().getSelectedItem());
+		
+		
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
         window.show();      

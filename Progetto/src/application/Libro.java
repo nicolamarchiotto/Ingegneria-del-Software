@@ -40,8 +40,8 @@ public class Libro implements Comparable<Object>{
 	}
 	
 	
-	public SimpleStringProperty getIsbn() {
-		return this.isbn;
+	public String getIsbn() {
+		return this.isbn.get();
 	}
 	
 	public String getTitolo() {

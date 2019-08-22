@@ -28,5 +28,6 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
+      <Button fx:id="SeeDetailesButton" layoutX="396.0" layoutY="282.0" mnemonicParsing="false" onAction="#SeeDetailesButtonPushed" text="See detailes" />
    </children>
 </AnchorPane>
