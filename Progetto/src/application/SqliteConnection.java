@@ -98,6 +98,29 @@ public class SqliteConnection {
 		}
 	}
 	
+	
+	//metodo per ricevere i campi delle colonne richieste di una SINGOLA TABELLA
+	public static ResultSet getFromTableDB(String tableName, List<String> columnList) {
+		String sql = "SELECT ";
+		int iterator = 1;
+		
+		for(String singleColumn : columnList) {
+			sql += singleColumn + (columnList.size() == iterator++ ? " " : ", "); 
+		}
+		
+		sql += "FROM " + tableName;
+		
+		try {
+			Statement stmt = SqliteConnection.dbConnector().createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			return rs;
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
 }
 	
 
