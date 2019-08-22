@@ -91,7 +91,7 @@ public class DBWindowController {
 	
 	//metodo per selezionare colonne dalla tabella selezionata
 	public void selectDataButtonPushed(ActionEvent e) {
-		if(!userList.isSelected() && !bookList.isArmed()) selectedItems.setText("Si ma decidi la tabella mona");
+		if(!userList.isSelected() && !bookList.isSelected()) selectedItems.setText("Si ma decidi la tabella mona");
 		else{ //tabella è stata decisa
 			List<String> columnList = new LinkedList<String>();
 			String stringaTotale = "";
@@ -118,7 +118,33 @@ public class DBWindowController {
 				}
 			}
 			else { //bookList.isSelected() è TRUE
-				//TODO
+				if(checkBoxIsbn.isSelected()) columnList.add("isbn");
+				if(checkBoxTitolo.isSelected()) columnList.add("titolo");
+				if(checkBoxAutore.isSelected()) columnList.add("autore");
+				if(checkBoxAnnoPubb.isSelected()) columnList.add("annoPubblicazione");
+				if(checkBoxCasaEdit.isSelected()) columnList.add("casaEditrice");
+				if(checkBoxGenere.isSelected()) columnList.add("genere");
+				if(checkBoxPrezzo.isSelected()) columnList.add("prezzo");
+				if(checkBoxBreveDesc.isSelected()) columnList.add("breveDescrizione");
+				if(checkBoxPosizione.isSelected()) columnList.add("posizioneClass");
+				if(checkBoxPuntiCard.isSelected()) columnList.add("puntiCarta");
+				
+				if(columnList.isEmpty()) {
+					stringaTotale = "Ma selezionami qualche colonna";
+				}
+				else {
+					ResultSet rs = SqliteConnection.getFromTableDB("bookList", columnList);
+					try {
+						while (rs.next()) {
+							for(String singleColumn : columnList) {
+								stringaTotale += rs.getString(singleColumn) + " ";
+							}
+							stringaTotale += "\n";
+						}
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					} 
+				}
 			}
 			
 			selectedItems.setText(stringaTotale);
