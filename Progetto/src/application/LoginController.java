@@ -51,7 +51,7 @@ public class LoginController implements Initializable{
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = new Stage(); //facendo new Stage si overlappano le finestre
         window.setScene(tableViewScene);
-        window.setX(((Node)event.getSource()).getScene().getWindow().getX()+((Node)event.getSource()).getScene().getWindow().getWidth());
+        window.setX(((Node)event.getSource()).getScene().getWindow().getWidth());
         window.show();
 	}
 	
