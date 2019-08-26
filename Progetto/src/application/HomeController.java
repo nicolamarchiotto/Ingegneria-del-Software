@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
@@ -42,24 +43,15 @@ public class HomeController implements Initializable{
 	private ObservableList<Libro> getLibri() {
 		ObservableList<Libro> libri = FXCollections.observableArrayList();
 		
+		ResultSet booksFromDB = SqliteConnection.getEverythingFromTableDB("BookList");
 		
-		
-		Libro p1= new Libro("1984", "George Orwell", "Longman", 1949, "", "Romanzo distopico", 9.99, "", 1, 10);
-		Libro p2= new Libro("Guerra e pace", "Lev Tolstoj", "Longman", 1865, "", "Romanzo storico", 19.99, "", 2, 20);
-		Libro p3= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p4= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p5= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p6= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p7= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p8= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p9= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		
-		libri.addAll(p1,p2,p3,p4,p5,p6,p7,p8,p9);
-		
-		//TODO salva in DB, prendi dal DB e poi aggiungi alla lista
-		
-		SqliteConnection.insertIntoDB("BookList", libri);
-		
+		try {
+			while(booksFromDB.next()) {
+				libri.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"), booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("posizioneClass"), booksFromDB.getInt("puntiCarta")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		return libri;
 	}
