@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="691.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DBWindowController">
    <children>
-      <TextArea fx:id="listaDBcazzDB" layoutX="38.0" layoutY="26.0" prefHeight="176.0" prefWidth="250.0" />
+      <TextArea fx:id="listaProva" layoutX="38.0" layoutY="26.0" prefHeight="176.0" prefWidth="250.0" />
       <Button fx:id="clickToCopyDB" layoutX="92.0" layoutY="227.0" mnemonicParsing="false" onAction="#copyButtonPushed" text="copy what's on DB" />
       <Button fx:id="clickToInsertDB" layoutX="288.0" layoutY="547.0" mnemonicParsing="false" onAction="#insertNewRowButtonPushed" text="Insert into UserList" />
       <Line endX="500.5" layoutX="218.0" layoutY="502.0" startX="-217.0" />

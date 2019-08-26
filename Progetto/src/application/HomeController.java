@@ -56,6 +56,7 @@ public class HomeController implements Initializable{
 		
 		libri.addAll(p1,p2,p3,p4,p5,p6,p7,p8,p9);
 		
+		//TODO salva in DB, prendi dal DB e poi aggiungi alla lista
 		
 		SqliteConnection.insertIntoDB("BookList", libri);
 		

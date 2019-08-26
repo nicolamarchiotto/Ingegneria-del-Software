@@ -12,7 +12,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			System.out.println("\nConnected to da DB!"); 
 			return connect;
 		}
@@ -86,6 +86,29 @@ public class SqliteConnection {
 	//metodo per ricevere tutti i campi di tutte le colonne di una SINGOLA TABELLA
 	public static ResultSet getEverythingFromTableDB(String tableName) {
 		String sql = "SELECT * FROM " + tableName;
+		
+		try {
+			Statement stmt = SqliteConnection.dbConnector().createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			return rs;
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	
+	//metodo per ricevere i campi delle colonne richieste di una SINGOLA TABELLA
+	public static ResultSet getFromTableDB(String tableName, List<String> columnList) {
+		String sql = "SELECT ";
+		int iterator = 1;
+		
+		for(String singleColumn : columnList) {
+			sql += singleColumn + (columnList.size() == iterator++ ? " " : ", "); 
+		}
+		
+		sql += "FROM " + tableName;
 		
 		try {
 			Statement stmt = SqliteConnection.dbConnector().createStatement();

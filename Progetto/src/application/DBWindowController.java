@@ -15,7 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class DBWindowController {
-	@FXML private TextArea listaDBcazzDB; 
+	@FXML private TextArea listaProva; 
 	@FXML private TextArea selectedItems;
 	
 	@FXML private TextField email;
@@ -55,7 +55,7 @@ public class DBWindowController {
 				e1.printStackTrace();
 			}    
 	            
-	        listaDBcazzDB.setText(stringaTotale);
+	        listaProva.setText(stringaTotale);
 	}
 	       
 	//metodo per inserire una nuova riga nella tabella UserList

@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -15,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LoginController implements Initializable{
@@ -25,7 +28,7 @@ public class LoginController implements Initializable{
 	@FXML private Button guestButton;
 	@FXML private Button dbButton;
 	
-	@FXML private PasswordField emailPasswordField;
+	@FXML private TextField emailPasswordField;
 	@FXML private PasswordField pwPasswordField;
 	
 	@FXML private Label ErrorLabel;
@@ -39,9 +42,15 @@ public class LoginController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.ErrorLabel.setText("");
 		
-		//ricordati di toglierlo, admin solo in locale
-		User p1=new User("admin", "root");
-		userList.add(p1);
+		//aggiungo i vari user salvati nel DB
+		ResultSet usersFromDB = SqliteConnection.getEverythingFromTableDB("UserList");
+		try {
+			while(usersFromDB.next()) {
+				userList.add(new User(usersFromDB.getString("email"), usersFromDB.getString("password")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
