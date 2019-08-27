@@ -35,7 +35,7 @@ public class LoginController implements Initializable{
 	
 	private static User userLogged;
 	
-	//da cancellare, lavoreremo solo con quella del DB
+	//userList locale
 	LinkedList<User> userList=new LinkedList<User>();
 	
 	@Override
@@ -64,6 +64,8 @@ public class LoginController implements Initializable{
         window.show();
 	}
 	
+	
+	//porta a visualizzazione signUp
     public void SignUpButtonPushed(ActionEvent event) throws IOException
     {
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("SignUpScene.fxml"));
@@ -72,21 +74,33 @@ public class LoginController implements Initializable{
         window.setScene(tableViewScene);
         window.show();
     }
-  
+    
+    
+    //tenta il login, se ha successo porta a home
 	public void LoginButtonPushed(ActionEvent event) throws IOException {
 		String emailSup=emailPasswordField.getText();
 		String pwSup=pwPasswordField.getText();
 		
-		
-		//attenzione eliminare utente in eccesso
 		User userSup = new User(emailSup, pwSup);
 		System.out.println(userSup.toString());
 		
 		LinkedList<User> userList=getUserList();
 		
-		if(userList.contains(userSup)){
+		userSup=getUserFromListDB(userList, userSup);
+		
+		if(userSup!=null){
 			setUserLogged(userSup);
-			Parent tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
+			
+			Parent tableViewParent;
+			
+			/*
+			 * if(userSup.getLibroCard()!=null)
+			 * 	tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
+			else
+				tableViewParent =  FXMLLoader.load(getClass().getResource("ResponsabileScene.fxml"));
+			 */
+
+			tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
 			Scene tableViewScene = new Scene(tableViewParent);
 		    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		    window.setScene(tableViewScene);
@@ -97,17 +111,35 @@ public class LoginController implements Initializable{
 		}	
 	}
 	
+	private User getUserFromListDB(LinkedList<User> userList, User userSup) {
+		User userNotFound=null;
+		
+		String idUser=userSup.getEmail();
+		String pwUser=userSup.getPw();
+		
+		
+		for(User u: userList) {
+			if((idUser.compareTo(u.getEmail())==0) && (pwUser.compareTo(u.getPw())==0)) {
+				return u;
+			}
+		}
+		return userNotFound;	
+	}
+
+
+	//TODO
 	
 	//sarebbe possibile creare un utente di supporto nel DB solo per capire chi è loggato?
 	//mettere tutti i metodi relativi al db in un unico file, anche userlogged
 	
-	public void setUserLogged( User other) {
+	public void setUserLogged(User other) {
 		//cercare user u nella lista db e settarlo alla variabile useLogged
 		LinkedList<User> l = getUserList();
 		
 		for(User u: l) {
 			if(u.compareTo(other)==0) {
 				userLogged=u;
+				//userLogged.setListaOrdini();
 				return;
 			}
 		}

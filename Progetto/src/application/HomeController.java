@@ -2,10 +2,8 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -67,6 +65,7 @@ public class HomeController implements Initializable{
 	
 	//change scene to detailedBookView
 	
+	
 	public void SeeDetailesButtonPushed(ActionEvent event) throws IOException
     {
 		
@@ -86,7 +85,7 @@ public class HomeController implements Initializable{
     }
 	
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1){
+	public void initialize(URL arg0, ResourceBundle arg1){		
 		
 		//da modificare in seguito
 		LoginController lc = new LoginController(); 
@@ -94,7 +93,7 @@ public class HomeController implements Initializable{
 		
 		//System.out.println(logged.toString());
 		
-		WellcomeLabel.setText("Welcome " +logged.getEmail()+", good Shopping");
+		WellcomeLabel.setText("Welcome " +logged.getNome()+", good Shopping");
 		
 		
 		
