@@ -46,7 +46,6 @@ public class SqliteConnection {
 					sql += book.getPunti() + ")";
 					sql += ";";
 					
-					//FIXME System.out.println("TUTTO OK?\n" + sql);
 					
 
 					try {
@@ -66,8 +65,6 @@ public class SqliteConnection {
 					sql += "('" + user.getEmail() + "',\n'";
 					sql += user.getPw() + "')";
 					sql += ";";
-					
-					//FIXME System.out.println("TUTTO OK?\n" + sql);
 					
 
 					try {
@@ -118,6 +115,36 @@ public class SqliteConnection {
 			System.out.println(e.getMessage());
 			return null;
 		}
+	}
+	
+	//inserisci Libro
+	public static void insertLibro(List<Libro> objectList) {
+		SqliteConnection.insertIntoDB("BookList", objectList);
+	}
+	
+	//inserisci User
+	public static void insertUser(List<User> objectList) {
+		SqliteConnection.insertIntoDB("UserList", objectList);
+	}
+	
+	//prendi tutta la tabella User
+	public static ResultSet getEveryFieldUser() {
+		return SqliteConnection.getEverythingFromTableDB("UserList");
+	}
+	
+	//prendi tutta la tabella Libro
+	public static ResultSet getEveryFieldLibro() {
+		return SqliteConnection.getEverythingFromTableDB("BookList");
+	}
+	
+	//prendi tutta la tabella User
+	public static ResultSet getFieldUser(List<String> columnList) {
+		return SqliteConnection.getFromTableDB("UserList", columnList);
+	}
+		
+	//prendi tutta la tabella Libro
+	public static ResultSet getFieldLibro(List<String> columnList) {
+		return SqliteConnection.getFromTableDB("BookList", columnList);
 	}
 	
 }
