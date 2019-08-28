@@ -16,7 +16,7 @@ public class User implements Comparable<Object>{
 	private String pw;
 	private ArrayList<Ordine> ordini;
 	
-	private int campoprova;
+	private int campoprova;   
 	 
 	
 	
