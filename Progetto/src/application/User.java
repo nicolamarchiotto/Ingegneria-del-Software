@@ -65,7 +65,7 @@ public class User implements Comparable<Object>{
 	}
 	
 	public String getCognome() {
-		return this.cognome;
+		return this.cognome + "mamma";
 	}
 	
 	public String getIndirizzi() {
