@@ -15,6 +15,8 @@ public class User implements Comparable<Object>{
 	private LibroCard librocard=null;
 	private String pw;
 	private ArrayList<Ordine> ordini;
+	
+	private int campoprova;
 	 
 	
 	
