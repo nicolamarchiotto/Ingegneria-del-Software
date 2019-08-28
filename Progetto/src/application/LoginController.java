@@ -100,7 +100,7 @@ public class LoginController implements Initializable{
 				tableViewParent =  FXMLLoader.load(getClass().getResource("ResponsabileScene.fxml"));
 			 */
 
-			tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
+			tableViewParent =  FXMLLoader.load(getClass().getResource("ResponsabileScene.fxml"));
 			Scene tableViewScene = new Scene(tableViewParent);
 		    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		    window.setScene(tableViewScene);

@@ -6,11 +6,16 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class ResponsabileController implements Initializable{
 	
@@ -30,6 +35,9 @@ public class ResponsabileController implements Initializable{
 	@FXML private TextArea breveDescrizione;
 	
 	@FXML private Button addToLibraryButton;
+	@FXML private Button signOutButton;
+	
+	@FXML private Label errorLabel;
 	
 	
 	
@@ -37,20 +45,61 @@ public class ResponsabileController implements Initializable{
 		
 		//public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
 			//	String genere, double prezzo, String brevedescrizione, int posizione, int punti)
-		
-		
-		//TODO
-		//da implementare controlli su annopubblicazione e prezzo
-		
-		
-		Libro l=new Libro(titolo.getText(), toACapoMode(autori.getText(), '-'), casaEditrice.getText(), Integer.valueOf(annoPubblicazione.getText()),
-				genere.getText(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(), 666,(int)Math.round(Double.valueOf(prezzo.getText())));
-	
-		System.out.println("Stampa libro\n"+l.toString());
-	
+
+		if(!emptyTextField()) {
+			errorLabel.setText("Tutti i campi devono essere compilati");
+			return;
+		}
+
+		try {
+			if(verifyDateAndPrice()) {
+				errorLabel.setText("Right Format");
+				
+				//TODO
+				//rivedi campo posizione
+				
+				Libro l=new Libro(titolo.getText(), toACapoMode(autori.getText(), '-'), casaEditrice.getText(), Integer.valueOf(annoPubblicazione.getText()),
+						genere.getText(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(), 666,(int)Math.round(Double.valueOf(prezzo.getText())));
+			
+				System.out.println("Stampa libro\n"+l.toString());
+				
+			}
+		}
+		catch(NumberFormatException e) {
+			errorLabel.setText("Anno di pubblicazione e prezzo devono essere campi numerici");
+			return;
+		}
 	}
 	
 	
+	private boolean emptyTextField() {
+		boolean sup=true;
+		
+		if(titolo.getText() == null || titolo.getText().trim().isEmpty())
+				sup=false;
+		if(autori.getText() == null || autori.getText().trim().isEmpty())
+			sup=false;
+		if(genere.getText() == null || genere.getText().trim().isEmpty())
+			sup=false;
+		if(casaEditrice.getText() == null || casaEditrice.getText().trim().isEmpty())
+			sup=false;
+		if(annoPubblicazione.getText() == null || annoPubblicazione.getText().trim().isEmpty())
+			sup=false;
+		if(prezzo.getText() == null || prezzo.getText().trim().isEmpty())
+			sup=false;
+		if(breveDescrizione.getText() == null || breveDescrizione.getText().trim().isEmpty())
+			sup=false;
+		
+		return sup;
+	}
+	
+	private boolean verifyDateAndPrice() {
+		
+		return (Integer.valueOf(annoPubblicazione.getText()) instanceof Integer) && (Double.valueOf(prezzo.getText()) instanceof Double); 	
+	}
+	
+
+
 	/*
 	 * metodo che serve per creare una stringa da:
 	 * 
@@ -82,9 +131,20 @@ public class ResponsabileController implements Initializable{
 		return result+s.substring(indexIniz, s.length());
 	}
 	
+	public void SignOutButtonPushed(ActionEvent event) throws IOException
+    {
+        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		WellcomeLabel.setText("Wellcome responsabile " +respLogged.getNome());
+		
+		errorLabel.setText("");
 	}
 	
 	
