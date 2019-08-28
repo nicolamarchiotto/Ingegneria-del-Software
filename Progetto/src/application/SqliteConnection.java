@@ -43,7 +43,6 @@ public class SqliteConnection {
 					sql += book.getGenere() + "',\n";
 					sql += book.getPrezzo() + ",\n'";
 					sql += book.getBreveDescrizione() + "',\n";
-					sql += book.getPosizione() + ",\n";
 					sql += book.getPunti() + ")";
 					sql += ";";
 					

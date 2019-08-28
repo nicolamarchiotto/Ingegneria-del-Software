@@ -44,7 +44,7 @@ public class ResponsabileController implements Initializable{
 	public void addToLibraryButtonPushed(ActionEvent event) throws IOException{
 		
 		//public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
-			//	String genere, double prezzo, String brevedescrizione, int posizione, int punti)
+			//	String genere, double prezzo, String brevedescrizione, int punti)
 
 		if(!emptyTextField()) {
 			errorLabel.setText("Tutti i campi devono essere compilati");
@@ -59,7 +59,7 @@ public class ResponsabileController implements Initializable{
 				//rivedi campo posizione
 				
 				Libro l=new Libro(titolo.getText(), toACapoMode(autori.getText(), '-'), casaEditrice.getText(), Integer.valueOf(annoPubblicazione.getText()),
-						genere.getText(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(), 666,(int)Math.round(Double.valueOf(prezzo.getText())));
+						genere.getText(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(),(int)Math.round(Double.valueOf(prezzo.getText())));
 			
 				System.out.println("Stampa libro\n"+l.toString());
 				
