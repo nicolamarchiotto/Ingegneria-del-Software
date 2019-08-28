@@ -45,7 +45,7 @@ public class SignUpController implements Initializable{
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
-        window.show();      
+        window.show();      	
     }
 	
 	private boolean vefifyTextField() {

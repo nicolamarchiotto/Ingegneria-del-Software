@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Comparable<Object>{
@@ -11,8 +12,10 @@ public class User implements Comparable<Object>{
 	private String citta;
 	private String telefono;
 	private String email;
-	private String librocard;
+	private LibroCard librocard=null;
 	private String pw;
+	private ArrayList<Ordine> ordini;
+	 
 	
 	
 	public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email,
@@ -25,11 +28,8 @@ public class User implements Comparable<Object>{
 		this.telefono=telefono;
 		this.email=email;
 		this.pw=pw;
+		this.librocard=new LibroCard(nome,cognome);
 		
-		//implementazione Librocard con data, da programmare con un libreria time o rebe lol del genere0
-		//this.librocard=new LibroCard(// )
-		
-		//implementazione lista di ordini 
 	}
 	
 	public User(String email, String pw) {
@@ -45,12 +45,39 @@ public class User implements Comparable<Object>{
 			return -1;		
 	}
 	
+	//TODO:
+	/*
+	 * implementazione metodo che ritorna tutti gli ordini dal DB che ha effettuato l'utente
+	 * ogni oggetto ordine ha salvato quale utente l'ha fatto, usa quello come campo chiave di ricerca
+	 * Metodo che mi permette di accedere facilmente agli ordini dell'utente loggato
+	 * 
+	 * public void setListaOrdini(){
+	 * 		this.ordini=getOrdiniFromListaOrdiniDb();
+	 * }
+	 */
+	
 	public String getEmail() {
 		return this.email;
 	}
 	
 	public String getNome() {
 		return this.nome;
+	}
+	
+	public String getCognome() {
+		return this.cognome;
+	}
+	
+	public String getIndirizzi() {
+		return this.indirizzi;
+	}
+	
+	public String getTelefono() {
+		return this.telefono;
+	}
+	
+	public ArrayList<Ordine> getOrdini(){
+		return this.ordini;
 	}
 	
 	//verify->false = email già utilizzata, usane un'altra
@@ -73,11 +100,24 @@ public class User implements Comparable<Object>{
 	}
 
 	public String toString() {
-		return this.email + " " +  this.pw;
+		return this.email + " " +  this.pw ;
 	}
 	
 	public String getPw() {
 		return this.pw.toString();
+	}
+
+	public LibroCard getLibroCard() {
+		return  this.librocard;
+	}
+
+	//aggiunto roba
+	public String getCap() {
+		return this.cap;
+	}
+
+	public String getCitta() {
+		return this.citta;
 	}
 
 }

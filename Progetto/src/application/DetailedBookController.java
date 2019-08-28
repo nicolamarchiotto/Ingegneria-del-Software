@@ -50,8 +50,7 @@ public class DetailedBookController implements Initializable{
 		isbnLabel.setText(libro.getIsbn());
 		genereLabel.setText(libro.getGenere());
 		prezzoLabel.setText(String.valueOf(libro.getPrezzo()));
-		posizioneLabel.setText(Integer.toString(libro.getPosizione()));
-		//breveDescrizioneLabel.setText(libro.getBreveDescrizione());
+		breveDescrizioneLabel.setText(libro.getBreveDescrizione());
 
 
 	}
@@ -68,8 +67,6 @@ public class DetailedBookController implements Initializable{
   
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		breveDescrizioneTextArea.setText("30");
 	}
 
 }

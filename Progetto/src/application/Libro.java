@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Random;
+
 import javafx.beans.property.SimpleStringProperty;
 
 public class Libro implements Comparable<Object>{
@@ -11,12 +13,31 @@ public class Libro implements Comparable<Object>{
 	private SimpleStringProperty genere;
 	private double prezzo;
 	private SimpleStringProperty brevedescrizione;
-	private int posizione;
+	private int copieVendute=0;
 	private int punti;
 	
+	static Random r=new Random();
 	
+	//costruttore per creare libro ex novo, crea anche ISBN casuale
+	//da rivedere isbn, genera anche numeri negativi
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
-			String isbn, String genere, double prezzo, String brevedescrizione, int posizione, int punti) {
+			String genere, double prezzo, String brevedescrizione, int punti) {
+		this.titolo=new SimpleStringProperty(titolo);
+		this.autori=new SimpleStringProperty(autori);
+		this.casaeditrice=new SimpleStringProperty(casaeditrice);
+		this.annopubblicazione=annopubblicazione;
+		this.isbn=new SimpleStringProperty(Long.toString(r.nextLong()));
+		this.genere=new SimpleStringProperty(genere);
+		this.prezzo=prezzo;
+		this.brevedescrizione=new SimpleStringProperty(brevedescrizione);
+		this.punti=punti;
+	}
+	
+	
+	//costruttore per aggiungere da DB a locale
+	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
+			String isbn, String genere, double prezzo, String brevedescrizione, int punti) {
+		
 		this.titolo=new SimpleStringProperty(titolo);
 		this.autori=new SimpleStringProperty(autori);
 		this.casaeditrice=new SimpleStringProperty(casaeditrice);
@@ -25,7 +46,6 @@ public class Libro implements Comparable<Object>{
 		this.genere=new SimpleStringProperty(genere);
 		this.prezzo=prezzo;
 		this.brevedescrizione=new SimpleStringProperty(brevedescrizione);
-		this.posizione=posizione;
 		this.punti=punti;
 	}
 
@@ -64,11 +84,20 @@ public class Libro implements Comparable<Object>{
 		return this.genere.get();
 	}
 	public String getBreveDescrizione() {
-		return this.brevedescrizione.get();
+		
+		int i=0;
+		String sup;
+		String result="";
+		String brevDescr=this.brevedescrizione.get();
+		
+		for(i=0;i<this.brevedescrizione.get().length();i=i+30) {
+			sup=brevDescr.substring(i, i+30);
+			result=sup+"\n";
+		}
+		
+		return result;
 	}
-	public int getPosizione() {
-		return this.posizione;
-	}
+	
 	public int getPunti() {
 		return this.punti;
 	}
