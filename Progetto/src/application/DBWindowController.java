@@ -44,13 +44,22 @@ public class DBWindowController {
 	//metodo per visualizzare tutto il DB (SELECT * FROM UserList)
 	public void copyButtonPushed(ActionEvent e) {
 		
-	        ResultSet rs = SqliteConnection.getEverythingFromTableDB("UserList");
+	        ResultSet resultSet = SqliteConnection.getEverythingFromTableDB("UserList");
 	        
 	        String stringaTotale = "";
 	              
 	        // loop through the result set  
 	        try {
-				while (rs.next()) stringaTotale += rs.getString("email") + " - " + rs.getString("password") + "\n";
+	        	ResultSetMetaData rsmd = resultSet.getMetaData(); //oggetto che contiene informazioni su nomi e numeri di colonne, tabelle, etc.
+	        	int columnsNumber = rsmd.getColumnCount();
+	        	while (resultSet.next()) {
+	        	    for (int i = 1; i <= columnsNumber; i++) {
+	        	        if (i > 1) stringaTotale += ",  ";
+	        	        String columnValue = resultSet.getString(i);
+	        	        stringaTotale += columnValue + " " + rsmd.getColumnName(i);
+	        	    }
+	        	    stringaTotale += "\n";
+	        	}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}    
@@ -63,29 +72,6 @@ public class DBWindowController {
 		List<User> provaInserimento = new LinkedList<User>();
 		provaInserimento.add(new User(email.getText(), password.getText()));
 		SqliteConnection.insertIntoDB("UserList", provaInserimento);
-		
-		
-		
-		/*ObservableList<Libro> libri = FXCollections.observableArrayList();
-		
-		
-		
-		
-		Libro p1= new Libro("1984", "George Orwell", "Longman", 1949, "", "Romanzo distopico", 9.99, "", 1, 10);
-		Libro p2= new Libro("Guerra e pace", "Lev Tolstoj", "Longman", 1865, "", "Romanzo storico", 19.99, "", 2, 20);
-		Libro p3= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p4= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p5= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p6= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p7= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p8= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		Libro p9= new Libro("Decameron", "Giovanni Boccaccio", "Longman", 1350, "", "Raccolta di novelle", 14.99, "", 3, 15);
-		
-		libri.addAll(p1,p2,p3,p4,p5,p6,p7,p8,p9);
-		
-		
-		//FIXME ho provato qui perché HomeController è non funzionante e non voglio mettere mano su qualcosa che stai facendo
-		SqliteConnection.insertIntoDB("BookList", libri);*/
 	}
 	
 	

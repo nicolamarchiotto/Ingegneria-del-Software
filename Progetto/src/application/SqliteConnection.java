@@ -12,7 +12,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			System.out.println("\nConnected to da DB!"); 
 			return connect;
 		}
@@ -83,6 +83,11 @@ public class SqliteConnection {
 	public static ResultSet getEverythingFromTableDB(String tableName) {
 		String sql = "SELECT * FROM " + tableName;
 		
+		if(tableName.equals("UserList")) {
+			sql += " INNER JOIN BookCardList ON BookCardList.id = UserList.libroCard "
+					+" INNER JOIN DataEmissioneList ON BookCardList.id = DataEmissioneList.libroCard";
+		}
+			
 		try {
 			Statement stmt = SqliteConnection.dbConnector().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
