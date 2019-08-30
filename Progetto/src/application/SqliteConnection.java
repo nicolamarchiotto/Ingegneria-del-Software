@@ -60,12 +60,22 @@ public class SqliteConnection {
 			}
 			else if(objectList.get(0) instanceof User) {
 				for(Object utente : objectList) {
+					User user = (User)utente;
 					String libroCard = null;
-					if(((User)utente).getLibroCard() == null) {
-						
+					if(user.getLibroCard() != null) { //utente registrato, creo la riga nelle tabelle BookCardList e DateList
+						sql += "INSERT INTO BookCardList VALUES";
+						libroCard = user.getLibroCard().getId();
+						sql += "('" + libroCard + "',\n";
+						sql += user.getLibroCard().getPunti() + ");";
+
+						sql += "INSERT INTO DateList VALUES";
+						sql += "('" + user.getLibroCard().getId() + "',\n";
+						sql += user.getLibroCard().getDataEmissione().getDayOfMonth() + ",\n";
+						sql += user.getLibroCard().getDataEmissione().getMonthValue() + ",\n";
+						sql += user.getLibroCard().getDataEmissione().getYear() + ",\n";
+						sql += user.getLibroCard().getDataEmissione().getHour() + ");";
 					}
 					sql += "INSERT INTO UserList VALUES";
-					User user = (User)utente;
 					sql += "('" + user.getEmail() + "',\n'";
 					sql += user.getPw() + "',\n'";
 					sql += user.getNome() + "',\n'";
@@ -98,7 +108,7 @@ public class SqliteConnection {
 		
 		if(tableName.equals("UserList")) {
 			sql += " INNER JOIN BookCardList ON BookCardList.id = UserList.libroCard "
-					+" INNER JOIN DataEmissioneList ON BookCardList.id = DataEmissioneList.libroCard";
+					+" INNER JOIN DateList ON BookCardList.id = DateList.id";
 		}
 			
 		try {
