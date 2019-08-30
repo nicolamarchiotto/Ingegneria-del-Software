@@ -116,7 +116,6 @@ public class User implements Comparable<Object>{
 		return  this.librocard;
 	}
 
-	//aggiunto roba
 	public String getCap() {
 		return this.cap;
 	}

@@ -60,11 +60,24 @@ public class SqliteConnection {
 			}
 			else if(objectList.get(0) instanceof User) {
 				for(Object utente : objectList) {
+					String libroCard = null;
+					if(((User)utente).getLibroCard() == null) {
+						
+					}
 					sql += "INSERT INTO UserList VALUES";
 					User user = (User)utente;
 					sql += "('" + user.getEmail() + "',\n'";
-					sql += user.getPw() + "')";
+					sql += user.getPw() + "',\n'";
+					sql += user.getNome() + "',\n'";
+					sql += user.getCognome() + "',\n'";
+					sql += user.getIndirizzi() + "',\n";
+					sql += user.getCap() + ",\n'";
+					sql += user.getCitta() + "',\n";
+					sql += user.getTelefono() + ",\n'";
+					sql += libroCard + "')";
+					//sql += salvarsi il collegamento agli ordini
 					sql += ";";
+					
 					
 
 					try {

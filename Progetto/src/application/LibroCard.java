@@ -22,5 +22,15 @@ public class LibroCard {
 		return cognome.substring(0, 1)+nome.substring(0,1) + i;
 	}
 
-
+	public String getId() {
+		return this.id;
+	}
+	
+	public int getPunti() {
+		return this.punti;
+	}
+	
+	public LocalDateTime getDataEmissione() {
+		return this.dataEmissione;
+	}
 }
