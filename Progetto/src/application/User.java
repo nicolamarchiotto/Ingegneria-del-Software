@@ -1,5 +1,6 @@
 package application;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,6 @@ public class User implements Comparable<Object>{
 	private String pw;
 	private ArrayList<Ordine> ordini;
 	
-	private int campoprova; 
 	
 	
 	//TODO ricerca la riga, prendi tutto con le REFERENCES, crea tabella Ordini
@@ -34,7 +34,6 @@ public class User implements Comparable<Object>{
 		this.email=email;
 		this.pw=pw;
 		this.librocard=new LibroCard(nome,cognome);
-		
 	}
 	
 	public User(String email, String pw) {

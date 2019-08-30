@@ -38,7 +38,11 @@
                         </VBox>
                         <HBox alignment="CENTER_RIGHT" layoutX="200.0" layoutY="250.0" minHeight="50.0" prefHeight="51.0" prefWidth="579.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="280.0">
                            <children>
-                              <Label fx:id="errorLabel" prefHeight="35.0" prefWidth="416.0" text="Label" />
+                              <Label fx:id="errorLabel" prefHeight="35.0" prefWidth="416.0" text="Label">
+                                 <font>
+                                    <Font name="System Bold Italic" size="12.0" />
+                                 </font>
+                              </Label>
                               <Button fx:id="addToLibraryButton" mnemonicParsing="false" onAction="#addToLibraryButtonPushed" text="Add book to library" />
                            </children>
                         </HBox>
@@ -55,13 +59,13 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="30.0" layoutY="35.0" prefHeight="250.0" prefWidth="560.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0">
+                        <TableView fx:id="tableViewCards" layoutX="30.0" layoutY="35.0" prefHeight="250.0" prefWidth="560.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0">
                           <columns>
-                            <TableColumn prefWidth="112.0" text="LibroCard" />
-                            <TableColumn prefWidth="112.0" text="Id" />
-                              <TableColumn prefWidth="112.0" text="Cognome" />
-                              <TableColumn prefWidth="112.0" text="Nome" />
-                              <TableColumn prefWidth="112.0" text="Saldo Punti" />
+                            <TableColumn fx:id="idLibroCardColumn" prefWidth="112.0" text="Id LibroCard" />
+                            <TableColumn fx:id="idUserColumn" prefWidth="112.0" text="Id User" />
+                              <TableColumn fx:id="cognomeUserColumn" prefWidth="112.0" text="Cognome" />
+                              <TableColumn fx:id="nomeUserColumn" prefWidth="112.0" text="Nome" />
+                              <TableColumn fx:id="saldoPuntiColumn" prefWidth="112.0" text="Saldo Punti" />
                           </columns>
                         </TableView>
                      </children>
@@ -72,12 +76,12 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="391.0" prefWidth="571.0">
                      <children>
-                        <TableView layoutX="22.0" layoutY="15.0" prefHeight="250.0" prefWidth="560.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0">
+                        <TableView fx:id="tableViewOrders" layoutX="22.0" layoutY="15.0" prefHeight="250.0" prefWidth="560.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0">
                           <columns>
-                            <TableColumn minWidth="140.0" prefWidth="110.0" text="Codice ordine" />
-                            <TableColumn minWidth="140.0" prefWidth="110.0" text="Id acquirente" />
-                              <TableColumn minWidth="140.0" prefWidth="110.0" text="Data di acquisto" />
-                              <TableColumn minWidth="140.0" prefWidth="110.0" text="Stato" />
+                            <TableColumn fx:id="codiceOrdineColumn" minWidth="140.0" prefWidth="110.0" text="Codice ordine" />
+                            <TableColumn fx:id="idAcquirenteColumn" minWidth="140.0" prefWidth="110.0" text="Id acquirente" />
+                              <TableColumn fx:id="dataAcquistoColumn" minWidth="140.0" prefWidth="110.0" text="Data di acquisto" />
+                              <TableColumn fx:id="statoColumn" minWidth="140.0" prefWidth="110.0" text="Stato" />
                           </columns>
                         </TableView>
                      </children>
