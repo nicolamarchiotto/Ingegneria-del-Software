@@ -92,7 +92,8 @@ public class LoginController implements Initializable{
 			setUserLogged(userSup);
 			
 			Parent tableViewParent;
-			
+
+			System.out.println("Valore Librocard: "+userSup.getLibroCard());
 			/*
 			 * if(userSup.getLibroCard()!=null)
 			 * 	tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
