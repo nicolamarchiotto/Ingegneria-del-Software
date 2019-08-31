@@ -36,7 +36,7 @@ public class Libro implements Comparable<Object>{
 	
 	//costruttore per aggiungere da DB a locale
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
-			String isbn, String genere, double prezzo, String brevedescrizione, int punti) {
+			String isbn, String genere, double prezzo, String brevedescrizione, int punti, int copieVendute) {
 		
 		this.titolo=new SimpleStringProperty(titolo);
 		this.autori=new SimpleStringProperty(autori);
@@ -47,6 +47,7 @@ public class Libro implements Comparable<Object>{
 		this.prezzo=prezzo;
 		this.brevedescrizione=new SimpleStringProperty(brevedescrizione);
 		this.punti=punti;
+		this.copieVendute=copieVendute;
 	}
 
 
@@ -107,6 +108,10 @@ public class Libro implements Comparable<Object>{
 			return true;
 		else
 			return false;
+	}
+	
+	public int getCopieVendute() {
+		return this.copieVendute;
 	}
 
 	public String toString() {

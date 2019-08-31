@@ -3,7 +3,7 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,7 +36,7 @@ public class ResponsabileController implements Initializable{
 	//stuff for the add book part
 	@FXML private TextField titolo;
 	@FXML private TextField autori;
-	@FXML private TextField genere;
+	@FXML private ComboBox<String> genere;
 	@FXML private TextField casaEditrice;
 	@FXML private TextField annoPubblicazione;
 	@FXML private TextField prezzo;
@@ -83,12 +84,17 @@ public class ResponsabileController implements Initializable{
 			errorLabel.setText("Tutti i campi devono essere compilati");
 			return;
 		}
+		
+		if(genere.getValue() == null) {
+			errorLabel.setText("Devi selezionare un genere");
+			return;
+		}
 
 		try {
 			if(verifyDateAndPrice()) {
 				
 				Libro l=new Libro(titolo.getText(), toACapoMode(autori.getText(), '-'), casaEditrice.getText(), Integer.valueOf(annoPubblicazione.getText()),
-						genere.getText(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(),(int)Math.round(Double.valueOf(prezzo.getText())));
+						genere.getValue().toString(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(),(int)Math.round(Double.valueOf(prezzo.getText())));
 			
 				//TODO
 				/*
@@ -96,7 +102,7 @@ public class ResponsabileController implements Initializable{
 				 * va fatto inserimento libro nel database
 				 * controllare se non c'è già lo stesso libro??
 				 */
-				System.out.println("Stampa libro\n"+l.toString());
+				System.out.println("Stampa libro\n"+l.toString()+" Genere "+l.getGenere());
 				
 				AlertBox.display("Book added", l.getTitolo()+" was added to the library");
 				setTextToEmpty();
@@ -113,7 +119,7 @@ public class ResponsabileController implements Initializable{
 	private void setTextToEmpty() {
 		titolo.setText("");
 		autori.setText("");
-		genere.setText("");
+		genere.setValue("Genere");
 		casaEditrice.setText("");
 		annoPubblicazione.setText("");
 		prezzo.setText("");
@@ -128,8 +134,6 @@ public class ResponsabileController implements Initializable{
 		if(titolo.getText() == null || titolo.getText().trim().isEmpty())
 				sup=false;
 		if(autori.getText() == null || autori.getText().trim().isEmpty())
-			sup=false;
-		if(genere.getText() == null || genere.getText().trim().isEmpty())
 			sup=false;
 		if(casaEditrice.getText() == null || casaEditrice.getText().trim().isEmpty())
 			sup=false;
@@ -251,9 +255,9 @@ public class ResponsabileController implements Initializable{
 		 */
 		
 		
-		orders.add(new OrdineForTableView("Ord1", "Acq1", LocalDateTime.now(), "In corso"));
-		orders.add(new OrdineForTableView("Ord2", "Acq2", LocalDateTime.now(), "In corso"));
-		orders.add(new OrdineForTableView("Ord3", "Acq3", LocalDateTime.now(), "In corso"));
+		orders.add(new OrdineForTableView("Ord1", "Acq1", LocalDate.now(), "In corso"));
+		orders.add(new OrdineForTableView("Ord2", "Acq2", LocalDate.now(), "In corso"));
+		orders.add(new OrdineForTableView("Ord3", "Acq3", LocalDate.now(), "In corso"));
 		
 		return orders;
 	}
@@ -262,7 +266,12 @@ public class ResponsabileController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		WellcomeLabel.setText("Wellcome responsabile " +respLogged.getNome());
 		
+		//stuff for the genere choiceBox
+		
 		errorLabel.setText("");
+		
+		genere.getItems().addAll("Romanzo", "Novità", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		 
 		
 		//code for the libroCard Section
 		
@@ -281,13 +290,9 @@ public class ResponsabileController implements Initializable{
 		
 		
 		codiceOrdineColumn.setCellValueFactory(new PropertyValueFactory<OrdineForTableView, String>("codiceOrdine"));
-		idAcquirenteColumn.setCellValueFactory(new PropertyValueFactory<OrdineForTableView, String>("IdAcquirente"));
+		idAcquirenteColumn.setCellValueFactory(new PropertyValueFactory<OrdineForTableView, String>("idAcquirente"));
 		dataAcquistoColumn.setCellValueFactory(new PropertyValueFactory<OrdineForTableView, String>("dataAcquisto"));
 		statoColumn.setCellValueFactory(new PropertyValueFactory<OrdineForTableView, String>("stato"));
-		
-		for(OrdineForTableView o: getOrdini()) {
-			System.out.println(o.toString()+"\n");
-		}
 		
 		tableViewOrders.setItems(getOrdini());
 	}

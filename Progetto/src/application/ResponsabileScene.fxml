@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -25,14 +26,14 @@
                            <children>
                               <TextField fx:id="titolo" maxWidth="250.0" prefHeight="25.0" prefWidth="100.0" promptText="Titolo" />
                               <TextField fx:id="autori" maxWidth="250.0" promptText="Autore/i separati da -" />
-                              <TextField fx:id="genere" maxWidth="250.0" promptText="Genere" />
                               <TextField fx:id="casaEditrice" maxWidth="250.0" promptText="Casa editrice" />
                               <TextField fx:id="annoPubblicazione" maxWidth="250.0" promptText="Anno di pubblicazione" />
+                              <TextField fx:id="prezzo" maxWidth="250.0" promptText="Prezzo, esempio formato: 15.50" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" layoutX="300.0" prefHeight="300.0" prefWidth="300.0" spacing="20.0" AnchorPane.bottomAnchor="50.0" AnchorPane.topAnchor="30.0">
                            <children>
-                              <TextField fx:id="prezzo" maxWidth="250.0" promptText="Prezzo, ex. formato: 15.50" />
+                              <ComboBox fx:id="genere" prefWidth="250.0" promptText="Genere" />
                               <TextArea fx:id="breveDescrizione" maxWidth="250.0" prefHeight="161.0" prefWidth="250.0" promptText="Breve descrizione" />
                            </children>
                         </VBox>

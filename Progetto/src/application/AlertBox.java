@@ -16,16 +16,18 @@ public class AlertBox {
 	    window.initModality(Modality.APPLICATION_MODAL);
 	    window.setTitle(title);
 	    window.setMinWidth(250);
-	    window.setMinHeight(100);
-	
+	    window.setMinHeight(120);
+	    
 	    Label label = new Label();
 	    label.setText(message);
-	    //Button closeButton = new Button("Close this window");
-	    //closeButton.setOnAction(e -> window.close());
+	    Button okButton = new Button("Ok");
+	    okButton.setMinWidth(80);
+	    okButton.setOnAction(e -> window.close());
 	
 	    VBox layout = new VBox(10);
-	    layout.getChildren().addAll(label);
+	    layout.getChildren().addAll(label, okButton);
 	    layout.setAlignment(Pos.CENTER);
+	    layout.setSpacing(20);
 	
 	    //Display window and wait for it to be closed before returning
 	    Scene scene = new Scene(layout);
