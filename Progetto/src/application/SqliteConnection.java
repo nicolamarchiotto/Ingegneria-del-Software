@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /*
- PER TESTARE L'INSERIMENTO DI UN ORDINE
+ PER TESTARE L'INSERIMENTO DI UN ORDINE, Trasformare i vari isbn in un unica stringa e poi ripescare i libri dall'ordine, ritrasformando la stringa in lista di libri
 			ResultSet booksFromDB = SqliteConnection.getEverythingFromTableDB("BookList");
 			List<Libro> libri = new ArrayList<Libro>();
 			
@@ -18,10 +18,13 @@ import java.util.List;
 				Ordine prova = new Ordine(new User("nicola", "gugole","asdaa", "37059", "verona", "347112", "nicola.gugole@gmail.com", "password"), "non lo so", libri.get(0), libri.get(1), libri.get(0));
 				List<Ordine> provaa = new ArrayList<Ordine>();
 				provaa.add(prova);
-				SqliteConnection.insertIntoDB("OrderList", provaa);
+				SqliteConnection.insertOrder(provaa);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			
+			List<Libro> listaLibri = SqliteConnection.isbnStringToBookList(SqliteConnection.getEveryFieldOrdine().getString("libriOrdine"));
+			for(Libro l : listaLibri) System.out.println(l.toStringLong());
 */
 
 
@@ -166,6 +169,9 @@ public class SqliteConnection {
 			sql += " INNER JOIN BookCardList ON BookCardList.id = UserList.libroCard "
 					+" INNER JOIN DateList ON BookCardList.id = DateList.id";
 		}
+		else if(tableName.equals("OrderList")) {
+			sql += " INNER JOIN DateList ON OrderList.id = DateList.id";
+		}
 			
 		try {
 			Statement stmt = SqliteConnection.dbConnector().createStatement();
@@ -218,16 +224,36 @@ public class SqliteConnection {
 	}
 	
 	
-	
-	
-	
-	
-	
-	//inserisci Libro
-	public static void insertLibro(List<Libro> objectList) {
-		SqliteConnection.insertIntoDB("BookList", objectList);
+	//metodo per prendere una stringa di isbn separati tra loro da # e ritornare i libri equivalenti presenti all'interno del DB
+	public static List<Libro> isbnStringToBookList(String isbnString){
+		List<Libro> bookList = new ArrayList<Libro>();
+		String isbnArray[] = isbnString.split("#");
+		System.out.println("Ahah that's my shit: " + isbnArray.toString());
+		
+		if(isbnArray.length != 0) {
+			Connection connect = SqliteConnection.dbConnector();
+			String sql = "";
+			for(String isbn : isbnArray) {
+				sql = "SELECT * FROM BookList\n WHERE BookList.isbn = " + isbn;
+				try {
+					Statement stmt = SqliteConnection.dbConnector().createStatement();
+					ResultSet booksFromDB = stmt.executeQuery(sql);
+					bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"), booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("puntiCarta")));
+				}
+				catch(SQLException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			return bookList;
+		}
+		return null; //caso in cui non ci sia nessun isbn
 	}
 	
+	
+	//-----------------------//
+	//------METODI USER------//
+	//-----------------------//
+
 	//inserisci User
 	public static void insertUser(List<User> objectList) {
 		SqliteConnection.insertIntoDB("UserList", objectList);
@@ -238,19 +264,49 @@ public class SqliteConnection {
 		return SqliteConnection.getEverythingFromTableDB("UserList");
 	}
 	
+	//prendi solo i campi richiesti da la tabella User
+	public static ResultSet getFieldUser(List<String> columnList) {
+		return SqliteConnection.getFromTableDB("UserList", columnList);
+	}
+	
+	
+	//------------------------//
+	//------METODI LIBRO------//
+	//------------------------//
+	
+	//inserisci Libro
+	public static void insertLibro(List<Libro> objectList) {
+		SqliteConnection.insertIntoDB("BookList", objectList);
+	}
+	
 	//prendi tutta la tabella Libro
 	public static ResultSet getEveryFieldLibro() {
 		return SqliteConnection.getEverythingFromTableDB("BookList");
 	}
 	
-	//prendi tutta la tabella User
-	public static ResultSet getFieldUser(List<String> columnList) {
-		return SqliteConnection.getFromTableDB("UserList", columnList);
-	}
-		
-	//prendi tutta la tabella Libro
+	//prendi solo i campi richiesti da la tabella Libro
 	public static ResultSet getFieldLibro(List<String> columnList) {
 		return SqliteConnection.getFromTableDB("BookList", columnList);
+	}
+	
+	
+	//-------------------------//
+	//------METODI ORDINE------//
+	//-------------------------//
+	
+	//inserisci Ordine
+	public static void insertOrder(List<Ordine> objectList) {
+		SqliteConnection.insertIntoDB("OrderList", objectList);
+	}
+	
+	//prendi tutta la tabella Ordine
+	public static ResultSet getEveryFieldOrdine() {
+		return SqliteConnection.getEverythingFromTableDB("OrderList");
+	}
+	
+	//prendi solo i campi richiesti da la tabella Ordine
+	public static ResultSet getFieldOrdine(List<String> columnList) {
+		return SqliteConnection.getFromTableDB("OrderList", columnList);
 	}
 	
 }
