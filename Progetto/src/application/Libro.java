@@ -109,6 +109,7 @@ public class Libro implements Comparable<Object>{
 			return false;
 	}
 
+	@Override
 	public String toString() {
 		return this.isbn + " " +  this.titolo;
 	}

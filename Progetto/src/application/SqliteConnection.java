@@ -1,7 +1,31 @@
 package application;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+
+
+
+/*
+ PER TESTARE L'INSERIMENTO DI UN ORDINE
+			ResultSet booksFromDB = SqliteConnection.getEverythingFromTableDB("BookList");
+			List<Libro> libri = new ArrayList<Libro>();
+			
+			try {
+				while(booksFromDB.next()) {
+					libri.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"), booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("puntiCarta")));
+				}
+				Ordine prova = new Ordine(new User("nicola", "gugole","asdaa", "37059", "verona", "347112", "nicola.gugole@gmail.com", "password"), "non lo so", libri.get(0), libri.get(1), libri.get(0));
+				List<Ordine> provaa = new ArrayList<Ordine>();
+				provaa.add(prova);
+				SqliteConnection.insertIntoDB("OrderList", provaa);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+*/
+
+
+
 
 
 //classe per la gestione delle operazioni su DB
@@ -30,6 +54,7 @@ public class SqliteConnection {
 		
 		String sql = "";
 		if(!objectList.isEmpty()){
+			//**********inserire Libri***********//
 			if(objectList.get(0) instanceof Libro) {
 				int fakeISBN = 0; //FIXME fino a quando non creeremo uno vero
 				for(Object libro : objectList) {
@@ -58,6 +83,7 @@ public class SqliteConnection {
 					
 					}
 			}
+			//**********inserire Utenti***********//
 			else if(objectList.get(0) instanceof User) {
 				for(Object utente : objectList) {
 					User user = (User)utente;
@@ -66,14 +92,14 @@ public class SqliteConnection {
 						sql += "INSERT INTO BookCardList VALUES";
 						libroCard = user.getLibroCard().getId();
 						sql += "('" + libroCard + "',\n";
-						sql += user.getLibroCard().getPunti() + ");";
+						sql += user.getLibroCard().getPunti() + ");\n\n";
 
 						sql += "INSERT INTO DateList VALUES";
 						sql += "('" + user.getLibroCard().getId() + "',\n";
 						sql += user.getLibroCard().getDataEmissione().getDayOfMonth() + ",\n";
 						sql += user.getLibroCard().getDataEmissione().getMonthValue() + ",\n";
 						sql += user.getLibroCard().getDataEmissione().getYear() + ",\n";
-						sql += user.getLibroCard().getDataEmissione().getHour() + ");";
+						sql += user.getLibroCard().getDataEmissione().getHour() + ");\n\n";
 					}
 					sql += "INSERT INTO UserList VALUES";
 					sql += "('" + user.getEmail() + "',\n'";
@@ -90,6 +116,36 @@ public class SqliteConnection {
 					
 					
 
+					try {
+						Statement stmt = connect.createStatement();
+						stmt.executeUpdate(sql);
+					}
+					catch(SQLException e) {
+						System.out.println(e.getMessage());
+					}
+				}
+			}
+			//**********inserire Ordini***********//
+			else if(objectList.get(0) instanceof Ordine) {
+				for(Object ordine : objectList) {
+					Ordine order = (Ordine) ordine;
+					sql += "INSERT INTO DateList VALUES\n";
+					sql += "('" + order.getId() + "',\n";
+					sql += order.getData().getDayOfMonth() + ",\n";
+					sql += order.getData().getMonthValue() + ",\n";
+					sql += order.getData().getYear() + ",\n";
+					sql += order.getData().getHour() + ");\n\n";
+					
+					sql += "INSERT INTO OrderList VALUES\n";
+					sql += "('" + order.getId() + "',\n'";
+					sql += order.getUserId()+ "',\n'";
+					sql += SqliteConnection.bookListToISBNString(order.getLibriOrdine()) + "',\n";
+					sql += order.getTotalCost() + ",\n'";
+					sql += order.getPaymentType() + "',\n";
+					sql += order.getSaldoPuntiOrdine() + ",\n'";
+					sql += order.getStato() + "');";
+					
+					
 					try {
 						Statement stmt = connect.createStatement();
 						stmt.executeUpdate(sql);
@@ -145,15 +201,27 @@ public class SqliteConnection {
 		}
 	}
 	
+	
+	
+	
+	
+	
+	
 	//metodo per trasformare la lista di libri interna all'ordine in una stringa di isbn divisi da #
-	private String bookListToISBNString(List<Libro> bookList) {
+	private static String bookListToISBNString(List<Libro> bookList) {
 		String isbnString = "";
 		for(Libro book : bookList) {
 			isbnString += book.getIsbn();
 			isbnString += "#";
 		}
-		return isbnString.substring(0, isbnString.length() - 2); //FIXME da testare quest'ultima riga
+		return isbnString.substring(0, isbnString.length() - 1); //con il -1 tolgo l'ultimo #
 	}
+	
+	
+	
+	
+	
+	
 	
 	//inserisci Libro
 	public static void insertLibro(List<Libro> objectList) {

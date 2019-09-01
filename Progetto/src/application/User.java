@@ -19,7 +19,6 @@ public class User implements Comparable<Object>{
 	
 	
 	
-	//TODO ricerca la riga, crea tabella Ordini
 	 
 	
 	
