@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -36,21 +38,14 @@ public class LoginController implements Initializable{
 	private static User userLogged;
 	
 	//userList locale
-	LinkedList<User> userList=new LinkedList<User>();
+	private List<User> userList=new LinkedList<User>();
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.ErrorLabel.setText("");
 		
 		//aggiungo i vari user salvati nel DB
-		ResultSet usersFromDB = SqliteConnection.getEverythingFromTableDB("UserList");
-		try {
-			while(usersFromDB.next()) {
-				userList.add(new User(usersFromDB.getString("email"), usersFromDB.getString("password")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		userList = SqliteConnection.getUserList(SqliteConnection.getEveryFieldUser());
 	}
 	
 	
@@ -84,7 +79,7 @@ public class LoginController implements Initializable{
 		User userSup = new User(emailSup, pwSup);
 		System.out.println(userSup.toString());
 		
-		LinkedList<User> userList=getUserList();
+		List<User> userList=getUserList();
 		
 		userSup=getUserFromListDB(userList, userSup);
 		
@@ -94,14 +89,11 @@ public class LoginController implements Initializable{
 			Parent tableViewParent;
 
 			System.out.println("Valore Librocard: "+userSup.getLibroCard());
-			/*
-			 * if(userSup.getLibroCard()!=null)
-			 * 	tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
+			if(userSup.getLibroCard()!=null)
+			 	tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
 			else
 				tableViewParent =  FXMLLoader.load(getClass().getResource("ResponsabileScene.fxml"));
-			 */
 
-			tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
 			Scene tableViewScene = new Scene(tableViewParent);
 		    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		    window.setScene(tableViewScene);
@@ -112,7 +104,7 @@ public class LoginController implements Initializable{
 		}	
 	}
 	
-	private User getUserFromListDB(LinkedList<User> userList, User userSup) {
+	private User getUserFromListDB(List<User> userList, User userSup) {
 		User userNotFound=null;
 		
 		String idUser=userSup.getEmail();
@@ -135,7 +127,7 @@ public class LoginController implements Initializable{
 	
 	public void setUserLogged(User other) {
 		//cercare user u nella lista db e settarlo alla variabile useLogged
-		LinkedList<User> l = getUserList();
+		List<User> l = getUserList();
 		
 		for(User u: l) {
 			if(u.compareTo(other)==0) {
@@ -158,7 +150,7 @@ public class LoginController implements Initializable{
 	}
 	
 	//deve ritornare lista del DB
-	public LinkedList<User> getUserList() {
+	public List<User> getUserList() {
 		return userList;
 	}
 }

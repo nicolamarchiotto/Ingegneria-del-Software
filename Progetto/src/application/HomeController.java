@@ -59,8 +59,9 @@ public class HomeController implements Initializable{
 		
 		try {
 			while(booksFromDB.next()) {
+				
 				libri.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
-						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("puntiCarta"), booksFromDB.getInt("posizioneClass")));
+						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("posizioneClass")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
