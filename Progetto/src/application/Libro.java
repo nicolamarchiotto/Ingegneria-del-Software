@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Libro implements Comparable<Object>{
 	private SimpleStringProperty titolo;
-	private SimpleStringProperty autori;
+	private SimpleStringProperty autore;
 	private SimpleStringProperty casaeditrice;
 	private int annopubblicazione;
 	private SimpleStringProperty isbn;
@@ -23,14 +23,18 @@ public class Libro implements Comparable<Object>{
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
 			String genere, double prezzo, String brevedescrizione, int punti) {
 		this.titolo=new SimpleStringProperty(titolo);
-		this.autori=new SimpleStringProperty(autori);
+		this.autore=new SimpleStringProperty(autori);
 		this.casaeditrice=new SimpleStringProperty(casaeditrice);
 		this.annopubblicazione=annopubblicazione;
-		this.isbn=new SimpleStringProperty(Long.toString(r.nextLong()));
 		this.genere=new SimpleStringProperty(genere);
 		this.prezzo=prezzo;
 		this.brevedescrizione=new SimpleStringProperty(brevedescrizione);
 		this.punti=punti;
+		//nextLong può restituire anche valori negativi
+		long sup=r.nextLong();
+		if(sup<0)
+			sup=sup*-1;
+		this.isbn=new SimpleStringProperty(Long.toString(sup));
 	}
 	
 	
@@ -39,7 +43,7 @@ public class Libro implements Comparable<Object>{
 			String isbn, String genere, double prezzo, String brevedescrizione, int copieVendute) {
 		
 		this.titolo=new SimpleStringProperty(titolo);
-		this.autori=new SimpleStringProperty(autori);
+		this.autore=new SimpleStringProperty(autori);
 		this.casaeditrice=new SimpleStringProperty(casaeditrice);
 		this.annopubblicazione=annopubblicazione;
 		this.isbn=new SimpleStringProperty(isbn);
@@ -70,7 +74,7 @@ public class Libro implements Comparable<Object>{
 	}
 	
 	public String getAutore() {
-		return autori.get();
+		return autore.get();
 	}
 	public double getPrezzo() {
 		return prezzo;
@@ -120,7 +124,7 @@ public class Libro implements Comparable<Object>{
 	}
 	
 	public String toStringLong() {
-		return titolo + " " +autori + " " + prezzo;
+		return titolo + " " +autore + " " + prezzo;
 	}
 	
 

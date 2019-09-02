@@ -77,7 +77,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="391.0" prefWidth="571.0">
                      <children>
-                        <TableView fx:id="tableViewOrders" layoutX="22.0" layoutY="15.0" prefHeight="250.0" prefWidth="560.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0">
+                        <TableView fx:id="tableViewOrders" layoutX="22.0" layoutY="15.0" prefHeight="250.0" prefWidth="560.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0">
                           <columns>
                             <TableColumn fx:id="codiceOrdineColumn" minWidth="140.0" prefWidth="110.0" text="Codice ordine" />
                             <TableColumn fx:id="idAcquirenteColumn" minWidth="140.0" prefWidth="110.0" text="Id acquirente" />
@@ -85,6 +85,11 @@
                               <TableColumn fx:id="statoColumn" minWidth="140.0" prefWidth="110.0" text="Stato" />
                           </columns>
                         </TableView>
+                        <HBox alignment="CENTER_RIGHT" layoutX="166.0" layoutY="267.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="280.0">
+                           <children>
+                              <Button fx:id="seeDetailesButton" mnemonicParsing="false" onAction="#SeeDetailesButtonPushed" text="See Detailes" />
+                           </children>
+                        </HBox>
                      </children>
                   </AnchorPane>
               </content>

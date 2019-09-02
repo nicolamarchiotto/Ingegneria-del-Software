@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -72,6 +73,7 @@ public class ResponsabileController implements Initializable{
 	@FXML private TableColumn<OrdineForTableView, String> dataAcquistoColumn;
 	@FXML private TableColumn<OrdineForTableView, String> statoColumn;
 	
+	@FXML private Button seeDetailesButton;
 	
 	
 	
@@ -251,16 +253,49 @@ public class ResponsabileController implements Initializable{
 		 * local values to eliminate, should it be..
 		 * User u;
 		 * Ordine o;
-		 * orders.add(new OrdineForTableView(o.getId(), u.getEmail(), o.getData(), o.getStato()));
+		 * orders.add(new OrdineForTableView(User u, Ordine o));
 		 */
 		
 		
-		orders.add(new OrdineForTableView("Ord1", "Acq1", LocalDate.now(), "In corso"));
-		orders.add(new OrdineForTableView("Ord2", "Acq2", LocalDate.now(), "In corso"));
-		orders.add(new OrdineForTableView("Ord3", "Acq3", LocalDate.now(), "In corso"));
+		/*
+		 * dummy collection of Libro
+		 * (String titolo, String autori, String casaeditrice, int annopubblicazione,
+		 *	String genere, double prezzo, String brevedescrizione, int punti) 
+		 */
+		
+		ArrayList<Libro> l=new ArrayList<Libro>();
+		l.add(new Libro("tit", "autor", "casaEd", 1, "gen", 20.21, "brevdes", 1));
+		l.add(new Libro("tit2", "autor", "casaEd", 1, "gen", 20.21, "brevdes", 1));
+		
+		for(Libro b:l)
+			l.toString();
+		
+		orders.add(new OrdineForTableView("Ord2", "Acq2", LocalDate.now(), "In corso", l));
+		orders.add(new OrdineForTableView("Ord3", "Acq3", LocalDate.now(), "In corso", l));
 		
 		return orders;
 	}
+	
+	public void SeeDetailesButtonPushed(ActionEvent event) throws IOException
+    {
+		
+		
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource("DetailedRespOrdineScene.fxml"));
+		Parent TableViewParent=loader.load();
+		
+
+		DetailedRespOrdineController controller=loader.getController();
+		controller.setOrderFromTableView(tableViewOrders.getSelectionModel().getSelectedItem());
+		
+		
+		
+		Scene tableViewScene = new Scene(TableViewParent);  
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
+	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

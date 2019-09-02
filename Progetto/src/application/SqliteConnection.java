@@ -142,7 +142,7 @@ public class SqliteConnection {
 					sql += "INSERT INTO OrderList VALUES\n";
 					sql += "('" + order.getId() + "',\n'";
 					sql += order.getUserId()+ "',\n'";
-					sql += SqliteConnection.bookListToISBNString(order.getLibriOrdine()) + "',\n";
+					sql += SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n";
 					sql += order.getTotalCost() + ",\n'";
 					sql += order.getPaymentType() + "',\n";
 					sql += order.getSaldoPuntiOrdine() + ",\n'";

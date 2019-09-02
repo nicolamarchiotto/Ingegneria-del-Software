@@ -63,7 +63,7 @@ public class Ordine {
 		return this.idUser;
 	}
 	
-	public List<Libro> getLibriOrdine(){
+	public List<Libro> getLibri(){
 		return this.libriOrdine;
 	}
 	
