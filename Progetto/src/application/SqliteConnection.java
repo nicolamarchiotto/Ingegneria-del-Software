@@ -164,7 +164,6 @@ public class SqliteConnection {
 	//metodo per ricevere tutti i campi di tutte le colonne di una SINGOLA TABELLA
 	public static ResultSet getEverythingFromTableDB(String tableName) {
 		String sql = "SELECT * FROM " + tableName;
-		
 		if(tableName.equals("UserList")) { //LEFT OUTER JOIN può essere considerato una espansione di INNER JOIN
 			sql += " LEFT OUTER JOIN BookCardList ON BookCardList.id = UserList.libroCard "
 					+" LEFT OUTER JOIN DateList ON BookCardList.id = DateList.id";
@@ -274,7 +273,7 @@ public class SqliteConnection {
 		List<User> userList = new ArrayList<User>();
 		try {
 			while(usersFromDB.next()) {
-				userList.add(new User(usersFromDB.getString("nome"), usersFromDB.getString("cognome"), usersFromDB.getString("indirizzo"), usersFromDB.getString("cap"), usersFromDB.getString("citta"), usersFromDB.getString("telefono"), usersFromDB.getString("email"), usersFromDB.getString("password")));
+				userList.add(new User(usersFromDB.getString("nome"), usersFromDB.getString("cognome"), usersFromDB.getString("indirizzo"), usersFromDB.getString("cap"), usersFromDB.getString("citta"), usersFromDB.getString("telefono"), usersFromDB.getString("email"), usersFromDB.getString("password"), usersFromDB.getString("libroCard"), usersFromDB.getInt("punti"), usersFromDB.getInt("giorno"), usersFromDB.getInt("mese"), usersFromDB.getInt("anno"), usersFromDB.getInt("ora")));
 			}
 			for(User user : userList) {
 				System.out.println(user.toString());

@@ -35,6 +35,20 @@ public class User implements Comparable<Object>{
 		this.librocard=new LibroCard(nome,cognome);
 	}
 	
+	public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email,
+			String pw, String libroCardId, int puntiLibroCard, int giornoDataEmissione, int meseDataEmissione, int annoDataEmissione, int oraDataEmissione) {
+		this.nome=nome;
+		this.cognome=cognome;
+		this.indirizzi=indirizzi;
+		this.cap=cap;
+		this.citta=citta;
+		this.telefono=telefono;
+		this.email=email;
+		this.pw=pw;
+		if(libroCardId == null) this.librocard = null;
+		else this.librocard=new LibroCard(libroCardId, puntiLibroCard, giornoDataEmissione, meseDataEmissione, annoDataEmissione, oraDataEmissione);
+	}
+	
 	public User(String email, String pw) {
 		this.email=email;
 		this.pw=pw;

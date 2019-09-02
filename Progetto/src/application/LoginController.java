@@ -89,14 +89,11 @@ public class LoginController implements Initializable{
 			Parent tableViewParent;
 
 			System.out.println("Valore Librocard: "+userSup.getLibroCard());
-			/*
-			 * if(userSup.getLibroCard()!=null)
-			 * 	tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
+			if(userSup.getLibroCard()!=null)
+			 	tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
 			else
 				tableViewParent =  FXMLLoader.load(getClass().getResource("ResponsabileScene.fxml"));
-			 */
 
-			tableViewParent =  FXMLLoader.load(getClass().getResource("ResponsabileScene.fxml"));
 			Scene tableViewScene = new Scene(tableViewParent);
 		    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		    window.setScene(tableViewScene);

@@ -15,6 +15,12 @@ public class LibroCard {
 		dataEmissione=LocalDateTime.now();
 		id=getIdLibroCard(nome, cognome);
 	}
+	
+	public LibroCard(String id, int punti, int giorno, int mese, int anno, int ora) {
+		this.id = id;
+		this.punti = punti;
+		this.dataEmissione = LocalDateTime.of(anno, mese, giorno, ora, 0, 0, 0);
+	}
 
 	private String getIdLibroCard(String nome, String cognome) {
 		int i=1000+r.nextInt(8999);
