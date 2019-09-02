@@ -145,6 +145,16 @@ public class SqliteConnection {
 		}
 	}
 	
+	//metodo per trasformare la lista di libri interna all'ordine in una stringa di isbn divisi da #
+	private String bookListToISBNString(List<Libro> bookList) {
+		String isbnString = "";
+		for(Libro book : bookList) {
+			isbnString += book.getIsbn();
+			isbnString += "#";
+		}
+		return isbnString.substring(0, isbnString.length() - 2); //FIXME da testare quest'ultima riga
+	}
+	
 	//inserisci Libro
 	public static void insertLibro(List<Libro> objectList) {
 		SqliteConnection.insertIntoDB("BookList", objectList);
