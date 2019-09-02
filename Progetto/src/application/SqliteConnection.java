@@ -165,9 +165,9 @@ public class SqliteConnection {
 	public static ResultSet getEverythingFromTableDB(String tableName) {
 		String sql = "SELECT * FROM " + tableName;
 		
-		if(tableName.equals("UserList")) {
-			sql += " INNER JOIN BookCardList ON BookCardList.id = UserList.libroCard "
-					+" INNER JOIN DateList ON BookCardList.id = DateList.id";
+		if(tableName.equals("UserList")) { //LEFT OUTER JOIN può essere considerato una espansione di INNER JOIN
+			sql += " LEFT OUTER JOIN BookCardList ON BookCardList.id = UserList.libroCard "
+					+" LEFT OUTER JOIN DateList ON BookCardList.id = DateList.id";
 		}
 		else if(tableName.equals("OrderList")) {
 			sql += " INNER JOIN DateList ON OrderList.id = DateList.id";
@@ -267,6 +267,23 @@ public class SqliteConnection {
 	//prendi solo i campi richiesti da la tabella User
 	public static ResultSet getFieldUser(List<String> columnList) {
 		return SqliteConnection.getFromTableDB("UserList", columnList);
+	}
+	
+	//metodo per ritornare una lista di User data una ResultSet della tabella User
+	public static List<User> getUserList(ResultSet usersFromDB){
+		List<User> userList = new ArrayList<User>();
+		try {
+			while(usersFromDB.next()) {
+				userList.add(new User(usersFromDB.getString("nome"), usersFromDB.getString("cognome"), usersFromDB.getString("indirizzo"), usersFromDB.getString("cap"), usersFromDB.getString("citta"), usersFromDB.getString("telefono"), usersFromDB.getString("email"), usersFromDB.getString("password")));
+			}
+			for(User user : userList) {
+				System.out.println(user.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return userList;
 	}
 	
 	

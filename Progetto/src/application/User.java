@@ -121,5 +121,4 @@ public class User implements Comparable<Object>{
 	public String getCitta() {
 		return this.citta;
 	}
-
 }

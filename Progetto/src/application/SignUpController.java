@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -89,7 +90,7 @@ public class SignUpController implements Initializable{
 		LoginController controller = loader.getController();
 		
 		//get UserList from DB
-		LinkedList<User> UserList=controller.getUserList();
+		List<User> UserList=controller.getUserList();
 		
 		if(sup.verifyId(UserList)) {
 			
