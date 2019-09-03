@@ -1,8 +1,9 @@
 package application;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.beans.property.SimpleStringProperty;
 
 public class User implements Comparable<Object>{
 
@@ -17,10 +18,10 @@ public class User implements Comparable<Object>{
 	private String pw;
 	private ArrayList<Ordine> ordini;
 	
+	private String identificativoCarta;
+	private int puntiCard;
 	
-	
-	 
-	
+	//USER exNovo
 	
 	public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email,
 			String pw) {
@@ -33,7 +34,11 @@ public class User implements Comparable<Object>{
 		this.email=email;
 		this.pw=pw;
 		this.librocard=new LibroCard(nome,cognome);
+		this.identificativoCarta=this.librocard.getId();
+		this.puntiCard=this.librocard.getPunti();
 	}
+	
+	//User copiato da DB a local
 	
 	public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email,
 			String pw, String libroCardId, int puntiLibroCard, int giornoDataEmissione, int meseDataEmissione, int annoDataEmissione, int oraDataEmissione) {
@@ -46,8 +51,14 @@ public class User implements Comparable<Object>{
 		this.email=email;
 		this.pw=pw;
 		if(libroCardId == null) this.librocard = null;
-		else this.librocard=new LibroCard(libroCardId, puntiLibroCard, giornoDataEmissione, meseDataEmissione, annoDataEmissione, oraDataEmissione);
+		else {
+			this.librocard=new LibroCard(libroCardId, puntiLibroCard, giornoDataEmissione, meseDataEmissione, annoDataEmissione, oraDataEmissione);
+			this.identificativoCarta=libroCardId;
+			this.puntiCard=this.librocard.getPunti();
+		}
+		
 	}
+	
 	
 	public User(String email, String pw) {
 		this.email=email;
@@ -135,4 +146,13 @@ public class User implements Comparable<Object>{
 	public String getCitta() {
 		return this.citta;
 	}
+	
+	public String getIdentificativoCarta() {
+		return this.identificativoCarta;
+	}
+	
+	public int getPuntiCard() {
+		return this.puntiCard;
+	}
+	
 }

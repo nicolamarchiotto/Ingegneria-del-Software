@@ -41,8 +41,6 @@ public class HomeController implements Initializable{
 	
 	@FXML private Label errorLabel;
 	
-	
-	
 	private User logged;
 	
 	

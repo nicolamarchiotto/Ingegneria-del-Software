@@ -57,12 +57,12 @@ public class ResponsabileController implements Initializable{
 	 * with field contained both in User and LibroCard
 	 */
 	
-	@FXML private TableView<UserForTableView> tableViewCards;
-	@FXML private TableColumn<UserForTableView, String> idLibroCardColumn;
-	@FXML private TableColumn<UserForTableView, String> idUserColumn;
-	@FXML private TableColumn<UserForTableView, String> nomeUserColumn;
-	@FXML private TableColumn<UserForTableView, String> cognomeUserColumn;
-	@FXML private TableColumn<UserForTableView, Integer> saldoPuntiColumn;
+	@FXML private TableView<User> tableViewCards;
+	@FXML private TableColumn<User, String> idLibroCardColumn;
+	@FXML private TableColumn<User, String> idUserColumn;
+	@FXML private TableColumn<User, String> nomeUserColumn;
+	@FXML private TableColumn<User, String> cognomeUserColumn;
+	@FXML private TableColumn<User, Integer> saldoPuntiColumn;
 	
 	/*
 	 * stuff for the order section 
@@ -203,34 +203,18 @@ public class ResponsabileController implements Initializable{
     }
 	
 	//functions for the libroCard section
-	private ObservableList<UserForTableView> getUser() {
-		ObservableList<UserForTableView> user = FXCollections.observableArrayList();
+	private ObservableList<User> getUser() {
+		//ObservableList<User> user = FXCollections.observableArrayList();
 		
-		ResultSet usersFromDB = SqliteConnection.getEverythingFromTableDB("UserList");
+		ResultSet usersFromDB = SqliteConnection.getEveryFieldUser();
+		
+		//ArrayList<User> userSup=SqliteConnection.getUserList(usersFromDB);
+		
+		
+		ObservableList<User> user =FXCollections.observableArrayList(SqliteConnection.getUserList(usersFromDB));
 		
 		//public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email,
 				//String pw) {
-		
-		
-		/*
-		 * TODO
-		 * chiot:ho provato a modificare funzione per copiare valori da db ma non ha funzionato,
-		 * prova a rivederla tu, intanto mi sono creato dei valori locali
-		 */
-		
-		
-		
-		/*
-		 * try {
-		 * 	while(usersFromDB.next()) {
-				user.add(new User(usersFromDB.getString("nome"), usersFromDB.getString("cognome"), usersFromDB.getString("indirizzi"),
-							usersFromDB.getString("cap"), usersFromDB.getString("citta"),usersFromDB.getString("telefono"), usersFromDB.getString("email"), usersFromDB.getString("pw")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		 */
-			
 		
 		/*
 		 * TODO
@@ -239,11 +223,6 @@ public class ResponsabileController implements Initializable{
 		 * LibroCard c;
 		 * user.add(new UserForTableView(c.getId(), u.getEmail(), u.getCognome(), u.getNome(), c.getPunti()));
 		 */
-		
-		
-		user.add(new UserForTableView("Id1", "email1", "cogn1", "nom1", 1));
-		user.add(new UserForTableView("Id2", "email2", "cogn2", "nom2", 2));
-		user.add(new UserForTableView("Id3", "email3", "cogn3", "nom3", 3));
 		
 		return user;
 	}
@@ -319,11 +298,11 @@ public class ResponsabileController implements Initializable{
 		
 		//code for the libroCard Section
 		
-		idLibroCardColumn.setCellValueFactory(new PropertyValueFactory<UserForTableView, String>("idLibroCard"));
-		idUserColumn.setCellValueFactory(new PropertyValueFactory<UserForTableView, String>("idUtente"));
-		cognomeUserColumn.setCellValueFactory(new PropertyValueFactory<UserForTableView, String>("cognomeId"));
-		nomeUserColumn.setCellValueFactory(new PropertyValueFactory<UserForTableView, String>("nomeId"));
-		saldoPuntiColumn.setCellValueFactory(new PropertyValueFactory<UserForTableView, Integer>("puntiCard"));
+		idLibroCardColumn.setCellValueFactory(new PropertyValueFactory<User, String>("identificativoCarta"));
+		idUserColumn.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
+		cognomeUserColumn.setCellValueFactory(new PropertyValueFactory<User, String>("cognome"));
+		nomeUserColumn.setCellValueFactory(new PropertyValueFactory<User, String>("nome"));
+		saldoPuntiColumn.setCellValueFactory(new PropertyValueFactory<User, Integer>("puntiCard"));
 		
 		//populates the tableView with dummy items
 		//setItems must have an ObservableList as parameter, ObservableList almost like ArrayList	
