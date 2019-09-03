@@ -39,7 +39,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			System.out.println("\nConnected to da DB!"); 
 			return connect;
 		}
@@ -59,11 +59,10 @@ public class SqliteConnection {
 		if(!objectList.isEmpty()){
 			//**********inserire Libri***********//
 			if(objectList.get(0) instanceof Libro) {
-				int fakeISBN = 0; //FIXME fino a quando non creeremo uno vero
 				for(Object libro : objectList) {
 					sql = "INSERT INTO BookList VALUES";
 					Libro book = (Libro)libro;
-					sql += "("    +    fakeISBN++   +/* + book.getIsbn().get() + */",\n'";
+					sql += "(" + book.getIsbn() + ",\n'";
 					sql += book.getTitolo() + "',\n'";
 					sql += book.getAutore() + "',\n";
 					sql += book.getAnnoPublicazione() + ",\n'";
@@ -71,17 +70,28 @@ public class SqliteConnection {
 					sql += book.getGenere() + "',\n";
 					sql += book.getPrezzo() + ",\n'";
 					sql += book.getBreveDescrizione() + "',\n";
+					sql += book.getCopieVendute() + ",\n";
 					sql += book.getPunti() + ")";
 					sql += ";";
 					
 					
-
+					Statement stmt = null;
+					
 					try {
-						Statement stmt = connect.createStatement();
+						stmt = connect.createStatement();
 						stmt.executeUpdate(sql);
 					}
 					catch(SQLException e) {
 						System.out.println(e.getMessage());
+					}
+					finally {
+						if(stmt != null)
+							try {
+								stmt.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 					}
 					
 					}
@@ -117,14 +127,23 @@ public class SqliteConnection {
 					//sql += salvarsi il collegamento agli ordini
 					sql += ";";
 					
+					Statement stmt = null;
 					
-
 					try {
-						Statement stmt = connect.createStatement();
+						stmt = connect.createStatement();
 						stmt.executeUpdate(sql);
 					}
 					catch(SQLException e) {
 						System.out.println(e.getMessage());
+					}
+					finally {
+						if(stmt != null)
+							try {
+								stmt.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 					}
 				}
 			}
@@ -149,12 +168,23 @@ public class SqliteConnection {
 					sql += order.getStato() + "');";
 					
 					
+					Statement stmt = null;
+					
 					try {
-						Statement stmt = connect.createStatement();
+						stmt = connect.createStatement();
 						stmt.executeUpdate(sql);
 					}
 					catch(SQLException e) {
 						System.out.println(e.getMessage());
+					}
+					finally {
+						if(stmt != null)
+							try {
+								stmt.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 					}
 				}
 			}
