@@ -59,7 +59,6 @@ public class DetailedRespOrdineController implements Initializable{
 		for(Libro l: localOrder.getLibri()) {
 			books.add(l);
 		}
-		
 		return books;
 	}
 	
@@ -83,6 +82,10 @@ public class DetailedRespOrdineController implements Initializable{
 		
 		DetailedBookController controller=loader.getController();
 		controller.setBookData(tableView.getSelectionModel().getSelectedItem());
+		controller.setBackPage("DetailedRespOrdineScene.fxml");
+		
+		//metodo che mi serve per ripopolare la tabella in caso di return to backPage
+		controller.setIdOrdineEUser(this.localOrder.getCodiceOrdine(), this.localOrder.getIdAcquirente());
 		
 		
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -90,6 +93,12 @@ public class DetailedRespOrdineController implements Initializable{
         window.show();      
     }
 	
+	
+	/*
+	 *initialize è sempre eseguito come primo metodo,
+	 *il settaggio delle colonne deve essere fatto dopo aver ottenuto l'oggetto Order
+	 *dalla pagina responsabile, vedi funzione setOrderFromTableView
+	 */
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {		

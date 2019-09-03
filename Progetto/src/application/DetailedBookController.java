@@ -34,6 +34,10 @@ public class DetailedBookController implements Initializable{
 	@FXML private Button goBackButton;
 	@FXML private Button purchaseButton;
 	
+	private String backPage="";
+	private String idOrdine="";
+	private String idAcquirente;
+	
 	
 	
 	//to add in case of purchase
@@ -53,18 +57,46 @@ public class DetailedBookController implements Initializable{
 		breveDescrizioneLabel.setText(libro.getBreveDescrizione());
 	}
 	
+	public void setBackPage(String name) {
+		this.backPage=name;
+	}
+	
 	
 	public void goBackButtonPushed(ActionEvent event) throws IOException{
 		
-        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
-        Scene tableViewScene = new Scene(tableViewParent);
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource(this.backPage));
+		Parent TableViewParent=loader.load();
+		
+        Scene tableViewScene = new Scene(TableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        
+        //codice in caso da responsabile si volesse ritornare a alla DetailedRespOrdineScene
+        if(this.backPage.compareTo("DetailedRespOrdineScene.fxml")==0) {
+        	
+        	DetailedRespOrdineController controller=loader.getController();
+        	/*
+        	 *metodo per ottenere ordine da DB 
+        	 */
+        	//OrdineForTableView order=new OrdineForTableView(getUserFromDB(this.idAcquirente),getOrdineFromDB(this.idOrdine));
+        	//controller.setOrderFromTableView(order);
+        	
+        	this.idAcquirente="";
+        	this.idOrdine="";
+        }
+        
         window.setScene(tableViewScene);
         window.show();
     }
   
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {
+	}
+
+	public void setIdOrdineEUser(String codiceOrdine, String idAcquirente) {
+		this.idAcquirente=codiceOrdine;
+		this.idAcquirente=idAcquirente;
+		
 	}
 
 }

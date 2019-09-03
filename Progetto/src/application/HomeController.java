@@ -100,6 +100,7 @@ public class HomeController implements Initializable{
 		
 		DetailedBookController controller=loader.getController();
 		controller.setBookData(tableView.getSelectionModel().getSelectedItem());
+		controller.setBackPage("HomeScene.fxml");
 		
 		
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
