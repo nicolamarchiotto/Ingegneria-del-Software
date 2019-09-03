@@ -80,8 +80,8 @@ public class SignUpController implements Initializable{
 			return;
 		}
 		
-		User sup=new User(Name.getText(), Surname.getText(), Address.getText(), City.getText(), 
-				Cap.getText(), TelNum.getText(), Email.getText(), Password.getText());
+		User sup=new User(Name.getText(), Surname.getText(), Address.getText(), Cap.getText(), 
+				City.getText(), TelNum.getText(), Email.getText(), Password.getText());
 
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("LoginScene.fxml"));
@@ -96,6 +96,7 @@ public class SignUpController implements Initializable{
 			
 			//Aggiunge a DB
 			controller.addToUserList(sup);
+			SqliteConnection.insertUser(sup);
 			controller.setUserLogged(sup);
 			
 			tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));

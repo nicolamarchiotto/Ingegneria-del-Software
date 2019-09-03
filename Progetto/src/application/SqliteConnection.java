@@ -124,7 +124,6 @@ public class SqliteConnection {
 					sql += user.getCitta() + "',\n";
 					sql += user.getTelefono() + ",\n'";
 					sql += libroCard + "')";
-					//sql += salvarsi il collegamento agli ordini
 					sql += ";";
 					
 					Statement stmt = null;
@@ -287,6 +286,13 @@ public class SqliteConnection {
 	public static void insertUser(List<User> objectList) {
 		SqliteConnection.insertIntoDB("UserList", objectList);
 	}
+
+	//inserisci singolo User
+	public static void insertUser(User user) {
+		List<User> userList = new ArrayList<User>();
+		userList.add(user);
+		SqliteConnection.insertUser(userList);
+	}
 	
 	//prendi tutta la tabella User
 	public static ResultSet getEveryFieldUser() {
@@ -325,6 +331,13 @@ public class SqliteConnection {
 		SqliteConnection.insertIntoDB("BookList", objectList);
 	}
 	
+	//inserisci singolo Libro
+	public static void insertLibro(Libro book) {
+		List<Libro> bookList = new ArrayList<Libro>();
+		bookList.add(book);
+		SqliteConnection.insertLibro(bookList);
+	}
+	
 	//prendi tutta la tabella Libro
 	public static ResultSet getEveryFieldLibro() {
 		return SqliteConnection.getEverythingFromTableDB("BookList");
@@ -343,6 +356,13 @@ public class SqliteConnection {
 	//inserisci Ordine
 	public static void insertOrder(List<Ordine> objectList) {
 		SqliteConnection.insertIntoDB("OrderList", objectList);
+	}
+	
+	//inserisci singolo Ordine
+	public static void insertOrder(Ordine order) {
+		List<Ordine> orderList = new ArrayList<Ordine>();
+		orderList.add(order);
+		SqliteConnection.insertOrder(orderList);
 	}
 	
 	//prendi tutta la tabella Ordine
