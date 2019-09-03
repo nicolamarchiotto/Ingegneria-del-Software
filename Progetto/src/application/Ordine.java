@@ -22,7 +22,7 @@ public class Ordine {
 	public Ordine(User user, String tipoPagamento, Libro ... libriCollection) {
 		for(Libro l: libriCollection) {
 			this.libriOrdine.add(l);
-			this.totalCost+=l.getPrezzo();
+			this.totalCost+=(l.getPrezzo()*l.getCopieVenduteNelSingoloOrdine());
 			this.saldoPuntiOrdine+=l.getPunti();
 		}
 		this.data=LocalDateTime.now();
@@ -48,7 +48,6 @@ public class Ordine {
 			return "spedito";
 		else
 			return "consegnato";
-		
 	}
 	
 	public String getId() {

@@ -34,6 +34,11 @@ public class OrdineForTableView {
 	public String toString() {
 		return codiceOrdine+" "+idAcquirente+" "+dataAcquisto+" "+stato;
 	}
+
+	/*
+	 * TODO
+	 * modificare tutti i metodi con metodi di ritorno da oggetti Ordine e User
+	 */
 	
 	public String getIdAcquirente() {
 		return this.idAcquirente;
@@ -59,7 +64,7 @@ public class OrdineForTableView {
 	public double getPrezzoTot() {
 		double sup=0;
 		for(Libro b: this.libri)
-			sup+=b.getPrezzo();
+			sup+=(b.getPrezzo()*b.getCopieVenduteNelSingoloOrdine());
 		return sup;
 		//ordine.getTotalCost();
 	}

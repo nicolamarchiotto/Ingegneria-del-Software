@@ -13,8 +13,9 @@ public class Libro implements Comparable<Object>{
 	private SimpleStringProperty genere;
 	private double prezzo;
 	private SimpleStringProperty brevedescrizione;
-	private int copieVendute=0;
+	private int copieVenduteTotali;
 	private int punti;
+	private int copieVenduteNelSingoloOrdine=0;
 	
 	static Random r=new Random();
 	
@@ -30,6 +31,7 @@ public class Libro implements Comparable<Object>{
 		this.prezzo=prezzo;
 		this.brevedescrizione=new SimpleStringProperty(brevedescrizione);
 		this.punti=punti;
+		this.copieVenduteTotali=0;
 		//nextLong può restituire anche valori negativi
 		long sup=r.nextLong();
 		if(sup<0)
@@ -40,7 +42,7 @@ public class Libro implements Comparable<Object>{
 	
 	//costruttore per aggiungere da DB a locale
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
-			String isbn, String genere, double prezzo, String brevedescrizione, int copieVendute) {
+			String isbn, String genere, double prezzo, String brevedescrizione, int copieVenduteTotali) {
 		
 		this.titolo=new SimpleStringProperty(titolo);
 		this.autore=new SimpleStringProperty(autori);
@@ -50,10 +52,10 @@ public class Libro implements Comparable<Object>{
 		this.genere=new SimpleStringProperty(genere);
 		this.prezzo=prezzo;
 		this.brevedescrizione=new SimpleStringProperty(brevedescrizione);
-		this.punti=punti;
-		this.copieVendute=copieVendute;
+		this.copieVenduteTotali=copieVenduteTotali;
 	}
-
+	
+	
 
 	@Override
 	public int compareTo(Object other) {
@@ -91,13 +93,21 @@ public class Libro implements Comparable<Object>{
 	public String getBreveDescrizione() {
 		
 		int i=0;
-		String sup;
+		String sup="";
 		String result="";
 		String brevDescr=this.brevedescrizione.get();
-		
-		for(i=0;i<this.brevedescrizione.get().length();i=i+30) {
-			sup=brevDescr.substring(i, i+30);
-			result=sup+"\n";
+		int length=this.brevedescrizione.get().length();
+		int giri=1;
+		for(i=0;i<length;i=i+20) {
+			if(length> (giri*20) ) {
+				sup=brevDescr.substring(i, i+20);
+				result+=(sup+"\n");
+				giri++;
+			}
+			else {
+				sup=brevDescr.substring(i, length);
+				result+=(sup+"\n");
+			}
 		}
 		
 		return result;
@@ -115,7 +125,7 @@ public class Libro implements Comparable<Object>{
 	}
 	
 	public int getCopieVendute() {
-		return this.copieVendute;
+		return this.copieVenduteTotali;
 	}
 
 	@Override
@@ -125,6 +135,18 @@ public class Libro implements Comparable<Object>{
 	
 	public String toStringLong() {
 		return titolo + " " +autore + " " + prezzo;
+	}
+	
+	public void aggiungiCopieAllordine(int numCopie) {
+		this.copieVenduteNelSingoloOrdine+=numCopie;
+	}
+	
+	public void setToZeroCopieVenduteSingoloOrdine() {
+		this.copieVenduteNelSingoloOrdine=0;
+	}
+	
+	public int getCopieVenduteNelSingoloOrdine() {
+		return this.copieVenduteNelSingoloOrdine;
 	}
 	
 

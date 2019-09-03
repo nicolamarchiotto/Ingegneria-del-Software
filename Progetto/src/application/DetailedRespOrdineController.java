@@ -25,7 +25,9 @@ public class DetailedRespOrdineController implements Initializable{
 
 	@FXML private Label titleLabel;
 	@FXML private Button goBackButton;
+	@FXML private Button seeDetailesButton;
 	@FXML private TextArea sumTextArea;
+	
 	
 	@FXML private TableView<Libro> tableView;
 	@FXML private TableColumn<Libro, String> titoloColumn;
@@ -47,7 +49,7 @@ public class DetailedRespOrdineController implements Initializable{
 		titoloColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
 		prezzoColumn.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("prezzo"));
-		numeroCopieColumn.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("copieVendute"));
+		numeroCopieColumn.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("copieVenduteNelSingoloOrdine"));
 		
 	}
 	
@@ -68,6 +70,24 @@ public class DetailedRespOrdineController implements Initializable{
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
         window.show();
+    }
+	
+	public void SeeDetailesButtonPushed(ActionEvent event) throws IOException
+    {
+		
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource("DetailedBookScene.fxml"));
+		Parent TableViewParent=loader.load();
+		
+		Scene tableViewScene = new Scene(TableViewParent);  
+		
+		DetailedBookController controller=loader.getController();
+		controller.setBookData(tableView.getSelectionModel().getSelectedItem());
+		
+		
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
     }
 	
 	
