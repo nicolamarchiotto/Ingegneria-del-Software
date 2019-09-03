@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -104,6 +105,11 @@ public class ResponsabileController implements Initializable{
 				 * va fatto inserimento libro nel database
 				 * controllare se non c'è già lo stesso libro??
 				 */
+				
+				LinkedList<Libro> list=new LinkedList<Libro>();
+				list.add(l);
+				SqliteConnection.insertLibro(list);
+				
 				System.out.println("Stampa libro\n"+l.toString()+" Genere "+l.getGenere());
 				
 				AlertBox.display("Book added", l.getTitolo()+" was added to the library");
