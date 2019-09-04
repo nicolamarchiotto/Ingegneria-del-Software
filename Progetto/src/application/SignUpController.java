@@ -92,16 +92,19 @@ public class SignUpController implements Initializable{
 			System.out.println(u.toString());
 		}
 		
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("LoginScene.fxml"));
+		Parent tableViewParent = loader.load();
+		
+		LoginController controller = loader.getController();
+		
 		if(sup.verifyId(UserList)) {
-			
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("LoginScene.fxml"));
-			Parent tableViewParent = loader.load();
-			
-			LoginController controller = loader.getController();
-			
+				
 			//Aggiunge a DB
+			System.out.println("ciao");
+			controller.addToUserList(sup);
 			SqliteConnection.insertUser(sup);
+			System.out.println("ciao1");
 			controller.setUserLogged(sup);
 			
 			tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));

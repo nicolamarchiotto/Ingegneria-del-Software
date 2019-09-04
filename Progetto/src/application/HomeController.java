@@ -126,6 +126,8 @@ public class HomeController implements Initializable{
 		LoginController lc = new LoginController(); 
 		logged = lc.getUserLogged();
 		
+		System.out.println("prova rpovara " + logged.getNome());
+		
 		WellcomeLabel.setText("Welcome " +logged.getNome()+", good Shopping");
 		
 		errorLabel.setText("");
