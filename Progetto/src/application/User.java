@@ -111,8 +111,6 @@ public class User implements Comparable<Object>{
 		for(User u: l) {
 			if(this.email.equals(u.getEmail()))
 				return false;
-			else
-				return true;
 		}
 		return true;
 	}

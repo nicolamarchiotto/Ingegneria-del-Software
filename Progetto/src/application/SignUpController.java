@@ -40,7 +40,7 @@ public class SignUpController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		SignUpErrorLabel.setText("");
-		ResultSet usersFromDB = SqliteConnection.getEveryFieldUser();
+		ResultSet usersFromDB = SqliteConnection.getFieldUser();
 		UserList=SqliteConnection.getUserList(usersFromDB);
 	}
 	

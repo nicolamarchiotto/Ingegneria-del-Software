@@ -113,8 +113,7 @@ public class SqliteConnection {
 						sql += user.getLibroCard().getDataEmissione().getMonthValue() + ",\n";
 						sql += user.getLibroCard().getDataEmissione().getYear() + ",\n";
 						sql += user.getLibroCard().getDataEmissione().getHour() + ");\n\n";
-					}
-					
+					}		
 					sql += "INSERT INTO UserList VALUES";
 					sql += "('" + user.getEmail() + "',\n'";
 					sql += user.getPw() + "',\n'";
@@ -140,8 +139,7 @@ public class SqliteConnection {
 						if(stmt != null)
 							try {
 								stmt.close();
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
+							} catch (SQLException e) {								
 								e.printStackTrace();
 							}
 					}
@@ -296,7 +294,7 @@ public class SqliteConnection {
 	}
 	
 	//prendi tutta la tabella User
-	public static ResultSet getEveryFieldUser() {
+	public static ResultSet getFieldUser() {
 		return SqliteConnection.getEverythingFromTableDB("UserList");
 	}
 	
@@ -367,7 +365,7 @@ public class SqliteConnection {
 	}
 	
 	//prendi tutta la tabella Ordine
-	public static ResultSet getEveryFieldOrdine() {
+	public static ResultSet getFieldOrdine() {
 		return SqliteConnection.getEverythingFromTableDB("OrderList");
 	}
 	
