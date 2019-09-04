@@ -224,6 +224,11 @@ public class ResponsabileController implements Initializable{
 		 * user.add(new UserForTableView(c.getId(), u.getEmail(), u.getCognome(), u.getNome(), c.getPunti()));
 		 */
 		
+		for(User singleUser : user) {
+			if(singleUser.getIdentificativoCarta() == null)
+				user.remove(singleUser);
+		}
+		
 		return user;
 	}
 	
