@@ -35,7 +35,7 @@ public class LoginController implements Initializable{
 	
 	@FXML private Label ErrorLabel;
 	
-	private static User userLogged;
+	private static User userLogged = null;
 	
 	//userList locale
 	private List<User> userList=new LinkedList<User>();
