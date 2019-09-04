@@ -40,11 +40,11 @@ public class SqliteConnection {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
-			System.out.println("\nConnected to da DB!"); 
+			//System.out.println("\nConnected to da DB!"); 
 			return connect;
 		}
 		catch(Exception e) {
-			System.out.println("\nHeya something's wrong!");
+			System.out.println("\n[SQLITECUSTOM] Connection Failed!");
 			return null;
 		}
 	}
@@ -140,7 +140,6 @@ public class SqliteConnection {
 							try {
 								stmt.close();
 							} catch (SQLException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 					}
@@ -295,7 +294,7 @@ public class SqliteConnection {
 	}
 	
 	//prendi tutta la tabella User
-	public static ResultSet getEveryFieldUser() {
+	public static ResultSet getFieldUser() {
 		return SqliteConnection.getEverythingFromTableDB("UserList");
 	}
 	
@@ -339,7 +338,7 @@ public class SqliteConnection {
 	}
 	
 	//prendi tutta la tabella Libro
-	public static ResultSet getEveryFieldLibro() {
+	public static ResultSet getFieldLibro() {
 		return SqliteConnection.getEverythingFromTableDB("BookList");
 	}
 	
@@ -366,7 +365,7 @@ public class SqliteConnection {
 	}
 	
 	//prendi tutta la tabella Ordine
-	public static ResultSet getEveryFieldOrdine() {
+	public static ResultSet getFieldOrdine() {
 		return SqliteConnection.getEverythingFromTableDB("OrderList");
 	}
 	

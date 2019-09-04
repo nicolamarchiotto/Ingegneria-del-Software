@@ -206,7 +206,7 @@ public class ResponsabileController implements Initializable{
 	private ObservableList<User> getUser() {
 		//ObservableList<User> user = FXCollections.observableArrayList();
 		
-		ResultSet usersFromDB = SqliteConnection.getEveryFieldUser();
+		ResultSet usersFromDB = SqliteConnection.getFieldUser();
 		
 		//ArrayList<User> userSup=SqliteConnection.getUserList(usersFromDB);
 		

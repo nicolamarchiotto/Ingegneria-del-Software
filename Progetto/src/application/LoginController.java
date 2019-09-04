@@ -45,7 +45,7 @@ public class LoginController implements Initializable{
 		this.ErrorLabel.setText("");
 		
 		//aggiungo i vari user salvati nel DB
-		userList = SqliteConnection.getUserList(SqliteConnection.getEveryFieldUser());
+		userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
 	}
 	
 	
