@@ -101,10 +101,8 @@ public class SignUpController implements Initializable{
 		if(sup.verifyId(UserList)) {
 				
 			//Aggiunge a DB
-			System.out.println("ciao");
 			controller.addToUserList(sup);
 			SqliteConnection.insertUser(sup);
-			System.out.println("ciao1");
 			controller.setUserLogged(sup);
 			
 			tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
