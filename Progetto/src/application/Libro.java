@@ -5,14 +5,14 @@ import java.util.Random;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Libro implements Comparable<Object>{
-	private SimpleStringProperty titolo;
-	private SimpleStringProperty autore;
-	private SimpleStringProperty casaeditrice;
+	private String titolo;
+	private String autore;
+	private String casaeditrice;
 	private int annopubblicazione;
-	private SimpleStringProperty isbn;
-	private SimpleStringProperty genere;
+	private String isbn;
+	private String genere;
 	private double prezzo;
-	private SimpleStringProperty brevedescrizione;
+	private String brevedescrizione;
 	private int copieVenduteTotali;
 	private int punti;
 	private int copieVenduteNelSingoloOrdine=0;
@@ -23,20 +23,20 @@ public class Libro implements Comparable<Object>{
 	//da rivedere isbn, genera anche numeri negativi
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
 			String genere, double prezzo, String brevedescrizione, int punti) {
-		this.titolo=new SimpleStringProperty(titolo);
-		this.autore=new SimpleStringProperty(autori);
-		this.casaeditrice=new SimpleStringProperty(casaeditrice);
+		this.titolo=titolo;
+		this.autore=autori;
+		this.casaeditrice=casaeditrice;
 		this.annopubblicazione=annopubblicazione;
-		this.genere=new SimpleStringProperty(genere);
+		this.genere=genere;
 		this.prezzo=prezzo;
-		this.brevedescrizione=new SimpleStringProperty(brevedescrizione);
+		this.brevedescrizione=brevedescrizione;
 		this.punti=punti;
 		this.copieVenduteTotali=0;
 		//nextLong può restituire anche valori negativi
 		long sup=r.nextLong();
 		if(sup<0)
 			sup=sup*-1;
-		this.isbn=new SimpleStringProperty(Long.toString(sup));
+		this.isbn=Long.toString(sup);
 	}
 	
 	
@@ -44,14 +44,14 @@ public class Libro implements Comparable<Object>{
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
 			String isbn, String genere, double prezzo, String brevedescrizione, int copieVenduteTotali) {
 		
-		this.titolo=new SimpleStringProperty(titolo);
-		this.autore=new SimpleStringProperty(autori);
-		this.casaeditrice=new SimpleStringProperty(casaeditrice);
+		this.titolo=titolo;
+		this.autore=autori;
+		this.casaeditrice=casaeditrice;
 		this.annopubblicazione=annopubblicazione;
-		this.isbn=new SimpleStringProperty(isbn);
-		this.genere=new SimpleStringProperty(genere);
+		this.isbn=isbn;
+		this.genere=genere;
 		this.prezzo=prezzo;
-		this.brevedescrizione=new SimpleStringProperty(brevedescrizione);
+		this.brevedescrizione=brevedescrizione;
 		this.copieVenduteTotali=copieVenduteTotali;
 	}
 	
@@ -68,35 +68,35 @@ public class Libro implements Comparable<Object>{
 	
 	
 	public String getIsbn() {
-		return this.isbn.get();
+		return this.isbn;
 	}
 	
 	public String getTitolo() {
-		return titolo.get();
+		return titolo;
 	}
 	
 	public String getAutore() {
-		return autore.get();
+		return autore;
 	}
 	public double getPrezzo() {
 		return prezzo;
 	}
 	public String getCasaEditrice() {
-		return this.casaeditrice.get();
+		return this.casaeditrice;
 	}
 	public int getAnnoPublicazione() {
 		return this.annopubblicazione;
 	}
 	public String getGenere() {
-		return this.genere.get();
+		return this.genere;
 	}
 	public String getBreveDescrizione() {
 		
 		int i=0;
 		String sup="";
 		String result="";
-		String brevDescr=this.brevedescrizione.get();
-		int length=this.brevedescrizione.get().length();
+		String brevDescr=this.brevedescrizione;
+		int length=this.brevedescrizione.length();
 		int giri=1;
 		for(i=0;i<length;i=i+20) {
 			if(length> (giri*20) ) {

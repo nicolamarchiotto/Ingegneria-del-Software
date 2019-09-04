@@ -2,7 +2,7 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -34,10 +34,14 @@ public class SignUpController implements Initializable{
 	@FXML private TextField TelNum;
 	@FXML private TextField Email;
 	@FXML private TextField Password;
+	
+	private List<User> UserList;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		SignUpErrorLabel.setText("");
+		ResultSet usersFromDB = SqliteConnection.getEveryFieldUser();
+		UserList=SqliteConnection.getUserList(usersFromDB);
 	}
 	
 	public void GoBackButtonPushed(ActionEvent event) throws IOException
@@ -72,30 +76,31 @@ public class SignUpController implements Initializable{
 		return sup;
 	}
 	
-	public void  ConfirmButtonPushed(ActionEvent event) throws IOException
-    {
+	public void  ConfirmButtonPushed(ActionEvent event) throws IOException{
 		
 		if(!vefifyTextField()) {
 			SignUpErrorLabel.setText("Tutti i campi devono essere compilati");
 			return;
 		}
 		
+	
 		User sup=new User(Name.getText(), Surname.getText(), Address.getText(), Cap.getText(), 
 				City.getText(), TelNum.getText(), Email.getText(), Password.getText());
 
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("LoginScene.fxml"));
-		Parent tableViewParent = loader.load();
-		
-		LoginController controller = loader.getController();
-		
-		//get UserList from DB
-		List<User> UserList=controller.getUserList();
+		//get UserList From DB	
+		for(User u: UserList) {
+			System.out.println(u.toString());
+		}
 		
 		if(sup.verifyId(UserList)) {
 			
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("LoginScene.fxml"));
+			Parent tableViewParent = loader.load();
+			
+			LoginController controller = loader.getController();
+			
 			//Aggiunge a DB
-			controller.addToUserList(sup);
 			SqliteConnection.insertUser(sup);
 			controller.setUserLogged(sup);
 			
@@ -106,7 +111,8 @@ public class SignUpController implements Initializable{
 	        window.show();
 			SignUpErrorLabel.setText("id valido");
 		}
-		else
-			SignUpErrorLabel.setText("Spiacenti la email che hai inserito è già stata utilizzata");
-    }
+		else {
+			AlertBox.display("Error", "Spiacenti la email che hai inserito è già stata utilizzata");	
+		}
+	}
 }

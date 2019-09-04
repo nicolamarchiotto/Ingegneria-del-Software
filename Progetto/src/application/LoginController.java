@@ -73,7 +73,7 @@ public class LoginController implements Initializable{
     
     //tenta il login, se ha successo porta a home
 	public void LoginButtonPushed(ActionEvent event) throws IOException {
-		String emailSup=emailPasswordField.getText();
+		String emailSup=emailPasswordField.getText().trim();
 		String pwSup=pwPasswordField.getText();
 		
 		User userSup = new User(emailSup, pwSup);

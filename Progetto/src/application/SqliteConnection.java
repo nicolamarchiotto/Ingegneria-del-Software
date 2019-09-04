@@ -39,7 +39,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			System.out.println("\nConnected to da DB!"); 
 			return connect;
 		}
@@ -114,6 +114,7 @@ public class SqliteConnection {
 						sql += user.getLibroCard().getDataEmissione().getYear() + ",\n";
 						sql += user.getLibroCard().getDataEmissione().getHour() + ");\n\n";
 					}
+					
 					sql += "INSERT INTO UserList VALUES";
 					sql += "('" + user.getEmail() + "',\n'";
 					sql += user.getPw() + "',\n'";

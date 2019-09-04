@@ -3,8 +3,6 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public class User implements Comparable<Object>{
 
 	private String nome;
@@ -93,7 +91,7 @@ public class User implements Comparable<Object>{
 	}
 	
 	public String getCognome() {
-		return this.cognome + "mamma";
+		return this.cognome;
 	}
 	
 	public String getIndirizzi() {
