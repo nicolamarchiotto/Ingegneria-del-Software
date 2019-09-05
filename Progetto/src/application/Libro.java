@@ -134,6 +134,9 @@ public class Libro implements Comparable<Object>{
 	
 	public void aggiungiCopieAlSingoloOrdine(int numCopie) {
 		this.copieVenduteNelSingoloOrdine=this.copieVenduteNelSingoloOrdine+numCopie;
+		
+		//FIXME è ok chiot??
+		this.copieVenduteTotali += numCopie;
 	}
 	
 	public void setToZeroCopieVenduteSingoloOrdine() {
