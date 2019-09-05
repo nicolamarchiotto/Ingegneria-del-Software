@@ -19,7 +19,7 @@
             <TableColumn fx:id="genereColumn" minWidth="140.0" prefWidth="0.0" text="Genere" />
         </columns>
       </TableView>
-      <HBox alignment="CENTER" layoutX="25.0" prefHeight="50.0" prefWidth="565.0" spacing="10.0" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="25.0" prefHeight="50.0" prefWidth="565.0" spacing="5.0" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="WellcomeLabel" prefHeight="33.0" prefWidth="269.0" text="Label">
                <font>
@@ -27,7 +27,7 @@
                </font>
             </Label>
             <Button minHeight="25.0" minWidth="90.0" mnemonicParsing="false" text="Basket" />
-            <Button fx:id="PersonalAreaButton" maxHeight="25.0" maxWidth="90.0" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Personal Area" />
+            <Button fx:id="PersonalAreaButton" maxHeight="25.0" maxWidth="90.0" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Personal Area" />
             <Button fx:id="SignOutButton" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" onAction="#SignOutButtonPushed" prefHeight="25.0" prefWidth="90.0" text="Sign Out" />
          </children>
       </HBox>
