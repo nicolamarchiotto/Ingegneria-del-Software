@@ -189,6 +189,55 @@ public class SqliteConnection {
 		}
 	}
 	
+	
+	//TODO metodo per l'aggiornamento di valori all'interno del DB //////////////NOT COMPLETE
+	
+	public static <T> void updateDB(String tableName, List<?> objectList, String columnName, T updatedField) {
+		
+		Connection connect = SqliteConnection.dbConnector();
+		
+		String sql = "";
+		if(!objectList.isEmpty()){
+			//**********aggiornare Libri************//
+			if(objectList.get(0) instanceof Libro) {
+				for(Object libro : objectList) {
+					Libro book = (Libro)libro;
+					
+					sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE
+					sql += "autore = '" + book.getAutore() + "',\n";
+					sql += "annoPubblicazione = " + book.getAnnoPublicazione() + ",\n";
+					sql += "casaEditrice = '" + book.getCasaEditrice() + "',\n";
+					sql += "genere = '" + book.getGenere() + "',\n";
+					sql += "prezzo = " + book.getPrezzo() + ",\n";
+					sql += "breveDescrizione = '" + book.getBreveDescrizione() + "',\n";
+					sql += "copieVenduteTotali = " + book.getCopieVendute() + ",\n";
+					sql += "puntiCarta = " + book.getPunti() +"\n";
+					sql += "WHERE " + columnName + " = " + (updatedField instanceof String ? "'" + updatedField + "'" : updatedField) + ";";
+				}
+			}
+			
+			//**********aggiornare Utenti***********//
+			if(objectList.get(0) instanceof User) {
+				for(Object utente : objectList) {
+					User user = (User)utente;
+					
+					sql += "UPDATE UserList \nSET ";
+				}
+			}
+			
+			//**********aggiornare Ordini***********//
+			if(objectList.get(0) instanceof Ordine) {
+				for(Object ordine : objectList) {
+					Ordine order = (Ordine)ordine;
+					
+					sql += "UPDATE OrderList \nSET ";
+				}
+			}
+		}
+	}
+	
+	
+	
 	//metodo per ricevere tutti i campi di tutte le colonne di una SINGOLA TABELLA
 	public static ResultSet getEverythingFromTableDB(String tableName) {
 		String sql = "SELECT * FROM " + tableName;
@@ -373,7 +422,6 @@ public class SqliteConnection {
 	public static ResultSet getFieldOrdine(List<String> columnList) {
 		return SqliteConnection.getFromTableDB("OrderList", columnList);
 	}
-	
 }
 	
 
