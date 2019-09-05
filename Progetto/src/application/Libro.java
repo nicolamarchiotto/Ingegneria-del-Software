@@ -127,18 +127,13 @@ public class Libro implements Comparable<Object>{
 	public int getCopieVendute() {
 		return this.copieVenduteTotali;
 	}
-
-	@Override
+	
 	public String toString() {
-		return this.isbn + " " +  this.titolo;
+		return "Stampa Libro, titolo: "+titolo + " autore: " +autore + " prezzo:" + prezzo+ " copie: "+this.copieVenduteNelSingoloOrdine;
 	}
 	
-	public String toStringLong() {
-		return titolo + " " +autore + " " + prezzo;
-	}
-	
-	public void aggiungiCopieAllordine(int numCopie) {
-		this.copieVenduteNelSingoloOrdine+=numCopie;
+	public void aggiungiCopieAlSingoloOrdine(int numCopie) {
+		this.copieVenduteNelSingoloOrdine=this.copieVenduteNelSingoloOrdine+numCopie;
 	}
 	
 	public void setToZeroCopieVenduteSingoloOrdine() {
@@ -147,6 +142,10 @@ public class Libro implements Comparable<Object>{
 	
 	public int getCopieVenduteNelSingoloOrdine() {
 		return this.copieVenduteNelSingoloOrdine;
+	}
+	
+	public void setCopieVenduteSingoloOrdine(int copie) {
+		this.copieVenduteNelSingoloOrdine=copie;
 	}
 	
 

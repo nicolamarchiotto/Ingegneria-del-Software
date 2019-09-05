@@ -16,6 +16,11 @@ public class User implements Comparable<Object>{
 	private String pw;
 	private ArrayList<Ordine> ordini;
 	
+	/*
+	 * Carrello LOCALE
+	 */
+	private ArrayList<Libro> carrello=new ArrayList<Libro>();
+	
 	private String identificativoCarta;
 	private int puntiCard;
 	
@@ -151,4 +156,31 @@ public class User implements Comparable<Object>{
 		return this.puntiCard;
 	}
 	
+	public void addLibroToCarrello(Libro l) {
+		
+		boolean bookFound=false;
+		
+		for(Libro book: this.carrello) {
+			if(book.getIsbn().compareTo(l.getIsbn())==0) {
+				book.setCopieVenduteSingoloOrdine(l.getCopieVenduteNelSingoloOrdine());
+				bookFound=true;
+			}		
+		}
+		if(bookFound==false){
+			carrello.add(l);
+		}		
+	}
+	
+	public ArrayList<Libro> getCarrello(){
+		return this.carrello;
+	}
+	
+	public String carrelloToString() {
+		String sup="";
+		
+		for(Libro l: this.carrello)
+			sup=sup+l.toString()+"\n";
+		
+		return sup;
+	}
 }

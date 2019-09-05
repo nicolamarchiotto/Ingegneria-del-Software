@@ -41,7 +41,7 @@ public class HomeController implements Initializable{
 	
 	@FXML private Label errorLabel;
 	
-	private User logged;
+	private User userLogged;
 	
 	
 	private ObservableList<Libro> getLibri(String genere) {
@@ -124,11 +124,11 @@ public class HomeController implements Initializable{
 		
 		//da modificare in seguito
 		LoginController lc = new LoginController(); 
-		logged = lc.getUserLogged();
+		userLogged = lc.getUserLogged();
 		
-		System.out.println("prova rpovara " + logged.getNome());
+		System.out.println("prova rpovara " + userLogged.getNome());
 		
-		WellcomeLabel.setText("Welcome " +logged.getNome()+", good Shopping");
+		WellcomeLabel.setText("Welcome " +userLogged.getNome()+", good Shopping");
 		
 		errorLabel.setText("");
 		

@@ -1,11 +1,14 @@
 package application;
 
 
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.geometry.*;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class AlertBox {
 
@@ -19,6 +22,7 @@ public class AlertBox {
 	    window.setMinHeight(120);
 	    
 	    Label label = new Label();
+	    label.setTextAlignment(TextAlignment.CENTER);
 	    label.setText(message);
 	    Button okButton = new Button("Ok");
 	    okButton.setMinWidth(80);

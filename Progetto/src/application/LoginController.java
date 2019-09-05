@@ -35,9 +35,13 @@ public class LoginController implements Initializable{
 	
 	@FXML private Label ErrorLabel;
 	
+	
+	/*
+	 * IMPORTANTE
+	 */
+	//userList locale di riferimento a tutti i file Locali
 	private static User userLogged = null;
 	
-	//userList locale
 	private List<User> userList=new LinkedList<User>();
 	
 	@Override
@@ -138,8 +142,6 @@ public class LoginController implements Initializable{
 		}
 	}
 	
-	//non sicuro dell'implementazione, sarebbe ,meglio chiederlo direttamnete al DB
-	
 	public User getUserLogged() {
 		return userLogged;
 	}
@@ -149,8 +151,18 @@ public class LoginController implements Initializable{
 		userList.add(other);
 	}
 	
-	//deve ritornare lista del DB
+	//deve ritornare lista dal DB
 	public List<User> getUserList() {
 		return userList;
+	}
+	
+	/*
+	 * Aggiunge libro a carrello in userLogged, quando si farà signOut si dovrà
+	 * andare a sovrascrivere quello globale con quello locale
+	 * per eventuali cambiamenti/ordini effettuati
+	 */
+	
+	public void addLibroToCarrelloAUserLoggedLocal(Libro l) {
+		this.userLogged.addLibroToCarrello(l);
 	}
 }

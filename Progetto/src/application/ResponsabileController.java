@@ -251,11 +251,11 @@ public class ResponsabileController implements Initializable{
 		
 		ArrayList<Libro> l=new ArrayList<Libro>();
 		Libro l1=new Libro("tit", "autor", "casaEd", 1, "isbn","gen", 20.21, "brevdes", 2);
-		l1.aggiungiCopieAllordine(3);
+		l1.aggiungiCopieAlSingoloOrdine(3);
 		l.add(l1);
 		
 		Libro l2=new Libro("tit2", "autor", "casaEd", 1, "isbn", "gen", 20.21, "mammamammamammamammamammammamma 	", 1);
-		l2.aggiungiCopieAllordine(1);
+		l2.aggiungiCopieAlSingoloOrdine(1);
 		l.add(l2);
 		
 		orders.add(new OrdineForTableView("Ord2", "Acq2", LocalDate.now(), "In corso", l));
