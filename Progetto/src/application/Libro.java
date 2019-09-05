@@ -137,6 +137,7 @@ public class Libro implements Comparable<Object>{
 	
 	public void aggiungiCopieAlSingoloOrdine(int numCopie) {
 		this.copieVenduteNelSingoloOrdine=this.copieVenduteNelSingoloOrdine+numCopie;
+		
 	}
 	
 	public void setToZeroCopieVenduteSingoloOrdine() {

@@ -57,6 +57,11 @@ public class HomeController implements Initializable{
 			}
 		}
 		
+		/*FIXME test per testare updateLibro
+		 * Libro libro = libri.get(0);
+		libro.aggiungiCopieAlSingoloOrdine(3);
+		System.out.println(libro.getCopieVendute());
+		SqliteConnection.updateLibro(libro);*/
 		return libri;
 	}
 	

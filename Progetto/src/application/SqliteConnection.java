@@ -89,7 +89,6 @@ public class SqliteConnection {
 							try {
 								stmt.close();
 							} catch (SQLException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 					}
@@ -180,7 +179,6 @@ public class SqliteConnection {
 							try {
 								stmt.close();
 							} catch (SQLException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 					}
@@ -190,9 +188,9 @@ public class SqliteConnection {
 	}
 	
 	
-	//TODO metodo per l'aggiornamento di valori all'interno del DB //////////////NOT COMPLETE
+	//metodo per l'aggiornamento di valori all'interno del DB 
 	
-	public static <T> void updateDB(String tableName, List<?> objectList, String columnName, T updatedField) {
+	public static void updateDB(String tableName, List<?> objectList) {
 		
 		Connection connect = SqliteConnection.dbConnector();
 		
@@ -203,7 +201,7 @@ public class SqliteConnection {
 				for(Object libro : objectList) {
 					Libro book = (Libro)libro;
 					
-					sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE
+					sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE quindi non c'è update del campo isbn
 					sql += "autore = '" + book.getAutore() + "',\n";
 					sql += "annoPubblicazione = " + book.getAnnoPublicazione() + ",\n";
 					sql += "casaEditrice = '" + book.getCasaEditrice() + "',\n";
@@ -212,25 +210,115 @@ public class SqliteConnection {
 					sql += "breveDescrizione = '" + book.getBreveDescrizione() + "',\n";
 					sql += "copieVenduteTotali = " + book.getCopieVendute() + ",\n";
 					sql += "puntiCarta = " + book.getPunti() +"\n";
-					sql += "WHERE " + columnName + " = " + (updatedField instanceof String ? "'" + updatedField + "'" : updatedField) + ";";
+					sql += "WHERE isbn = " + book.getIsbn() + ";";
+					
+					Statement stmt = null;
+					
+					try {
+						stmt = connect.createStatement();
+						stmt.executeUpdate(sql);
+					}
+					catch(SQLException e) {
+						System.out.println(e.getMessage());
+					}
+					finally {
+						if(stmt != null)
+							try {
+								stmt.close();
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+					}
 				}
 			}
 			
 			//**********aggiornare Utenti***********//
 			if(objectList.get(0) instanceof User) {
 				for(Object utente : objectList) {
-					User user = (User)utente;
+					User user = (User)utente; //non voglio permettere il variare i campi PRIMARY KEY o UNIQUE (vedi stessa situazione in UPDATE Libri)
+					//aggiorno la BookCard
+					sql += "UPDATE BookCardList \nSET ";
+					sql += "punti = " + user.getLibroCard().getPunti() + "\n";
+					sql += "WHERE id = " + user.getLibroCard().getId() + ";\n\n";
+							
+					//aggiorno la EmissionDate della BookCard
+					sql += "UPDATE DateList \nSET ";
+					sql += "giorno = " + user.getLibroCard().getDataEmissione().getDayOfMonth() + ",\n";
+					sql += "mese = " + user.getLibroCard().getDataEmissione().getMonthValue() + ",\n";
+					sql += "anno = " + user.getLibroCard().getDataEmissione().getYear() + ",\n";
+					sql += "ora = " + user.getLibroCard().getDataEmissione().getHour() + "\n";
+					sql += "WHERE id = " + user.getLibroCard().getId() + ";\n\n";
 					
+					//aggiorno infine lo User
 					sql += "UPDATE UserList \nSET ";
+					sql += "password = '" + user.getPw() + "',\n";
+					sql += "nome = '" + user.getNome() + "',\n";
+					sql += "cognome = '" + user.getCognome() + "',\n";
+					sql += "indirizzo = '" + user.getIndirizzi() + "',\n";
+					sql += "cap = " + user.getCap() + ",\n";
+					sql += "citta = '" + user.getCitta() + "',\n";
+					sql += "telefono = " + user.getTelefono() + ",\n";
+					sql += "WHERE email = " + user.getEmail() + " AND libroCard = " + user.getLibroCard().getId() + ";";
+					
+					Statement stmt = null;
+					
+					try {
+						stmt = connect.createStatement();
+						stmt.executeUpdate(sql);
+					}
+					catch(SQLException e) {
+						System.out.println(e.getMessage());
+					}
+					finally {
+						if(stmt != null)
+							try {
+								stmt.close();
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+					}
 				}
 			}
 			
 			//**********aggiornare Ordini***********//
 			if(objectList.get(0) instanceof Ordine) {
 				for(Object ordine : objectList) {
-					Ordine order = (Ordine)ordine;
+					Ordine order = (Ordine)ordine;//non voglio permettere il variare i campi PRIMARY KEY o UNIQUE (vedi stessa situazione in UPDATE Libri)
 					
+					//aggiorno prima la Date relativa all'ordine
+					sql += "UPDATE DateList \nSET ";
+					sql += "giorno = " + order.getData().getDayOfMonth() + ",\n";
+					sql += "mese = " + order.getData().getMonthValue() + ",\n";
+					sql += "anno = " + order.getData().getYear() + ",\n";
+					sql += "ora = " + order.getData().getHour() + "\n";
+					sql += "WHERE id = " + order.getId() + ";\n\n";
+					
+					//aggiorno infine l'Ordine
 					sql += "UPDATE OrderList \nSET ";
+					sql += "libriOrdine = '" + SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n";
+					sql += "totalCost = " + order.getTotalCost() + ",\n";
+					sql += "paymentType = '" + order.getPaymentType() + "',\n";
+					sql += "saldoPuntiOrdine = " + order.getSaldoPuntiOrdine() + ",\n";
+					sql += "stato = '" + order.getStato() + "',\n";
+					sql += "WHERE id = " + order.getId() + " AND user = " + order.getUserId() + ";";
+					
+					Statement stmt = null;
+					
+					try {
+						stmt = connect.createStatement();
+						stmt.executeUpdate(sql);
+					}
+					catch(SQLException e) {
+						System.out.println(e.getMessage());
+					}
+					finally {
+						if(stmt != null)
+							try {
+								stmt.close();
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+					}
 				}
 			}
 		}
@@ -342,6 +430,19 @@ public class SqliteConnection {
 		SqliteConnection.insertUser(userList);
 	}
 	
+
+	//aggiorna insieme di User
+	public static void updateUser(List<User> objectList) {
+		SqliteConnection.updateDB("UserList", objectList);
+	}
+	
+	//aggiorna singolo User
+	public static void updateUser(User user) {
+		List<User> userList = new ArrayList<User>();
+		userList.add(user);
+		SqliteConnection.updateUser(userList);
+	}
+	
 	//prendi tutta la tabella User
 	public static ResultSet getFieldUser() {
 		return SqliteConnection.getEverythingFromTableDB("UserList");
@@ -374,7 +475,7 @@ public class SqliteConnection {
 	//------METODI LIBRO------//
 	//------------------------//
 	
-	//inserisci Libro
+	//inserisci insieme di Libro
 	public static void insertLibro(List<Libro> objectList) {
 		SqliteConnection.insertIntoDB("BookList", objectList);
 	}
@@ -384,6 +485,18 @@ public class SqliteConnection {
 		List<Libro> bookList = new ArrayList<Libro>();
 		bookList.add(book);
 		SqliteConnection.insertLibro(bookList);
+	}
+
+	//aggiorna insieme di Libro
+	public static void updateLibro(List<Libro> objectList) {
+		SqliteConnection.updateDB("BookList", objectList);
+	}
+	
+	//aggiorna singolo Libro
+	public static void updateLibro(Libro book) {
+		List<Libro> bookList = new ArrayList<Libro>();
+		bookList.add(book);
+		SqliteConnection.updateLibro(bookList);
 	}
 	
 	//prendi tutta la tabella Libro
@@ -414,6 +527,8 @@ public class SqliteConnection {
 	}
 	
 	
+	
+	
 	//-------------------------//
 	//------METODI ORDINE------//
 	//-------------------------//
@@ -428,6 +543,18 @@ public class SqliteConnection {
 		List<Ordine> orderList = new ArrayList<Ordine>();
 		orderList.add(order);
 		SqliteConnection.insertOrder(orderList);
+	}
+	
+	//aggiorna insieme di Ordine
+	public static void updateOrdine(List<Ordine> objectList) {
+		SqliteConnection.updateDB("OrderList", objectList);
+	}
+		
+	//aggiorna singolo Ordine
+	public static void updateOrdine(Ordine order) {
+		List<Ordine> orderList = new ArrayList<Ordine>();
+		orderList.add(order);
+		SqliteConnection.updateOrdine(orderList);
 	}
 	
 	//prendi tutta la tabella Ordine
