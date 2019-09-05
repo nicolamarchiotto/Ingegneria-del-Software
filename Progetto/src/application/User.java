@@ -157,18 +157,11 @@ public class User implements Comparable<Object>{
 	}
 	
 	public void addLibroToCarrello(Libro l) {
-		
-		boolean bookFound=false;
-		
-		for(Libro book: this.carrello) {
-			if(book.getIsbn().compareTo(l.getIsbn())==0) {
-				book.setCopieVenduteSingoloOrdine(l.getCopieVenduteNelSingoloOrdine());
-				bookFound=true;
-			}		
-		}
-		if(bookFound==false){
-			carrello.add(l);
-		}		
+		carrello.add(l);		
+	}
+	
+	public void removeLibroFromCarrello(Libro l) {
+		carrello.remove(l);
 	}
 	
 	public ArrayList<Libro> getCarrello(){

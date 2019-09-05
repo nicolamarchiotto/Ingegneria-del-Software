@@ -2,8 +2,6 @@ package application;
 
 import java.util.Random;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public class Libro implements Comparable<Object>{
 	private String titolo;
 	private String autore;
@@ -90,7 +88,12 @@ public class Libro implements Comparable<Object>{
 	public String getGenere() {
 		return this.genere;
 	}
+	
 	public String getBreveDescrizione() {
+		return this.brevedescrizione;
+	}
+	
+	public String getBreveDescrizionePortataACapoOgniTotCaratteri(int tot) {
 		
 		int i=0;
 		String sup="";
@@ -98,9 +101,9 @@ public class Libro implements Comparable<Object>{
 		String brevDescr=this.brevedescrizione;
 		int length=this.brevedescrizione.length();
 		int giri=1;
-		for(i=0;i<length;i=i+20) {
-			if(length> (giri*20) ) {
-				sup=brevDescr.substring(i, i+20);
+		for(i=0;i<length;i=i+tot) {
+			if(length> (giri*tot) ) {
+				sup=brevDescr.substring(i, i+tot);
 				result+=(sup+"\n");
 				giri++;
 			}
@@ -129,7 +132,7 @@ public class Libro implements Comparable<Object>{
 	}
 	
 	public String toString() {
-		return "Stampa Libro, titolo: "+titolo + " autore: " +autore + " prezzo:" + prezzo+ " copie: "+this.copieVenduteNelSingoloOrdine;
+		return "Stampa Libro, titolo: "+titolo + " autore: " +autore + " prezzo:" + prezzo;
 	}
 	
 	public void aggiungiCopieAlSingoloOrdine(int numCopie) {

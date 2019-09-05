@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,24 +9,25 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DetailedBookController">
    <children>
-      <HBox alignment="CENTER_LEFT" layoutX="14.0" prefHeight="50.0" prefWidth="589.0" spacing="20.0" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" prefHeight="50.0" prefWidth="560.0" spacing="5.0" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="mainTitleLabel" prefHeight="27.0" prefWidth="481.0" text="MainTitleLabel">
+            <Label fx:id="mainTitleLabel" prefHeight="27.0" prefWidth="351.0" text="MainTitleLabel">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="goBackButton" mnemonicParsing="false" onAction="#goBackButtonPushed" text="Go Back" />
+            <Button fx:id="basketButton" minWidth="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Basket" />
+            <Button fx:id="goBackButton" minWidth="90.0" mnemonicParsing="false" onAction="#goBackButtonPushed" prefHeight="25.0" prefWidth="80.0" text="Go Back" />
+            <Button fx:id="signOutButton" minWidth="90.0" mnemonicParsing="false" onAction="#SignOutButtonPushed" prefHeight="25.0" prefWidth="90.0" text="Sign Out" />
          </children>
       </HBox>
-      <ScrollPane layoutX="14.0" layoutY="78.0" prefHeight="244.0" prefWidth="421.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="166.0">
+      <ScrollPane layoutX="14.0" layoutY="78.0" prefHeight="261.0" prefWidth="561.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="65.0">
          <content>
-            <GridPane prefHeight="302.0" prefWidth="405.0">
+            <GridPane prefHeight="418.0" prefWidth="540.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -43,11 +43,6 @@
                   <RowConstraints minHeight="80.0" prefHeight="50.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Titolo">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </Label>
                   <Label text="Autore" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -90,7 +85,12 @@
                   <Label fx:id="isbnLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label fx:id="genereLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label fx:id="prezzoLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <Label fx:id="breveDescrizioneLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Label fx:id="breveDescrizioneLabel" prefHeight="112.0" prefWidth="215.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Label text="Titolo">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
                </children>
                <padding>
                   <Insets left="5.0" />
@@ -98,11 +98,10 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <VBox alignment="CENTER" layoutX="449.0" layoutY="78.0" prefHeight="244.0" prefWidth="137.0" spacing="30.0">
+      <HBox alignment="CENTER" layoutX="334.0" layoutY="334.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="330.0">
          <children>
-            <ComboBox fx:id="combobox" editable="true" prefWidth="157.0" promptText="Number of items" />
-            <Button fx:id="purchaseButton" mnemonicParsing="false" onAction="#purchaseButtonPushed" prefHeight="25.0" prefWidth="138.0" text="Add to your basket " />
+            <Button fx:id="purchaseButton" mnemonicParsing="false" onAction="#purchaseButtonPushed" prefHeight="29.0" prefWidth="177.0" text="Add to your basket " />
          </children>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>

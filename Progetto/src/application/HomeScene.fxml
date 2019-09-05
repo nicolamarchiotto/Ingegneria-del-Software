@@ -19,15 +19,16 @@
             <TableColumn fx:id="genereColumn" minWidth="140.0" prefWidth="0.0" text="Genere" />
         </columns>
       </TableView>
-      <HBox alignment="TOP_RIGHT" layoutX="25.0" prefHeight="50.0" prefWidth="565.0" spacing="10.0" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="25.0" prefHeight="50.0" prefWidth="565.0" spacing="10.0" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="WellcomeLabel" prefHeight="33.0" prefWidth="359.0" text="Label">
+            <Label fx:id="WellcomeLabel" prefHeight="33.0" prefWidth="269.0" text="Label">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="SignOutButton" mnemonicParsing="false" onAction="#SignOutButtonPushed" prefHeight="33.0" prefWidth="67.0" text="Sign Out" />
-            <Button fx:id="PersonalAreaButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="115.0" text="Personal Area" />
+            <Button minHeight="25.0" minWidth="90.0" mnemonicParsing="false" text="Basket" />
+            <Button fx:id="PersonalAreaButton" maxHeight="25.0" maxWidth="90.0" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Personal Area" />
+            <Button fx:id="SignOutButton" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" onAction="#SignOutButtonPushed" prefHeight="25.0" prefWidth="90.0" text="Sign Out" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="65.0" prefHeight="41.0" prefWidth="560.0" spacing="20.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="65.0">
