@@ -59,7 +59,7 @@ public class HomeController implements Initializable{
 			while(booksFromDB.next()) {
 				
 				libri.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
-						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("posizioneClass")));
+						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("copieVenduteTotali")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -125,8 +125,6 @@ public class HomeController implements Initializable{
 		//da modificare in seguito
 		LoginController lc = new LoginController(); 
 		userLogged = lc.getUserLogged();
-		
-		System.out.println("prova rpovara " + userLogged.getNome());
 		
 		WellcomeLabel.setText("Welcome " +userLogged.getNome()+", good Shopping");
 		
