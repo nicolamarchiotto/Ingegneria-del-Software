@@ -45,25 +45,11 @@ public class HomeController implements Initializable{
 	
 	
 	private ObservableList<Libro> getLibri(String genere) {
-		ObservableList<Libro> libri = FXCollections.observableArrayList();
 		
-		ResultSet booksFromDB = SqliteConnection.getEverythingFromTableDB("BookList");
+		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
 		
 		
-		/*
-		 * TODO
-		 * per Gu: da cambiare posizioneClass in copievendute
-		 */
-		
-		try {
-			while(booksFromDB.next()) {
-				
-				libri.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
-						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("copieVenduteTotali")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getBookList(booksFromDB));
 		
 		if(genere!="Tutti") {
 			for(int i=libri.size();i>0;i--) {

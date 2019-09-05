@@ -387,13 +387,30 @@ public class SqliteConnection {
 	}
 	
 	//prendi tutta la tabella Libro
-	public static ResultSet getEveryFieldLibro() {
+	public static ResultSet getFieldLibro() {
 		return SqliteConnection.getEverythingFromTableDB("BookList");
 	}
 	
 	//prendi solo i campi richiesti da la tabella Libro
 	public static ResultSet getFieldLibro(List<String> columnList) {
 		return SqliteConnection.getFromTableDB("BookList", columnList);
+	}
+	
+	//metodo per ritornare una lista di libri dato un ResultSet
+	public static List<Libro> getBookList(ResultSet booksFromDB){
+		List<Libro> bookList = new ArrayList<Libro>();
+		
+		try {
+			while(booksFromDB.next()) {
+				
+				bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
+						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("copieVenduteTotali")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return bookList;
 	}
 	
 	
