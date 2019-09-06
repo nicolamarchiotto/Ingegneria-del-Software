@@ -14,7 +14,6 @@ public class Ordine {
 	private String paymentType;
 	private int saldoPuntiOrdine=0;
 	//user che ha effettuato l'ordine
-	private User user;
 	private String idUser;
 	
 	Random r=new Random();
@@ -26,10 +25,21 @@ public class Ordine {
 			this.saldoPuntiOrdine+=l.getPunti();
 		}
 		this.data=LocalDateTime.now();
-		this.user=user;
+		this.idUser=user.getEmail();
 		this.paymentType=tipoPagamento;
 		this.id=getIdOrdine(user.getCitta(), user.getCap());
 		this.idUser=user.getEmail();
+	}
+	
+	
+	//costruttore per il pescare dal db
+	public Ordine(String id, int giorno, int mese, int anno, int ora, List<Libro> bookList, double totalCost, String paymentType, int saldoPuntiOrdine, String userId) {
+		this.id = id;
+		this.data = LocalDateTime.of(anno, mese, giorno, ora, 0);
+		this.totalCost = totalCost;
+		this.paymentType = paymentType;
+		this.saldoPuntiOrdine = saldoPuntiOrdine;
+		this.idUser = userId;
 	}
 	
 	private String getIdOrdine(String citta, String cap) {

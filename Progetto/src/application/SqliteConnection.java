@@ -71,8 +71,7 @@ public class SqliteConnection {
 					sql += book.getPrezzo() + ",\n'";
 					sql += book.getBreveDescrizione() + "',\n";
 					sql += book.getCopieVendute() + ",\n";
-					sql += book.getPunti() + ")";
-					sql += ";";
+					sql += book.getPunti() + ");";
 					
 					
 					Statement stmt = null;
@@ -392,7 +391,6 @@ public class SqliteConnection {
 	public static List<Libro> isbnStringToBookList(String isbnString){
 		List<Libro> bookList = new ArrayList<Libro>();
 		String isbnArray[] = isbnString.split("#");
-		System.out.println("Ahah that's my shit: " + isbnArray.toString());
 		
 		if(isbnArray.length != 0) {
 			Connection connect = SqliteConnection.dbConnector();
@@ -411,6 +409,17 @@ public class SqliteConnection {
 			return bookList;
 		}
 		return null; //caso in cui non ci sia nessun isbn
+	}
+	
+	
+	
+	
+	
+	
+	//metodo per fare update in fase di logOut
+	public static void savingOnLogOut(User user) {
+		SqliteConnection.updateUser(user);
+		SqliteConnection.updateOrdine(user.getOrdini());
 	}
 	
 	
@@ -528,7 +537,6 @@ public class SqliteConnection {
 	
 	
 	
-	
 	//-------------------------//
 	//------METODI ORDINE------//
 	//-------------------------//
@@ -566,10 +574,78 @@ public class SqliteConnection {
 	public static ResultSet getFieldOrdine(List<String> columnList) {
 		return SqliteConnection.getFromTableDB("OrderList", columnList);
 	}
+	
+	
+	//FIXME DA TESTAREEEEEEEEEEEEEEEEEEEEEEEEEEEE
+	
+	//metodo per ritornare una lista di ordini dato un ResultSet. Se viene dato uno User ritorno la lista di ordini relativa allo User dato.
+	public static List<Ordine> getOrderList(ResultSet ordersFromDB, User user){
+		List<Ordine> orderList = new ArrayList<Ordine>();
+		
+		try {
+			if(user != null) { //prendo gli ordini dello user definito
+				while(ordersFromDB.next()) {
+					if(ordersFromDB.getString("user").equals(user.getEmail()))
+						orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
+								ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
+								SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
+								ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
+								ordersFromDB.getInt("saldoPuntiOrdine"), user.getEmail()));				
+				}
+			}
+			else { //prendo tutti gli ordini
+				List<User> userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
+				
+				while(ordersFromDB.next()) {
+					for(User singleUser : userList) {
+						if(singleUser.getEmail().equals(ordersFromDB.getString("user"))) {
+							orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
+									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
+									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
+									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
+									ordersFromDB.getInt("saldoPuntiOrdine"), singleUser.getEmail()));
+							break;
+						}
+						else if(ordersFromDB.getString("user").equals("")) { //utente non registrato
+							orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
+									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
+									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
+									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
+									ordersFromDB.getInt("saldoPuntiOrdine"), ""));
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return orderList;
+	}
+	
+	//metodo per ritornare tutti gli ordini (uso in zona Responsabile)
+	public static List<Ordine> getOrderList(ResultSet ordersFromDB){
+		return SqliteConnection.getOrderList(ordersFromDB, null);
+	}
+	
+	//metodo per ritornare un ordine dato il suo id (uso per utente non registrato)
+	public static Ordine getOrderByID(String id) {
+		ResultSet ordersFromDB = SqliteConnection.getFieldOrdine();
+		try {
+			while(ordersFromDB.next()) {
+				if(ordersFromDB.getString("id").equals(id)) {
+					return new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
+							ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
+							SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
+							ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
+							ordersFromDB.getInt("saldoPuntiOrdine"), ordersFromDB.getString("user"));	
+				}
+			}
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
-	
-
-		
-		
-	
 

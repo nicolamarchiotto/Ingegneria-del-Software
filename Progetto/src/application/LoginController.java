@@ -88,15 +88,29 @@ public class LoginController implements Initializable{
 			setUserLogged(userSup);
 			
 			Parent tableViewParent;
+			Scene tableViewScene;
+			Stage window;
 
 			System.out.println("Valore Librocard: "+userSup.getLibroCard());
-			if(userSup.getLibroCard()!=null)
+			
+			
+		    if(userSup.getLibroCard()!=null) {
 			 	tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
-			else
+				tableViewScene = new Scene(tableViewParent);
+			    window = (Stage)((Node)event.getSource()).getScene().getWindow();
+			    
+			 	window.setOnCloseRequest(pressingTheX -> { //salvo i cambiamenti alla pressione di [X]
+			 		System.out.println("later bitches");
+			 		SqliteConnection.savingOnLogOut(userLogged); 
+			 	});
+		    }
+			else {
 				tableViewParent =  FXMLLoader.load(getClass().getResource("ResponsabileScene.fxml"));
+				tableViewScene = new Scene(tableViewParent);
+			    window = (Stage)((Node)event.getSource()).getScene().getWindow();
+			}
 
-			Scene tableViewScene = new Scene(tableViewParent);
-		    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+			
 		    window.setScene(tableViewScene);
 		    window.show();
 		}		
