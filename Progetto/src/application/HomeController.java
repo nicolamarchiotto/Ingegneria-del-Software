@@ -67,6 +67,7 @@ public class HomeController implements Initializable{
 	
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
     {
+		SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();

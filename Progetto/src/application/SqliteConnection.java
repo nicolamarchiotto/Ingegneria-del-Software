@@ -71,8 +71,7 @@ public class SqliteConnection {
 					sql += book.getPrezzo() + ",\n'";
 					sql += book.getBreveDescrizione() + "',\n";
 					sql += book.getCopieVendute() + ",\n";
-					sql += book.getPunti() + ")";
-					sql += ";";
+					sql += book.getPunti() + ");";
 					
 					
 					Statement stmt = null;
@@ -411,6 +410,13 @@ public class SqliteConnection {
 			return bookList;
 		}
 		return null; //caso in cui non ci sia nessun isbn
+	}
+	
+	
+	//metodo per fare update in fase di logOut
+	public static void savingOnLogOut(User user) {
+		SqliteConnection.updateUser(user);
+		SqliteConnection.updateOrdine(user.getOrdini());
 	}
 	
 	
