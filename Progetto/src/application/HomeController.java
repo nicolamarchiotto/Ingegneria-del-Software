@@ -34,6 +34,7 @@ public class HomeController implements Initializable{
 	@FXML private Button PersonalAreaButton;
 	@FXML private Label WellcomeLabel;
 	@FXML private Button SeeDetailesButton;
+	@FXML private Button BasketButton;
 	
 	@FXML private ComboBox<String> genereComboBox;
 	@FXML private Button searchButton;
@@ -91,6 +92,15 @@ public class HomeController implements Initializable{
 		controller.setBackPage("HomeScene.fxml");
 		
 		
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
+	
+	public void BasketButtonPushed(ActionEvent event) throws IOException
+    {
+        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("BasketScene.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
         window.show();      
