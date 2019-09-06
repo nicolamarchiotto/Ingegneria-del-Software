@@ -14,7 +14,7 @@ public class User implements Comparable<Object>{
 	private String email;
 	private LibroCard librocard=null;
 	private String pw;
-	private ArrayList<Ordine> ordini;
+	private List<Ordine> ordini = null;
 	
 	/*
 	 * Carrello LOCALE
@@ -76,16 +76,10 @@ public class User implements Comparable<Object>{
 			return -1;		
 	}
 	
-	//TODO:
-	/*
-	 * implementazione metodo che ritorna tutti gli ordini dal DB che ha effettuato l'utente
-	 * ogni oggetto ordine ha salvato quale utente l'ha fatto, usa quello come campo chiave di ricerca
-	 * Metodo che mi permette di accedere facilmente agli ordini dell'utente loggato
-	 * 
-	 * public void setListaOrdini(){
-	 * 		this.ordini=getOrdiniFromListaOrdiniDb();
-	 * }
-	 */
+	//FIXME DA TESTARE 
+	public void setListaOrdini(){
+	 	this.ordini=SqliteConnection.getOrderList(SqliteConnection.getFieldOrdine(), this);
+	 }
 	
 	public String getEmail() {
 		return this.email;
@@ -107,7 +101,7 @@ public class User implements Comparable<Object>{
 		return this.telefono;
 	}
 	
-	public ArrayList<Ordine> getOrdini(){
+	public List<Ordine> getOrdini(){
 		return this.ordini;
 	}
 	

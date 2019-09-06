@@ -105,9 +105,16 @@ public class SignUpController implements Initializable{
 			SqliteConnection.insertUser(sup);
 			controller.setUserLogged(sup);
 			
+
 			tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
 	        Scene tableViewScene = new Scene(tableViewParent);
 	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        
+	        window.setOnCloseRequest(pressingTheX -> { //salvo i cambiamenti alla pressione di [X]
+		 		System.out.println("later bitches");
+		 		SqliteConnection.savingOnLogOut(controller.getUserLogged()); 
+		 	});
+	        
 	        window.setScene(tableViewScene);
 	        window.show();
 			SignUpErrorLabel.setText("id valido");
