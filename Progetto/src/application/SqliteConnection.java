@@ -39,7 +39,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			System.out.println("\nConnected to da DB!"); 
 			return connect;
 		}
@@ -197,6 +197,7 @@ public class SqliteConnection {
 		if(!objectList.isEmpty()){
 			//**********aggiornare Libri************//
 			if(objectList.get(0) instanceof Libro) {
+				System.out.println("ciao" + objectList.toString());
 				for(Object libro : objectList) {
 					Libro book = (Libro)libro;
 					
@@ -209,9 +210,11 @@ public class SqliteConnection {
 					sql += "breveDescrizione = '" + book.getBreveDescrizione() + "',\n";
 					sql += "copieVenduteTotali = " + book.getCopieVendute() + ",\n";
 					sql += "puntiCarta = " + book.getPunti() +"\n";
-					sql += "WHERE isbn = " + book.getIsbn() + ";";
+					sql += "WHERE isbn = '" + book.getIsbn() + "';";
 					
 					Statement stmt = null;
+
+					//FIXME System.out.println("Updating Book:\n" + sql);
 					
 					try {
 						stmt = connect.createStatement();
@@ -238,7 +241,7 @@ public class SqliteConnection {
 					//aggiorno la BookCard
 					sql += "UPDATE BookCardList \nSET ";
 					sql += "punti = " + user.getLibroCard().getPunti() + "\n";
-					sql += "WHERE id = " + user.getLibroCard().getId() + ";\n\n";
+					sql += "WHERE id = '" + user.getLibroCard().getId() + "';\n\n";
 							
 					//aggiorno la EmissionDate della BookCard
 					sql += "UPDATE DateList \nSET ";
@@ -246,7 +249,7 @@ public class SqliteConnection {
 					sql += "mese = " + user.getLibroCard().getDataEmissione().getMonthValue() + ",\n";
 					sql += "anno = " + user.getLibroCard().getDataEmissione().getYear() + ",\n";
 					sql += "ora = " + user.getLibroCard().getDataEmissione().getHour() + "\n";
-					sql += "WHERE id = " + user.getLibroCard().getId() + ";\n\n";
+					sql += "WHERE id = '" + user.getLibroCard().getId() + "';\n\n";
 					
 					//aggiorno infine lo User
 					sql += "UPDATE UserList \nSET ";
@@ -256,10 +259,12 @@ public class SqliteConnection {
 					sql += "indirizzo = '" + user.getIndirizzi() + "',\n";
 					sql += "cap = " + user.getCap() + ",\n";
 					sql += "citta = '" + user.getCitta() + "',\n";
-					sql += "telefono = " + user.getTelefono() + ",\n";
-					sql += "WHERE email = " + user.getEmail() + " AND libroCard = " + user.getLibroCard().getId() + ";";
+					sql += "telefono = " + user.getTelefono() + "\n";
+					sql += "WHERE email = '" + user.getEmail() + "' AND libroCard = '" + user.getLibroCard().getId() + "';";
 					
 					Statement stmt = null;
+					
+					//FIXME System.out.println("Updating User:\n" + sql);
 					
 					try {
 						stmt = connect.createStatement();
@@ -290,7 +295,7 @@ public class SqliteConnection {
 					sql += "mese = " + order.getData().getMonthValue() + ",\n";
 					sql += "anno = " + order.getData().getYear() + ",\n";
 					sql += "ora = " + order.getData().getHour() + "\n";
-					sql += "WHERE id = " + order.getId() + ";\n\n";
+					sql += "WHERE id = '" + order.getId() + "';\n\n";
 					
 					//aggiorno infine l'Ordine
 					sql += "UPDATE OrderList \nSET ";
@@ -298,10 +303,12 @@ public class SqliteConnection {
 					sql += "totalCost = " + order.getTotalCost() + ",\n";
 					sql += "paymentType = '" + order.getPaymentType() + "',\n";
 					sql += "saldoPuntiOrdine = " + order.getSaldoPuntiOrdine() + ",\n";
-					sql += "stato = '" + order.getStato() + "',\n";
-					sql += "WHERE id = " + order.getId() + " AND user = " + order.getUserId() + ";";
+					sql += "stato = '" + order.getStato() + "'\n";
+					sql += "WHERE id = '" + order.getId() + "' AND user = '" + order.getUserId() + "';";
 					
 					Statement stmt = null;
+
+					System.out.println("Updating Order:\n" + sql);
 					
 					try {
 						stmt = connect.createStatement();
@@ -418,8 +425,15 @@ public class SqliteConnection {
 	
 	//metodo per fare update in fase di logOut
 	public static void savingOnLogOut(User user) {
-		SqliteConnection.updateUser(user);
-		SqliteConnection.updateOrdine(user.getOrdini());
+		System.out.println("\nSaving user's orders..  ");
+		if(user.getOrdini().size() != 0) SqliteConnection.updateOrdine(user.getOrdini());
+		System.out.print("OK");
+
+		System.out.println("\nSaving user..  ");
+		if(user != null) SqliteConnection.updateUser(user);
+		System.out.print("OK");
+		
+		System.out.println("\n------" + user.getEmail() + " SUCCESFULLY LOGGED OUT------\n");
 	}
 	
 	

@@ -14,7 +14,7 @@ public class User implements Comparable<Object>{
 	private String email;
 	private LibroCard librocard=null;
 	private String pw;
-	private List<Ordine> ordini = null;
+	private List<Ordine> ordini;
 	
 	/*
 	 * Carrello LOCALE
@@ -39,6 +39,7 @@ public class User implements Comparable<Object>{
 		this.librocard=new LibroCard(nome,cognome);
 		this.identificativoCarta=this.librocard.getId();
 		this.puntiCard=this.librocard.getPunti();
+		this.ordini = new ArrayList<Ordine>();
 	}
 	
 	//User copiato da DB a local
@@ -59,7 +60,7 @@ public class User implements Comparable<Object>{
 			this.identificativoCarta=libroCardId;
 			this.puntiCard=this.librocard.getPunti();
 		}
-		
+		this.ordini = new ArrayList<Ordine>();
 	}
 	
 	
@@ -80,6 +81,11 @@ public class User implements Comparable<Object>{
 	public void setListaOrdini(){
 	 	this.ordini=SqliteConnection.getOrderList(SqliteConnection.getFieldOrdine(), this);
 	 }
+	
+	//FIXME PER TESTARE
+	public void addOrder(Ordine order) {
+		this.ordini.add(order);
+	}
 	
 	public String getEmail() {
 		return this.email;

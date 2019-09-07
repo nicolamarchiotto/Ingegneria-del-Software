@@ -9,7 +9,7 @@ import java.util.Random;
 public class Ordine {
 	private String id;
 	private LocalDateTime data;
-	private ArrayList<Libro> libriOrdine = new ArrayList<Libro>();
+	private List<Libro> libriOrdine = new ArrayList<Libro>();
 	private double totalCost=0;
 	private String paymentType;
 	private int saldoPuntiOrdine=0;
@@ -36,6 +36,7 @@ public class Ordine {
 	public Ordine(String id, int giorno, int mese, int anno, int ora, List<Libro> bookList, double totalCost, String paymentType, int saldoPuntiOrdine, String userId) {
 		this.id = id;
 		this.data = LocalDateTime.of(anno, mese, giorno, ora, 0);
+		this.libriOrdine = bookList;
 		this.totalCost = totalCost;
 		this.paymentType = paymentType;
 		this.saldoPuntiOrdine = saldoPuntiOrdine;

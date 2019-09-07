@@ -47,6 +47,10 @@ public class LoginController implements Initializable{
 		
 		//aggiungo i vari user salvati nel DB
 		userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
+		/*User u = userList.get(1);    TESTING STUFF
+		
+		List<Libro> bookList = SqliteConnection.getBookList(SqliteConnection.getFieldLibro());
+		u.addOrder(new Ordine(u, "bancomat", bookList.get(0), bookList.get(1)));*/
 	}
 	
 	
