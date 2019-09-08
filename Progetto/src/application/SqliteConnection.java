@@ -6,31 +6,6 @@ import java.util.List;
 
 
 
-/*
- PER TESTARE L'INSERIMENTO DI UN ORDINE, Trasformare i vari isbn in un unica stringa e poi ripescare i libri dall'ordine, ritrasformando la stringa in lista di libri
-			ResultSet booksFromDB = SqliteConnection.getEverythingFromTableDB("BookList");
-			List<Libro> libri = new ArrayList<Libro>();
-			
-			try {
-				while(booksFromDB.next()) {
-					libri.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"), booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("puntiCarta")));
-				}
-				Ordine prova = new Ordine(new User("nicola", "gugole","asdaa", "37059", "verona", "347112", "nicola.gugole@gmail.com", "password"), "non lo so", libri.get(0), libri.get(1), libri.get(0));
-				List<Ordine> provaa = new ArrayList<Ordine>();
-				provaa.add(prova);
-				SqliteConnection.insertOrder(provaa);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			List<Libro> listaLibri = SqliteConnection.isbnStringToBookList(SqliteConnection.getEveryFieldOrdine().getString("libriOrdine"));
-			for(Libro l : listaLibri) System.out.println(l.toStringLong());
-*/
-
-
-
-
-
 //classe per la gestione delle operazioni su DB
 public class SqliteConnection {
 	
@@ -44,7 +19,7 @@ public class SqliteConnection {
 			return connect;
 		}
 		catch(Exception e) {
-			System.out.println("\nHeya something's wrong!");
+			System.out.println("\nConnection Failed!");
 			return null;
 		}
 	}
@@ -197,7 +172,6 @@ public class SqliteConnection {
 	
 	
 	//metodo per l'aggiornamento di valori all'interno del DB 
-	
 	public static void updateDB(String tableName, List<?> objectList) {
 		
 		Connection connect = SqliteConnection.dbConnector();
@@ -225,8 +199,6 @@ public class SqliteConnection {
 					sql += "WHERE isbn = '" + book.getIsbn() + "';";
 					
 					Statement stmt = null;
-
-					//FIXME System.out.println("Updating Book:\n" + sql);
 					
 					try {
 						stmt = connect.createStatement();
@@ -278,9 +250,7 @@ public class SqliteConnection {
 					sql += "WHERE email = '" + user.getEmail() + "' AND libroCard = '" + user.getLibroCard().getId() + "';";
 					
 					Statement stmt = null;
-					
-					//FIXME System.out.println("Updating User:\n" + sql);
-					
+									
 					try {
 						stmt = connect.createStatement();
 						stmt.executeUpdate(sql);
@@ -340,8 +310,6 @@ public class SqliteConnection {
 					sql += "WHERE id = '" + order.getId() + "' AND user = '" + order.getUserId() + "';";
 					   
 					Statement stmt = null;
-
-					System.out.println("Updating Order (if it does not exist Insert it):\n" + sql);
 					
 					try {
 						stmt = connect.createStatement();
@@ -362,6 +330,122 @@ public class SqliteConnection {
 			}
 		}
 	}
+	
+	
+	//metodo per rimuovere una riga da una tabella del DB
+	public static <T> void deleteFromDB(String tableName, T object) {
+		if(object == null) //nothing to delete
+			return;
+		
+		Connection connect = SqliteConnection.dbConnector();	
+		String sql = "";
+					
+		if(object instanceof User) {
+			User user = (User)object;
+			
+			//elimino la data relativa all'emissione della LibroCard dello User
+			sql += "DELETE FROM DateList\n";
+			sql += "WHERE id = '" + user.getIdentificativoCarta() + "';\n\n";
+			
+			//elimino lo user emissione
+			sql += "DELETE FROM UserList\n";
+			sql += "WHERE email = '" + user.getEmail() + "';\n\n";
+			
+			//elimino infine la libroCard così da 
+			//evitare errori date le foreign card precedentemente cancellate
+			sql += "DELETE FROM BookCardList\n";
+			sql += "WHERE id = '" + user.getIdentificativoCarta() + "';\n\n";
+			
+			Statement stmt = null;
+			
+			try {
+				stmt = connect.createStatement();
+				stmt.executeUpdate(sql);
+			}
+			catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			finally {
+				if(stmt != null)
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+			}
+			
+			//NB dato che cancello l'utente dal DB, tutti i suoi ordini diventano senza padrone ("UserLess"),
+			//dunque gli ordini all'interno del DB vanno aggiornati
+			List<Ordine> orderList = SqliteConnection.getOrderList(user);
+			
+			
+			//rendo tutti gli ordini userLess
+			for(Ordine singleOrder : orderList) {
+				SqliteConnection.deleteOrdine(singleOrder); //cancello l'entry nel DB (inutile fare solo UPDATE dato che cambio l'id)
+				singleOrder.becomeUserLess();
+			}
+			
+			//inserisco l'ordine aggiornato
+			SqliteConnection.insertOrder(orderList);
+			
+			
+		}
+		else if(object instanceof Libro){
+			Libro book = (Libro)object;
+			
+			//elimino il libro richiesto
+			sql += "DELETE FROM BookList\n";
+			sql += "WHERE isbn = '" + book.getIsbn() + "';\n\n";
+			
+			Statement stmt = null;
+			
+			try {
+				stmt = connect.createStatement();
+				stmt.executeUpdate(sql);
+			}
+			catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			finally {
+				if(stmt != null)
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+			}
+		}
+		else if(object instanceof Ordine) {
+			Ordine order = (Ordine)object;
+			
+			//elimino prima la data relativa all'ordine
+			sql += "DELETE FROM DateList\n";
+			sql += "WHERE id = '" + order.getId() + "';\n\n";
+			
+			//elimino infine l'ordine
+			sql += "DELETE FROM OrderList\n";
+			sql += "WHERE id = '" + order.getId() + "';\n\n";
+			
+			Statement stmt = null;
+			
+			try {
+				stmt = connect.createStatement();
+				stmt.executeUpdate(sql);
+			}
+			catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			finally {
+				if(stmt != null)
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+			}
+		}
+	}
+	
 	
 	
 	
@@ -521,6 +605,11 @@ public class SqliteConnection {
 		SqliteConnection.updateUser(userList);
 	}
 	
+	//cancella singolo User
+	public static void deleteUser(User user) {
+		SqliteConnection.deleteFromDB("UserList", user);
+	}
+	
 	//prendi tutta la tabella User
 	public static ResultSet getFieldUser() {
 		return SqliteConnection.getEverythingFromTableDB("UserList");
@@ -572,6 +661,11 @@ public class SqliteConnection {
 		List<Libro> bookList = new ArrayList<Libro>();
 		bookList.add(book);
 		SqliteConnection.updateLibro(bookList);
+	}
+	
+	//cancella singolo Libro
+	public static void deleteLibro(Libro book) {
+		SqliteConnection.deleteFromDB("BookList", book);
 	}
 	
 	//prendi tutta la tabella Libro
@@ -631,6 +725,11 @@ public class SqliteConnection {
 		SqliteConnection.updateOrdine(orderList);
 	}
 	
+	//cancella singolo Ordine
+	public static void deleteOrdine(Ordine order) {
+		SqliteConnection.deleteFromDB("OrderList", order);
+	}
+	
 	//prendi tutta la tabella Ordine
 	public static ResultSet getFieldOrdine() {
 		return SqliteConnection.getEverythingFromTableDB("OrderList");
@@ -640,9 +739,6 @@ public class SqliteConnection {
 	public static ResultSet getFieldOrdine(List<String> columnList) {
 		return SqliteConnection.getFromTableDB("OrderList", columnList);
 	}
-	
-	
-	//FIXME DA TESTAREEEEEEEEEEEEEEEEEEEEEEEEEEEE
 	
 	//metodo per ritornare una lista di ordini dato un ResultSet. Se viene dato uno User ritorno la lista di ordini relativa allo User dato.
 	public static List<Ordine> getOrderList(User user){

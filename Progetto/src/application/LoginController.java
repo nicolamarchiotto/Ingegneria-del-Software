@@ -49,6 +49,7 @@ public class LoginController implements Initializable{
 		this.userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
 		
 		System.out.println("Users possibili: \n" + this.userList);
+		
 		/*User u = userList.get(1);  TEST PROVA
 		
 		List<Libro> bookList = SqliteConnection.getBookList(SqliteConnection.getFieldLibro());
