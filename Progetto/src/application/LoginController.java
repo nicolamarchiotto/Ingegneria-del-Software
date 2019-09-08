@@ -46,11 +46,13 @@ public class LoginController implements Initializable{
 		this.ErrorLabel.setText("");
 		
 		//aggiungo i vari user salvati nel DB
-		userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
-		/*User u = userList.get(1);    TESTING STUFF
+		this.userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
+		
+		System.out.println("Users possibili: \n" + this.userList);
+		/*User u = userList.get(1);  TEST PROVA
 		
 		List<Libro> bookList = SqliteConnection.getBookList(SqliteConnection.getFieldLibro());
-		u.addOrder(new Ordine(u, "bancomat", bookList.get(0), bookList.get(1)));*/
+		u.addOrder(new Ordine(u, "contanti", bookList.get(0), bookList.get(1)));*/
 	}
 	
 	

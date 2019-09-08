@@ -59,6 +59,9 @@ public class SqliteConnection {
 		if(!objectList.isEmpty()){
 			//**********inserire Libri***********//
 			if(objectList.get(0) instanceof Libro) {
+				
+				System.out.println("*****CONNESSO PER INSERIRE UN LIBRO*****");
+				
 				for(Object libro : objectList) {
 					sql = "INSERT INTO BookList VALUES";
 					Libro book = (Libro)libro;
@@ -96,6 +99,9 @@ public class SqliteConnection {
 			}
 			//**********inserire Utenti***********//
 			else if(objectList.get(0) instanceof User) {
+				
+				System.out.println("*****CONNESSO PER INSERIRE UN UTENTE*****");
+				
 				for(Object utente : objectList) {
 					User user = (User)utente;
 					String libroCard = null;
@@ -145,6 +151,9 @@ public class SqliteConnection {
 			}
 			//**********inserire Ordini***********//
 			else if(objectList.get(0) instanceof Ordine) {
+				
+				System.out.println("*****CONNESSO PER INSERIRE UN ORDINE*****");
+				
 				for(Object ordine : objectList) {
 					Ordine order = (Ordine) ordine;
 					sql += "INSERT INTO DateList VALUES\n";
@@ -197,6 +206,9 @@ public class SqliteConnection {
 		if(!objectList.isEmpty()){
 			//**********aggiornare Libri************//
 			if(objectList.get(0) instanceof Libro) {
+				
+				System.out.println("*****CONNESSO PER AGGIUNGERE UN LIBRO*****");
+				
 				System.out.println("ciao" + objectList.toString());
 				for(Object libro : objectList) {
 					Libro book = (Libro)libro;
@@ -236,6 +248,9 @@ public class SqliteConnection {
 			
 			//**********aggiornare Utenti***********//
 			if(objectList.get(0) instanceof User) {
+				
+				System.out.println("*****CONNESSO PER AGGIORNARE UN UTENTE*****");
+				
 				for(Object utente : objectList) {
 					User user = (User)utente; //non voglio permettere il variare i campi PRIMARY KEY o UNIQUE (vedi stessa situazione in UPDATE Libri)
 					//aggiorno la BookCard
@@ -286,29 +301,47 @@ public class SqliteConnection {
 			
 			//**********aggiornare Ordini***********//
 			if(objectList.get(0) instanceof Ordine) {
+				
+				System.out.println("*****CONNESSO PER AGGIORNARE UN ORDINE*****");
+				
 				for(Object ordine : objectList) {
 					Ordine order = (Ordine)ordine;//non voglio permettere il variare i campi PRIMARY KEY o UNIQUE (vedi stessa situazione in UPDATE Libri)
 					
-					//aggiorno prima la Date relativa all'ordine
-					sql += "UPDATE DateList \nSET ";
+					//idea di fondo: provo a fare un inserimento dove se vado in conflitto (ordine esiste già), non inserisco e faccio un update
+					sql += "INSERT INTO DateList VALUES\n";
+					sql += "('" + order.getId() + "',\n";
+					sql += order.getData().getDayOfMonth() + ",\n";
+					sql += order.getData().getMonthValue() + ",\n";
+					sql += order.getData().getYear() + ",\n";
+					sql += order.getData().getHour() + ")\n";
+					sql += "ON CONFLICT(id) DO "; //in caso di conflitto aggiorno l'entry nella tabella
+					sql += "UPDATE SET ";
 					sql += "giorno = " + order.getData().getDayOfMonth() + ",\n";
 					sql += "mese = " + order.getData().getMonthValue() + ",\n";
 					sql += "anno = " + order.getData().getYear() + ",\n";
 					sql += "ora = " + order.getData().getHour() + "\n";
 					sql += "WHERE id = '" + order.getId() + "';\n\n";
 					
-					//aggiorno infine l'Ordine
-					sql += "UPDATE OrderList \nSET ";
+					sql += "INSERT INTO OrderList VALUES\n";
+					sql += "('" + order.getId() + "',\n'";
+					sql += order.getUserId()+ "',\n'";
+					sql += SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n";
+					sql += order.getTotalCost() + ",\n'";
+					sql += order.getPaymentType() + "',\n";
+					sql += order.getSaldoPuntiOrdine() + ",\n'";
+					sql += order.getStato() + "')\n";
+					sql += "ON CONFLICT(id) DO "; //in caso di conflitto aggiorno l'entry nella tabella
+					sql += "UPDATE SET ";
 					sql += "libriOrdine = '" + SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n";
 					sql += "totalCost = " + order.getTotalCost() + ",\n";
 					sql += "paymentType = '" + order.getPaymentType() + "',\n";
 					sql += "saldoPuntiOrdine = " + order.getSaldoPuntiOrdine() + ",\n";
 					sql += "stato = '" + order.getStato() + "'\n";
 					sql += "WHERE id = '" + order.getId() + "' AND user = '" + order.getUserId() + "';";
-					
+					   
 					Statement stmt = null;
 
-					System.out.println("Updating Order:\n" + sql);
+					System.out.println("Updating Order (if it does not exist Insert it):\n" + sql);
 					
 					try {
 						stmt = connect.createStatement();
@@ -337,14 +370,19 @@ public class SqliteConnection {
 		String sql = "SELECT * FROM " + tableName;
 		if(tableName.equals("UserList")) { //LEFT OUTER JOIN può essere considerato una espansione di INNER JOIN
 			sql += " LEFT OUTER JOIN BookCardList ON BookCardList.id = UserList.libroCard "
-					+" LEFT OUTER JOIN DateList ON BookCardList.id = DateList.id";
+					+" LEFT OUTER JOIN DateList ON BookCardList.id = DateList.id;";
 		}
 		else if(tableName.equals("OrderList")) {
-			sql += " INNER JOIN DateList ON OrderList.id = DateList.id";
+			sql += " INNER JOIN DateList ON OrderList.id = DateList.id;";
 		}
+		
+		Statement stmt = null;
 			
 		try {
-			Statement stmt = SqliteConnection.dbConnector().createStatement();
+			
+			System.out.println("*****CONNESSO PER RICEVERE DA " + tableName + "*****");
+			
+			stmt = SqliteConnection.dbConnector().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			return rs;
 		}
@@ -364,10 +402,15 @@ public class SqliteConnection {
 			sql += singleColumn + (columnList.size() == iterator++ ? " " : ", "); 
 		}
 		
-		sql += "FROM " + tableName;
+		sql += "FROM " + tableName + ";";
+		
+		Statement stmt = null;
 		
 		try {
-			Statement stmt = SqliteConnection.dbConnector().createStatement();
+			
+			System.out.println("*****CONNESSO PER RICEVERE DA " + tableName + "*****");
+			
+			stmt = SqliteConnection.dbConnector().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			return rs;
 		}
@@ -400,17 +443,29 @@ public class SqliteConnection {
 		String isbnArray[] = isbnString.split("#");
 		
 		if(isbnArray.length != 0) {
-			Connection connect = SqliteConnection.dbConnector();
 			String sql = "";
 			for(String isbn : isbnArray) {
 				sql = "SELECT * FROM BookList\n WHERE BookList.isbn = " + isbn;
+				
+				Statement stmt = null;
 				try {
-					Statement stmt = SqliteConnection.dbConnector().createStatement();
+					
+					System.out.println("*****CONNESSO PER TRASFORMARE L'ISBN IN BookList*****");
+					
+					stmt = SqliteConnection.dbConnector().createStatement();
 					ResultSet booksFromDB = stmt.executeQuery(sql);
 					bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"), booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("puntiCarta")));
 				}
 				catch(SQLException e) {
 					System.out.println(e.getMessage());
+				}
+				finally {
+					if(stmt != null)
+						try {
+							stmt.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 				}
 			}
 			return bookList;
@@ -426,7 +481,7 @@ public class SqliteConnection {
 	//metodo per fare update in fase di logOut
 	public static void savingOnLogOut(User user) {
 		System.out.println("\nSaving user's orders..  ");
-		if(user.getOrdini().size() != 0) SqliteConnection.updateOrdine(user.getOrdini());
+		if(user.getOrdini() != null && user.getOrdini().size() != 0) SqliteConnection.updateOrdine(user.getOrdini());
 		System.out.print("OK");
 
 		System.out.println("\nSaving user..  ");
@@ -437,7 +492,7 @@ public class SqliteConnection {
 	}
 	
 	
-	//-----------------------//
+	//-----------------------//	
 	//------METODI USER------//
 	//-----------------------//
 
@@ -482,9 +537,6 @@ public class SqliteConnection {
 		try {
 			while(usersFromDB.next()) {
 				userList.add(new User(usersFromDB.getString("nome"), usersFromDB.getString("cognome"), usersFromDB.getString("indirizzo"), usersFromDB.getString("cap"), usersFromDB.getString("citta"), usersFromDB.getString("telefono"), usersFromDB.getString("email"), usersFromDB.getString("password"), usersFromDB.getString("libroCard"), usersFromDB.getInt("punti"), usersFromDB.getInt("giorno"), usersFromDB.getInt("mese"), usersFromDB.getInt("anno"), usersFromDB.getInt("ora")));
-			}
-			for(User user : userList) {
-				System.out.println(user.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -593,11 +645,13 @@ public class SqliteConnection {
 	//FIXME DA TESTAREEEEEEEEEEEEEEEEEEEEEEEEEEEE
 	
 	//metodo per ritornare una lista di ordini dato un ResultSet. Se viene dato uno User ritorno la lista di ordini relativa allo User dato.
-	public static List<Ordine> getOrderList(ResultSet ordersFromDB, User user){
+	public static List<Ordine> getOrderList(User user){
 		List<Ordine> orderList = new ArrayList<Ordine>();
 		
 		try {
 			if(user != null) { //prendo gli ordini dello user definito
+				
+				ResultSet ordersFromDB = SqliteConnection.getFieldOrdine();
 				while(ordersFromDB.next()) {
 					if(ordersFromDB.getString("user").equals(user.getEmail()))
 						orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
@@ -609,6 +663,8 @@ public class SqliteConnection {
 			}
 			else { //prendo tutti gli ordini
 				List<User> userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
+				System.out.println("Prendo tutti gli ordini del DB");
+				ResultSet ordersFromDB = SqliteConnection.getFieldOrdine();
 				
 				while(ordersFromDB.next()) {
 					for(User singleUser : userList) {
@@ -638,8 +694,8 @@ public class SqliteConnection {
 	}
 	
 	//metodo per ritornare tutti gli ordini (uso in zona Responsabile)
-	public static List<Ordine> getOrderList(ResultSet ordersFromDB){
-		return SqliteConnection.getOrderList(ordersFromDB, null);
+	public static List<Ordine> getOrderList(){
+		return SqliteConnection.getOrderList(null);
 	}
 	
 	//metodo per ritornare un ordine dato il suo id (uso per utente non registrato)

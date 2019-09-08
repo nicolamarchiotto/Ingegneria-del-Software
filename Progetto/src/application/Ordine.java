@@ -69,6 +69,11 @@ public class Ordine {
 		return this.data;
 	}
 	
+	//FIXME PROVA
+	public void addCosto() {
+		this.totalCost= 69; //mmh
+	}
+	
 	public String getUserId() {
 		return this.idUser;
 	}
