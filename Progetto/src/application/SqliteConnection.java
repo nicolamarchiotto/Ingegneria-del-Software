@@ -557,10 +557,25 @@ public class SqliteConnection {
 		return null; //caso in cui non ci sia nessun isbn
 	}
 	
+	//LOGICA PER LA CLASSIFICA
+	/*Quando il programma parte siamo al giorno 0. Ogni 2 secondi (per esempio) viene conteggiato il passaggio di un giorno. 
+	 * Un metodo in while(1) con sleep equivalente a 7 giorni chiama una funzione di updateClassifica, aggiornando quindi i valori
+	 * della classifica una volta a settimana.
+	 * Il responsabile può aggiornare la classifica quando vuole
+	 */
 	
-	
-	
-	
+	//metodo per aggiornare la classifica
+	public static List<Libro> updateClassifica(){
+		//TODO
+		/*Classifiche saranno delle richieste al db ordinate per numero di vendita con ricerca basata su genere
+		 * ogni libro ha un campo contenente la precedente posizione e quante settimane è rimasto in essa, così ad ogni aggiornamento è facile
+		 * salvare questa informazione. 
+		 * Fa eccezione la categoria  Novità, la quale a mio parere non è un genere ma si basa sulla data di aggiunta e vale solo per la settimana
+		 * in corso, tralasciando così problematiche di quante settimane è stato in una certa posizione.
+		 * DOBBIAMO DUNQUE AGGIUNGERE UNA DATA AI LIBRI?? O BASTA UN BOOLEANO COME CAMPO, CHE VERRA' DISATTIVATO DOPO LA PRIMA SETTIMANA/PRIMO AGGIORNAMENTO CLASSIFICA DOPO L'INSERIMENTO DEL LIBRO??
+		 */
+		return null;
+	}
 	
 	//metodo per fare update in fase di logOut
 	public static void savingOnLogOut(User user) {
