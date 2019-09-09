@@ -174,9 +174,27 @@ public class BasketController implements Initializable{
 	}
 	
 	public void goToPaymentButtonPushed(ActionEvent event) throws IOException{
+		
+		if(this.carrelloUser.isEmpty()) {
+			AlertBox.display("Error", "Your basket is empty,\nsorry you can gift us money :)");
+			return;
+		}
+		
 		for(int i=0;i<this.carrelloUser.size();i++) {
 			this.carrelloUser.get(i).setCopieVenduteSingoloOrdine(Integer.valueOf(this.comboboxArray.get(i).getValue()));
 		}
+		
+		controller.setUserLogged(userLogged);
+		
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource("PaymentScene.fxml"));
+		Parent TableViewParent=loader.load();
+		
+        Scene tableViewScene = new Scene(TableViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        
+        window.setScene(tableViewScene);
+        window.show();
 		
 	}
 
