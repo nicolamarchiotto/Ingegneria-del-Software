@@ -84,8 +84,6 @@ public class DetailedBookController implements Initializable{
 			this.purchaseButton.setVisible(true);
 			this.basketButton.setVisible(true);
 		}
-		
-		
 	}
 	
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
@@ -160,6 +158,15 @@ public class DetailedBookController implements Initializable{
 		System.out.println("\nstampa carrello user\n" +this.userLogged.carrelloToString());
 	}
   
+	public void BasketButtonPushed(ActionEvent event) throws IOException
+    {
+		controller.setUserLogged(userLogged);
+        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("BasketScene.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {
 	}

@@ -172,7 +172,7 @@ public class User implements Comparable<Object>{
 		String sup="";
 		
 		for(Libro l: this.carrello)
-			sup=sup+l.toString()+"\n";
+			sup=sup+(l.toString()+"\n");
 		
 		return sup;
 	}

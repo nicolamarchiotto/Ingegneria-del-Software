@@ -41,6 +41,8 @@ public class HomeController implements Initializable{
 	
 	@FXML private Label errorLabel;
 	
+	LoginController controller=new LoginController();
+	
 	private User userLogged;
 	
 	
@@ -75,7 +77,7 @@ public class HomeController implements Initializable{
 	
 	public void SeeDetailesButtonPushed(ActionEvent event) throws IOException
     {
-		
+		controller.setUserLogged(userLogged);
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(getClass().getResource("DetailedBookScene.fxml"));
 		Parent TableViewParent=loader.load();
@@ -94,6 +96,7 @@ public class HomeController implements Initializable{
 	
 	public void BasketButtonPushed(ActionEvent event) throws IOException
     {
+		controller.setUserLogged(userLogged);
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("BasketScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
