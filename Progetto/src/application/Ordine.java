@@ -69,6 +69,11 @@ public class Ordine {
 		return this.data;
 	}
 	
+	//FIXME PROVA
+	public void addCosto() {
+		this.totalCost= 69; //mmh
+	}
+	
 	public String getUserId() {
 		return this.idUser;
 	}
@@ -87,6 +92,11 @@ public class Ordine {
 	
 	public int getSaldoPuntiOrdine() {
 		return this.saldoPuntiOrdine;
+	}
+	
+	//metodo per trasformare un ordine in userLess nel caso in cui l'utente "padrone" dell'ordine voglia essere cancellato dal sistema
+	public void becomeUserLess() {
+		this.idUser = "";
 	}
 
 	
