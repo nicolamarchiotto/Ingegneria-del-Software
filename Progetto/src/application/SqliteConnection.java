@@ -14,7 +14,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			System.out.println("\nConnected to da DB!"); 
 			return connect;
 		}
@@ -26,7 +26,7 @@ public class SqliteConnection {
 	
 	
 	//metodo per l'inserimento di valori all'interno del DB inserendo solo certi campi, tableName contiene il nome della tabella, objectList gli oggetti veri e propri da inserire
-	public static void insertIntoDB(String tableName, List<?> objectList) {
+	public static SQLException insertIntoDB(String tableName, List<?> objectList) {
 		
 		Connection connect = SqliteConnection.dbConnector();
 		
@@ -60,6 +60,7 @@ public class SqliteConnection {
 					}
 					catch(SQLException e) {
 						System.out.println(e.getMessage());
+						return e;
 					}
 					finally {
 						if(stmt != null)
@@ -113,6 +114,7 @@ public class SqliteConnection {
 					}
 					catch(SQLException e) {
 						System.out.println(e.getMessage());
+						return e;
 					}
 					finally {
 						if(stmt != null)
@@ -156,6 +158,7 @@ public class SqliteConnection {
 					}
 					catch(SQLException e) {
 						System.out.println(e.getMessage());
+						return e;
 					}
 					finally {
 						if(stmt != null)
@@ -168,6 +171,7 @@ public class SqliteConnection {
 				}
 			}
 		}
+		return null;
 	}
 	
 	
@@ -596,15 +600,15 @@ public class SqliteConnection {
 	//-----------------------//
 
 	//inserisci User
-	public static void insertUser(List<User> objectList) {
-		SqliteConnection.insertIntoDB("UserList", objectList);
+	public static SQLException insertUser(List<User> objectList) {
+		return SqliteConnection.insertIntoDB("UserList", objectList);
 	}
 
 	//inserisci singolo User
-	public static void insertUser(User user) {
+	public static SQLException insertUser(User user) {
 		List<User> userList = new ArrayList<User>();
 		userList.add(user);
-		SqliteConnection.insertUser(userList);
+		return SqliteConnection.insertUser(userList);
 	}
 	
 
@@ -655,15 +659,15 @@ public class SqliteConnection {
 	//------------------------//
 	
 	//inserisci insieme di Libro
-	public static void insertLibro(List<Libro> objectList) {
-		SqliteConnection.insertIntoDB("BookList", objectList);
+	public static SQLException insertLibro(List<Libro> objectList) {
+		return SqliteConnection.insertIntoDB("BookList", objectList);
 	}
 	
 	//inserisci singolo Libro
-	public static void insertLibro(Libro book) {
+	public static SQLException insertLibro(Libro book) {
 		List<Libro> bookList = new ArrayList<Libro>();
 		bookList.add(book);
-		SqliteConnection.insertLibro(bookList);
+		return SqliteConnection.insertLibro(bookList);
 	}
 
 	//aggiorna insieme di Libro
@@ -717,15 +721,15 @@ public class SqliteConnection {
 	//-------------------------//
 	
 	//inserisci Ordine
-	public static void insertOrder(List<Ordine> objectList) {
-		SqliteConnection.insertIntoDB("OrderList", objectList);
+	public static SQLException insertOrder(List<Ordine> objectList) {
+		return SqliteConnection.insertIntoDB("OrderList", objectList);
 	}
 	
 	//inserisci singolo Ordine
-	public static void insertOrder(Ordine order) {
+	public static SQLException insertOrder(Ordine order) {
 		List<Ordine> orderList = new ArrayList<Ordine>();
 		orderList.add(order);
-		SqliteConnection.insertOrder(orderList);
+		return SqliteConnection.insertOrder(orderList);
 	}
 	
 	//aggiorna insieme di Ordine

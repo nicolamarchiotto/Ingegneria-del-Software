@@ -3,9 +3,11 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -108,12 +110,22 @@ public class ResponsabileController implements Initializable{
 				
 				LinkedList<Libro> list=new LinkedList<Libro>();
 				list.add(l);
-				SqliteConnection.insertLibro(list);
-				
-				System.out.println("Stampa libro\n"+l.toString()+" Genere "+l.getGenere());
-				
-				AlertBox.display("Book added", l.getTitolo()+" was added to the library");
-				setTextToEmpty();
+
+				SQLException except = SqliteConnection.insertLibro(list);
+				if(except == null) {
+					System.out.println("Stampa libro\n"+l.toString()+" Genere "+l.getGenere());
+					
+					AlertBox.display("Book added", l.getTitolo()+" was added to the library");
+					setTextToEmpty();
+				}
+				else {
+					String message;
+					if(except.getErrorCode() == 19) //ESISTE GIA' NEL DB
+						message = "Book already exists in this library.";
+					else message = "Something went wrong.";
+					
+					AlertBox.display("ERROR", message);
+				}
 				
 			}
 		}
@@ -204,14 +216,17 @@ public class ResponsabileController implements Initializable{
 	
 	//functions for the libroCard section
 	private ObservableList<User> getUser() {
-		//ObservableList<User> user = FXCollections.observableArrayList();
+
+		List<User> userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
+
+		//tolgo gli amministratori dalla lista di utenti in libroCard
+		for(int i = 0; i < userList.size(); i++)
+			if(userList.get(i).getLibroCard() == null) {
+				userList.remove(i);
+				i--;
+			}
 		
-		ResultSet usersFromDB = SqliteConnection.getFieldUser();
-		
-		//ArrayList<User> userSup=SqliteConnection.getUserList(usersFromDB);
-		
-		
-		ObservableList<User> user =FXCollections.observableArrayList(SqliteConnection.getUserList(usersFromDB));
+		ObservableList<User> user =FXCollections.observableArrayList(userList);
 		
 		//public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email,
 				//String pw) {
@@ -274,7 +289,13 @@ public class ResponsabileController implements Initializable{
 		
 
 		DetailedRespOrdineController controller=loader.getController();
-		controller.setOrderFromTableView(tableViewOrders.getSelectionModel().getSelectedItem());
+		
+		//controllo se è stato selezionato qualcosa
+		if(tableViewOrders.getSelectionModel().getSelectedItem() == null) {
+			AlertBox.display("ERROR", "Non è stato selezionato nessun ordine");
+			return;
+		}
+		else controller.setOrderFromTableView(tableViewOrders.getSelectionModel().getSelectedItem());
 		
 		
 		

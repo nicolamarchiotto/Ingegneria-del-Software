@@ -85,7 +85,14 @@ public class HomeController implements Initializable{
 		Scene tableViewScene = new Scene(TableViewParent);  
 		
 		DetailedBookController controller=loader.getController();
-		controller.setBookData(tableView.getSelectionModel().getSelectedItem());
+		
+		//controllo se è stato selezionato qualcosa
+		if(tableView.getSelectionModel().getSelectedItem() == null) {
+			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
+			return;
+		}
+		else controller.setBookData(tableView.getSelectionModel().getSelectedItem());
+				
 		controller.setBackPage("HomeScene.fxml");
 		
 		
