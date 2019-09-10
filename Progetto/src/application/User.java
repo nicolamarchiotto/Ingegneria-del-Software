@@ -66,6 +66,14 @@ public class User implements Comparable<Object>{
 		//System.out.println(this.ordini.size() + "    " + this.ordini.toString());
 	}
 	
+	public User(String indirizzi, String cap, String citta) {
+		this.nome="utente non registrato";
+		this.cognome="utente non registrato";
+		this.indirizzi=indirizzi;
+		this.cap=cap;
+		this.citta=citta;
+	}
+	
 	
 	public User(String email, String pw) {
 		this.email=email;
@@ -170,6 +178,14 @@ public class User implements Comparable<Object>{
 	
 	public ArrayList<Libro> getCarrello(){
 		return this.carrello;
+	}
+	
+	public double getTotalCostFromCarrello() {
+		double sup=0;
+		for(Libro l: this.carrello) {
+			sup+=l.getPrezzo();
+		}
+		return sup;
 	}
 	
 	public String carrelloToString() {

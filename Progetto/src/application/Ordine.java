@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Ordine {
-	private String id;
+	private String idOrdine;
 	private LocalDateTime data;
 	private List<Libro> libriOrdine = new ArrayList<Libro>();
 	private double totalCost=0;
@@ -18,23 +18,22 @@ public class Ordine {
 	
 	Random r=new Random();
 	
-	public Ordine(User user, String tipoPagamento, Libro ... libriCollection) {
+	public Ordine(String idUser, String tipoPagamento, ArrayList<Libro> libriCollection) {
 		for(Libro l: libriCollection) {
 			this.libriOrdine.add(l);
 			this.totalCost+=(l.getPrezzo()*l.getCopieVenduteNelSingoloOrdine());
 			this.saldoPuntiOrdine+=l.getPunti();
 		}
 		this.data=LocalDateTime.now();
-		this.idUser=user.getEmail();
+		this.idUser=idUser;
 		this.paymentType=tipoPagamento;
-		this.id=getIdOrdine(user.getCitta(), user.getCap());
-		this.idUser=user.getEmail();
+		this.idOrdine=getIdOrdine(tipoPagamento, idUser);
 	}
 	
 	
 	//costruttore per il pescare dal db
 	public Ordine(String id, int giorno, int mese, int anno, int ora, List<Libro> bookList, double totalCost, String paymentType, int saldoPuntiOrdine, String userId) {
-		this.id = id;
+		this.idOrdine = id;
 		this.data = LocalDateTime.of(anno, mese, giorno, ora, 0);
 		this.libriOrdine = bookList;
 		this.totalCost = totalCost;
@@ -43,10 +42,10 @@ public class Ordine {
 		this.idUser = userId;
 	}
 	
-	private String getIdOrdine(String citta, String cap) {
+	private String getIdOrdine(String payment, String userId) {
 		int i=1000+r.nextInt(8999);
 		
-		return citta.substring(0, 1)+cap.substring(0,1) + i;
+		return i+payment.substring(0, 1)+userId.substring(0,1);
 	}
 	
 	public String getStato() {
@@ -61,8 +60,8 @@ public class Ordine {
 			return "consegnato";
 	}
 	
-	public String getId() {
-		return this.id;
+	public String getIdOrdine() {
+		return this.idOrdine;
 	}
 	
 	public LocalDateTime getData() {

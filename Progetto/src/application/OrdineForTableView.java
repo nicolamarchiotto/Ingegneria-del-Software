@@ -25,7 +25,7 @@ public class OrdineForTableView {
 	public OrdineForTableView(User u, Ordine o){
 		this.user=u;
 		this.ordine=o;
-		this.codiceOrdine=ordine.getId();
+		this.codiceOrdine=ordine.getIdOrdine();
 		this.idAcquirente=ordine.getUserId();
 		this.dataAcquisto=ordine.getData().toString();
 		this.stato=ordine.getStato();

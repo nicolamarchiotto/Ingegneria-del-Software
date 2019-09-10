@@ -132,14 +132,14 @@ public class SqliteConnection {
 				for(Object ordine : objectList) {
 					Ordine order = (Ordine) ordine;
 					sql += "INSERT INTO DateList VALUES\n";
-					sql += "('" + order.getId() + "',\n";
+					sql += "('" + order.getIdOrdine() + "',\n";
 					sql += order.getData().getDayOfMonth() + ",\n";
 					sql += order.getData().getMonthValue() + ",\n";
 					sql += order.getData().getYear() + ",\n";
 					sql += order.getData().getHour() + ");\n\n";
 					
 					sql += "INSERT INTO OrderList VALUES\n";
-					sql += "('" + order.getId() + "',\n'";
+					sql += "('" + order.getIdOrdine() + "',\n'";
 					sql += order.getUserId()+ "',\n'";
 					sql += SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n";
 					sql += order.getTotalCost() + ",\n'";
@@ -279,7 +279,7 @@ public class SqliteConnection {
 					
 					//idea di fondo: provo a fare un inserimento dove se vado in conflitto (ordine esiste già), non inserisco e faccio un update
 					sql += "INSERT INTO DateList VALUES\n";
-					sql += "('" + order.getId() + "',\n";
+					sql += "('" + order.getIdOrdine() + "',\n";
 					sql += order.getData().getDayOfMonth() + ",\n";
 					sql += order.getData().getMonthValue() + ",\n";
 					sql += order.getData().getYear() + ",\n";
@@ -290,10 +290,10 @@ public class SqliteConnection {
 					sql += "mese = " + order.getData().getMonthValue() + ",\n";
 					sql += "anno = " + order.getData().getYear() + ",\n";
 					sql += "ora = " + order.getData().getHour() + "\n";
-					sql += "WHERE id = '" + order.getId() + "';\n\n";
+					sql += "WHERE id = '" + order.getIdOrdine() + "';\n\n";
 					
 					sql += "INSERT INTO OrderList VALUES\n";
-					sql += "('" + order.getId() + "',\n'";
+					sql += "('" + order.getIdOrdine() + "',\n'";
 					sql += order.getUserId()+ "',\n'";
 					sql += SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n";
 					sql += order.getTotalCost() + ",\n'";
@@ -307,7 +307,7 @@ public class SqliteConnection {
 					sql += "paymentType = '" + order.getPaymentType() + "',\n";
 					sql += "saldoPuntiOrdine = " + order.getSaldoPuntiOrdine() + ",\n";
 					sql += "stato = '" + order.getStato() + "'\n";
-					sql += "WHERE id = '" + order.getId() + "' AND user = '" + order.getUserId() + "';";
+					sql += "WHERE id = '" + order.getIdOrdine() + "' AND user = '" + order.getUserId() + "';";
 					   
 					Statement stmt = null;
 					
@@ -420,11 +420,11 @@ public class SqliteConnection {
 			
 			//elimino prima la data relativa all'ordine
 			sql += "DELETE FROM DateList\n";
-			sql += "WHERE id = '" + order.getId() + "';\n\n";
+			sql += "WHERE id = '" + order.getIdOrdine() + "';\n\n";
 			
 			//elimino infine l'ordine
 			sql += "DELETE FROM OrderList\n";
-			sql += "WHERE id = '" + order.getId() + "';\n\n";
+			sql += "WHERE id = '" + order.getIdOrdine() + "';\n\n";
 			
 			Statement stmt = null;
 			
