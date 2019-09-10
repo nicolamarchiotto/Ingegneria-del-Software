@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor-pane" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
    <children>
       <VBox alignment="CENTER" layoutX="200.0" layoutY="34.0" prefHeight="115.0" prefWidth="200.0" spacing="30.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
          <children>
-            <Label text="Enter your id and password">
+            <Label styleClass="white" text="Enter your id and password">
                <font>
                   <Font name="Arial Bold Italic" size="14.0" />
                </font>
             </Label>
             <TextField fx:id="emailPasswordField" promptText="id" />
             <PasswordField fx:id="pwPasswordField" promptText="password" />
-            <Label fx:id="ErrorLabel" text="Label" />
+            <Label fx:id="ErrorLabel" styleClass="white" text="Label" />
          </children>
       </VBox>
       <HBox alignment="TOP_CENTER" layoutX="110.0" layoutY="240.0" prefHeight="47.0" prefWidth="380.0" spacing="30.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0">
