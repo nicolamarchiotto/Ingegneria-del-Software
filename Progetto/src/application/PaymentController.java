@@ -56,7 +56,10 @@ public class PaymentController implements Initializable{
 		paymentToggleGroup=new ToggleGroup();
 		this.paypalRadioButton.setToggleGroup(paymentToggleGroup);
 		this.creditCardRadioButton.setToggleGroup(paymentToggleGroup);
-		this.bankStampRadioButton.setToggleGroup(paymentToggleGroup);
+		this.bankStampRadioButton.setToggleGroup(paymentToggleGroup); 
+		String sup=userLogged.getIndirizzi()+", "+userLogged.getCitta()+", "+userLogged.getCap();
+		indirizziComboBox.getItems().addAll(sup);
+		indirizziComboBox.setPromptText("Inserisci un indirizzo");
 	}
 	
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
@@ -68,6 +71,10 @@ public class PaymentController implements Initializable{
         window.setScene(tableViewScene);
         window.show();      
     }
+	
+	public void indirizziComboBoxChanged() {
+		
+	}
 	
 	
 	public void goBackButtonPushed(ActionEvent event) throws IOException{
@@ -135,9 +142,6 @@ public class PaymentController implements Initializable{
 			AlertBox.display("Error", "You have forgot some fields");
 			return;
 		}
-		
-		
-		
 	}
 
 	private void goToHomePage(ActionEvent event) throws IOException {
