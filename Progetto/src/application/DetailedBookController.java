@@ -61,7 +61,7 @@ public class DetailedBookController implements Initializable{
 		isbnLabel.setText(libro.getIsbn());
 		genereLabel.setText(libro.getGenere());
 		prezzoLabel.setText(String.valueOf(libro.getPrezzo()));
-		breveDescrizioneLabel.setText(libro.getBreveDescrizionePortataACapoOgniTotCaratteri(30));
+		breveDescrizioneLabel.setText(libro.getBreveDescrizionePortataACapoOgniTotCaratteri(45));
 		
 		if(userLogged.getCarrello().contains(this.selectedLibro)) {
 			this.purchaseButton.setText("Remove book from your basket");

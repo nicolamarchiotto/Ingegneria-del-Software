@@ -140,7 +140,7 @@ public class ResponsabileController implements Initializable{
 			}
 		}
 		catch(NumberFormatException e) {
-			errorLabel.setText("Anno di pubblicazione e prezzo devono essere campi numerici");
+			AlertBox.display("Error","Anno di pubblicazione e prezzo\ndevono essere campi numerici");
 			return;
 		}
 	}

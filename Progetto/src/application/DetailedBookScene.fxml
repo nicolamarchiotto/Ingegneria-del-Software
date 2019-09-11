@@ -25,9 +25,9 @@
             <Button fx:id="signOutButton" minWidth="90.0" mnemonicParsing="false" onAction="#SignOutButtonPushed" prefHeight="25.0" prefWidth="90.0" text="Sign Out" />
          </children>
       </HBox>
-      <ScrollPane layoutX="14.0" layoutY="78.0" prefHeight="261.0" prefWidth="561.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="65.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="78.0" prefHeight="261.0" prefWidth="560.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="65.0">
          <content>
-            <GridPane prefHeight="418.0" prefWidth="540.0">
+            <GridPane alignment="CENTER" gridLinesVisible="true" prefHeight="436.0" prefWidth="545.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -47,54 +47,102 @@
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
                   </Label>
                   <Label text="Casa Editrice" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
                   </Label>
                   <Label text="Anno di Pubblicazione" GridPane.rowIndex="3">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
                   </Label>
                   <Label text="Genere" GridPane.rowIndex="5">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
                   </Label>
                   <Label text="ISBN" GridPane.rowIndex="4">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
                   </Label>
                   <Label text="Prezzo" GridPane.rowIndex="6">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
                   </Label>
                   <Label text="Breve Descrizione" GridPane.rowIndex="7">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
                   </Label>
-                  <Label fx:id="titoloLabel" text="Label" GridPane.columnIndex="1" />
-                  <Label fx:id="autoreLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="casaEditriceLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="annoPubblicazioneLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="isbnLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label fx:id="genereLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label fx:id="prezzoLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <Label fx:id="breveDescrizioneLabel" prefHeight="112.0" prefWidth="215.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Label fx:id="titoloLabel" text="Label" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
+                  <Label fx:id="autoreLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
+                  <Label fx:id="casaEditriceLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
+                  <Label fx:id="annoPubblicazioneLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
+                  <Label fx:id="isbnLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
+                  <Label fx:id="genereLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
+                  <Label fx:id="prezzoLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
+                  <Label fx:id="breveDescrizioneLabel" prefHeight="80.0" prefWidth="262.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
                   <Label text="Titolo">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
                   </Label>
                </children>
-               <padding>
-                  <Insets left="5.0" />
-               </padding>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </GridPane>
          </content>
       </ScrollPane>
