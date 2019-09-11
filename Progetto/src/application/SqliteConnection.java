@@ -150,7 +150,7 @@ public class SqliteConnection {
 					sql += order.getStato() + "',\n'";
 					sql += order.getIndirizzoSpedizione() + "');";
 					
-					
+					System.out.println("OOOOOOO " + sql);
 					Statement stmt = null;
 					
 					try {

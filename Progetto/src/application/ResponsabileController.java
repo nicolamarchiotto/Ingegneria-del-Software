@@ -78,7 +78,17 @@ public class ResponsabileController implements Initializable{
 	
 	@FXML private Button seeDetailesButton;
 	
-	
+	//FIXME
+	LoginController controller=new LoginController();
+
+	//metodo per ritornare lo user di un certo ordine
+	public User getUserForOrdine(String userId) {
+		List<User> userList = controller.getUserList();
+		for(User singleUser : userList)
+			if(userId.equals(singleUser.getEmail()))
+				return singleUser;
+		return null;
+	}
 	
 	public void addToLibraryButtonPushed(ActionEvent event) throws IOException{
 		
@@ -246,7 +256,16 @@ public class ResponsabileController implements Initializable{
 	//functions for the orders section
 	
 	private ObservableList<OrdineForTableView> getOrdini() {
-		ObservableList<OrdineForTableView> orders = FXCollections.observableArrayList();
+		
+		//FIXME
+		List<Ordine> prova = SqliteConnection.getOrderList();
+		List<OrdineForTableView> prova2 = new ArrayList<OrdineForTableView>();
+		
+		
+		for(Ordine singleOrdine : prova) {
+			prova2.add(new OrdineForTableView(this.getUserForOrdine(singleOrdine.getUserId()), singleOrdine));
+		}
+		ObservableList<OrdineForTableView> orders = FXCollections.observableArrayList(prova2);
 		
 		/*
 		 * TODO
@@ -264,7 +283,7 @@ public class ResponsabileController implements Initializable{
 		 */
 		
 		
-		ArrayList<Libro> l=new ArrayList<Libro>();
+		/*ArrayList<Libro> l=new ArrayList<Libro>();
 		Libro l1=new Libro("tit", "autor", "casaEd", 1, "isbn","gen", 20.21, "brevdes", 2);
 		l1.aggiungiCopieAlSingoloOrdine(3);
 		l.add(l1);
@@ -275,7 +294,7 @@ public class ResponsabileController implements Initializable{
 		
 		orders.add(new OrdineForTableView("Ord2", "Acq2", LocalDate.now(), "In corso", l));
 		orders.add(new OrdineForTableView("Ord3", "Acq3", LocalDate.now(), "In corso", l));
-		
+		*/
 		return orders;
 	}
 	

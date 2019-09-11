@@ -148,6 +148,7 @@ public class PaymentController implements Initializable{
 	}
 	
 	public void confirmButtonPushed(ActionEvent event) throws IOException {
+
 		try {
 			if(checkAllFields()) {
 				
@@ -156,6 +157,8 @@ public class PaymentController implements Initializable{
 				Ordine ordLoc=new Ordine(this.userLogged.getEmail(),this.paymentToggleGroup.getSelectedToggle().toString(),
 						indirizzoSpedizione, this.userLogged.getCarrello());		
 				this.userLogged.getOrdini().add(ordLoc);
+				SqliteConnection.insertOrder(ordLoc);
+				
 				this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
 				
 				AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!");
