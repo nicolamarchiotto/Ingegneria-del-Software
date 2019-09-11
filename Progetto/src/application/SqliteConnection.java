@@ -583,15 +583,19 @@ public class SqliteConnection {
 	
 	//metodo per fare update in fase di logOut
 	public static void savingOnLogOut(User user) {
-		System.out.println("\nSaving user's orders..  ");
-		if(user.getOrdini() != null && user.getOrdini().size() != 0) SqliteConnection.updateOrdine(user.getOrdini());
-		System.out.print("OK");
+		if(user.getOrdini() != null && user.getOrdini().size() != 0) {
+			System.out.println("\nSaving user's orders..  ");
+			SqliteConnection.updateOrdine(user.getOrdini());
+			System.out.print("OK");
+		}
 
-		System.out.println("\nSaving user..  ");
-		if(user != null) SqliteConnection.updateUser(user);
-		System.out.print("OK");
+		if(user != null) {
+			System.out.println("\nSaving user..  ");
+			SqliteConnection.updateUser(user);
+			System.out.print("OK");
+			System.out.println("\n------" + user.getEmail() + " SUCCESFULLY LOGGED OUT------\n");
+		}
 		
-		System.out.println("\n------" + user.getEmail() + " SUCCESFULLY LOGGED OUT------\n");
 	}
 	
 	

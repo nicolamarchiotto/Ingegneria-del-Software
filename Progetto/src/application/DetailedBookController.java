@@ -88,7 +88,9 @@ public class DetailedBookController implements Initializable{
 	
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
     {
-		SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
+		if(this.backPage.compareTo("DetailedRespOrdineScene.fxml")!=0) SqliteConnection.savingOnLogOut(userLogged); //saving on logOut if i'm not an admin
+		
+		controller.setUserLogged(null); //at this point no user is logged
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
