@@ -150,14 +150,22 @@ public class PaymentController implements Initializable{
 	public void confirmButtonPushed(ActionEvent event) throws IOException {
 
 		try {
-			if(checkAllFields()) {
+			if(checkAllFields() && checkToogleGroup()) {
 				
 				String indirizzoSpedizione=this.viaTextField.getText()+", "+this.cittaTextField.getText()+", "+this.capTextField;
 				
-				Ordine ordLoc=new Ordine(this.userLogged.getEmail(),this.paymentToggleGroup.getSelectedToggle().toString(),
-						indirizzoSpedizione, this.userLogged.getCarrello());		
+				RadioButton selectedRadioButton = (RadioButton) paymentToggleGroup.getSelectedToggle();
+				String paymentType = selectedRadioButton.getText();
+				
+				Ordine ordLoc=new Ordine(this.userLogged.getEmail(),paymentType,
+						indirizzoSpedizione, this.userLogged.getCarrello());
+				
 				this.userLogged.getOrdini().add(ordLoc);
 				SqliteConnection.insertOrder(ordLoc);
+				
+				//FIXME solo in caso utente non sia registrato
+				
+				this.userLogged.aggiungiPunti(ordLoc.getSaldoPuntiOrdine());
 				
 				this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
 				
@@ -179,6 +187,19 @@ public class PaymentController implements Initializable{
 			return;
 		}
 		
+	}
+
+	private boolean checkToogleGroup() {
+		if(this.paymentToggleGroup.getSelectedToggle()==null)
+			return false;
+		
+		if(!this.paymentToggleGroup.getSelectedToggle().equals(bankStampRadioButton)) {
+			if(this.idPaymentTextField.getText() == null || this.idPaymentTextField.getText().trim().isEmpty())
+				return false;
+			if(this.pwPaymentPwField.getText() == null || this.pwPaymentPwField.getText().trim().isEmpty())
+				return false;
+		}
+		return true;
 	}
 
 	private void goToHomePage(ActionEvent event) throws IOException {
@@ -204,7 +225,7 @@ public class PaymentController implements Initializable{
 			sup=false;
 		if(this.capTextField.getText() == null || this.capTextField.getText().trim().isEmpty())
 			sup=false;
-		if(Integer.valueOf(this.capTextField.getText()) instanceof Integer)
+		if(!(Integer.valueOf(this.capTextField.getText()) instanceof Integer))
 			sup=false;
 		
 		return sup;

@@ -34,7 +34,7 @@ public class OrdineForTableView {
 		
 	}
 	public String toString() {
-		return codiceOrdine+" "+idAcquirente+" "+dataAcquisto+" "+stato;
+		return codiceOrdine+" "+idAcquirente+" "+dataAcquisto+" "+stato+" "+this.indirizzoSpedizione;
 	}
 
 	/*

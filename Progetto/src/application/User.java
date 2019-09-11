@@ -99,6 +99,11 @@ public class User implements Comparable<Object>{
 		this.ordini.add(order);
 	}
 	
+	public void aggiungiPunti(int punti) {
+		this.puntiCard+=punti;
+		this.librocard.aggiungiPunti(punti);
+	}
+	
 	public String getEmail() {
 		return this.email;
 	}

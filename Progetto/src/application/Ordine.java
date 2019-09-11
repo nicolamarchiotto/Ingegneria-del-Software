@@ -51,6 +51,10 @@ public class Ordine {
 		return i+payment.substring(0, 1)+userId.substring(0,1);
 	}
 	
+	public String toString() {
+		return this.idOrdine+" "+this.idUser+" "+this.indirizzoSpedizione;
+	}
+	
 	public String getStato() {
 		
 		long daysBetween = ChronoUnit.HOURS.between(data, LocalDateTime.now());

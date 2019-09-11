@@ -27,6 +27,10 @@ public class LibroCard {
 		
 		return cognome.substring(0, 1)+nome.substring(0,1) + i;
 	}
+	
+	public void aggiungiPunti(int punti) {
+		this.punti+=punti;
+	}
 
 	public String getId() {
 		return this.id;
