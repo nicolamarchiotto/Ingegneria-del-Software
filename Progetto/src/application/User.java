@@ -203,8 +203,8 @@ public class User implements Comparable<Object>{
 		List<String> indirizziCompleti = new ArrayList<String>();
 		
 		String[] singoliIndirizzi = this.indirizzi.split("%");
-		String[] singoliCAP = this.cap.split("%");
 		String[] singoleCitta = this.citta.split("%");
+		String[] singoliCAP = this.cap.split("%");
 		
 		if(singoleCitta.length != singoliCAP.length || singoleCitta.length != singoliIndirizzi.length || singoliCAP.length != singoliIndirizzi.length) {
 			AlertBox.display("ERROR", "Inconsistenza tra dati: length di città, cap, indirizzo");
@@ -212,21 +212,21 @@ public class User implements Comparable<Object>{
 		}
 		
 		for(int i = 0; i < singoliIndirizzi.length; i++) {
-			indirizziCompleti.add(singoliIndirizzi[i] + ", " + singoliCAP[i] + ", " + singoleCitta[i]);
+			indirizziCompleti.add(singoliIndirizzi[i] + ", " + singoleCitta[i] + ", " + singoliCAP[i]);
 		}
 		
 		return indirizziCompleti;
 	}
 	
-	public void addIndirizzo(String indirizzo, String cap, String citta) {
+	public void addIndirizzo(String indirizzo, String citta, String cap) {
 		this.indirizzi += "%" + indirizzo;
-		this.cap += "%" + cap;
 		this.citta += "%" + citta;
+		this.cap += "%" + cap;
 	}
 	
 	
 	public String getIndirizzoResidenzaFormattato() {
-		return this.indirizzi.split("%")[0] + ", " + this.cap.split("%")[0] + ", " + this.citta.split("%")[0];
+		return this.indirizzi.split("%")[0] + ", " + this.citta.split("%")[0] + ", " + this.cap.split("%")[0];
 	}
 	
 	
@@ -234,13 +234,11 @@ public class User implements Comparable<Object>{
 		return this.indirizzi.split("%")[0]; 
 	}
 	
-	
-	public String getCapResidenza() {
-		return this.cap.split("%")[0];
-	}
-	
-	
 	public String getCittaResidenza() {
 		return this.citta.split("%")[0];
+	}
+
+	public String getCapResidenza() {
+		return this.cap.split("%")[0];
 	}
 }
