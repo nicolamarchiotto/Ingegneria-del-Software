@@ -51,7 +51,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ComboBox fx:id="indirizziComboBox" minWidth="190.0" prefWidth="190.0" />
+            <ComboBox fx:id="indirizziComboBox" minWidth="190.0" onAction="#indirizziComboBoxChanged" prefWidth="190.0" />
             <TextField fx:id="viaTextField" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" promptText="Via" GridPane.rowIndex="1" />
             <TextField fx:id="cittaTextField" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" promptText="Città" GridPane.rowIndex="2" />
             <TextField fx:id="capTextField" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" promptText="CAP" GridPane.rowIndex="3" />

@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -39,6 +40,7 @@ public class PaymentController implements Initializable{
 	@FXML private TextField viaTextField;
 	@FXML private TextField cittaTextField;
 	@FXML private TextField capTextField;
+	@FXML private ArrayList<TextField> vetTextField=new ArrayList<TextField>();
 	
 	
 	private ToggleGroup paymentToggleGroup;
@@ -57,9 +59,14 @@ public class PaymentController implements Initializable{
 		this.paypalRadioButton.setToggleGroup(paymentToggleGroup);
 		this.creditCardRadioButton.setToggleGroup(paymentToggleGroup);
 		this.bankStampRadioButton.setToggleGroup(paymentToggleGroup); 
-		String sup=userLogged.getIndirizzi()+", "+userLogged.getCitta()+", "+userLogged.getCap();
-		indirizziComboBox.getItems().addAll(sup);
-		indirizziComboBox.setPromptText("Inserisci un indirizzo");
+		String sup="---Inserisci un indirizzo---";
+		indirizziComboBox.getItems().add(sup);
+		indirizziComboBox.setPromptText(sup);
+		indirizziComboBox.getItems().addAll(this.userLogged.getIndirizziFormattati());
+		this.vetTextField.add(0, viaTextField);
+		this.vetTextField.add(1, cittaTextField);
+		this.vetTextField.add(2, capTextField);
+		
 	}
 	
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
@@ -74,7 +81,28 @@ public class PaymentController implements Initializable{
     }
 	
 	public void indirizziComboBoxChanged() {
+		String s=this.indirizziComboBox.getValue().toString();
+		if(s.compareTo("---Inserisci un indirizzo---")==0) {
+			for(TextField t: this.vetTextField) {
+				t.setText("");
+			}
+			return;
+		}
+		int i, cell=0;
+		int indexIniz=0;
 		
+		for(i=0;i<s.length();i++) {
+			if(s.charAt(i)==',') {
+				this.vetTextField.get(cell).setText(s.substring(indexIniz,i));
+				i++;
+				cell++;
+				while(s.charAt(i)==' ') {
+					i++;
+				}
+				indexIniz=i;
+			}
+		}
+		this.vetTextField.get(cell).setText(s.substring(indexIniz,i));
 	}
 	
 	
@@ -122,12 +150,11 @@ public class PaymentController implements Initializable{
 	public void confirmButtonPushed(ActionEvent event) throws IOException {
 		
 		if(checkAllFields()) {
-			if(userLogged==null) {
-				//NO, anche l'utente non registrato deve avere il carrello
-				//userLogged= new User(this.viaTextField.getText(), this.cittaTextField.getText(), this.capTextField.getText());
-			}
 			
-			Ordine ordLoc=new Ordine(this.userLogged.getEmail(),this.paymentToggleGroup.getSelectedToggle().toString(),this.userLogged.getCarrello());		
+			String indirizzoSpedizione=this.viaTextField.getText()+", "+this.cittaTextField.getText()+", "+this.capTextField;
+			
+			Ordine ordLoc=new Ordine(this.userLogged.getEmail(),this.paymentToggleGroup.getSelectedToggle().toString(),
+					indirizzoSpedizione, this.userLogged.getCarrello());		
 			this.userLogged.getOrdini().add(ordLoc);
 			this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
 			
