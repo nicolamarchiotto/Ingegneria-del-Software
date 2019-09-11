@@ -29,6 +29,7 @@ public class Ordine {
 		this.idUser=idUser;
 		this.paymentType=tipoPagamento;
 		this.idOrdine=getIdOrdine(tipoPagamento, idUser);
+		this.indirizzoSpedizione=indirizzoSpedizione;
 	}
 	
 	

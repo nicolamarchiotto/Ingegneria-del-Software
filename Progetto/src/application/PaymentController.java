@@ -148,28 +148,34 @@ public class PaymentController implements Initializable{
 	}
 	
 	public void confirmButtonPushed(ActionEvent event) throws IOException {
-		
-		if(checkAllFields()) {
-			
-			String indirizzoSpedizione=this.viaTextField.getText()+", "+this.cittaTextField.getText()+", "+this.capTextField;
-			
-			Ordine ordLoc=new Ordine(this.userLogged.getEmail(),this.paymentToggleGroup.getSelectedToggle().toString(),
-					indirizzoSpedizione, this.userLogged.getCarrello());		
-			this.userLogged.getOrdini().add(ordLoc);
-			this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
-			
-			AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!");
-			try {
-				goToHomePage(event);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			if(checkAllFields()) {
+				
+				String indirizzoSpedizione=this.viaTextField.getText()+", "+this.cittaTextField.getText()+", "+this.capTextField;
+				
+				Ordine ordLoc=new Ordine(this.userLogged.getEmail(),this.paymentToggleGroup.getSelectedToggle().toString(),
+						indirizzoSpedizione, this.userLogged.getCarrello());		
+				this.userLogged.getOrdini().add(ordLoc);
+				this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
+				
+				AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!");
+				try {
+					goToHomePage(event);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				AlertBox.display("Error", "You have forgot some fields");
+				return;
 			}
 		}
-		else {
-			AlertBox.display("Error", "You have forgot some fields");
+		catch(NumberFormatException e) {
+			AlertBox.display("Error", "The CAP must be numeric");
 			return;
 		}
+		
 	}
 
 	private void goToHomePage(ActionEvent event) throws IOException {
@@ -186,8 +192,19 @@ public class PaymentController implements Initializable{
         
 	}
 
-	private boolean checkAllFields() {
-		return true;
+	private boolean checkAllFields() throws NumberFormatException{
+		boolean sup=true;
+		
+		if(this.viaTextField.getText() == null || this.viaTextField.getText().trim().isEmpty())
+				sup=false;
+		if(this.cittaTextField.getText() == null || this.cittaTextField.getText().trim().isEmpty())
+			sup=false;
+		if(this.capTextField.getText() == null || this.capTextField.getText().trim().isEmpty())
+			sup=false;
+		if(Integer.valueOf(this.capTextField.getText()) instanceof Integer)
+			sup=false;
+		
+		return sup;
 		
 	}
 

@@ -10,8 +10,9 @@ public class OrdineForTableView {
 	private String dataAcquisto;
 	private String stato;
 	private ArrayList<Libro> libri;
-	private Ordine ordine;
+	private String indirizzoSpedizione;
 	private User user;
+	private Ordine ordine;
 	
 	
 	public OrdineForTableView(String codiceOrdine, String idAcquirente, LocalDate dataAcquisto, String stato, ArrayList<Libro> l) {
@@ -29,6 +30,7 @@ public class OrdineForTableView {
 		this.idAcquirente=ordine.getUserId();
 		this.dataAcquisto=ordine.getData().toString();
 		this.stato=ordine.getStato();
+		this.indirizzoSpedizione=ordine.getIndirizzoSpedizione();
 		
 	}
 	public String toString() {
@@ -67,6 +69,10 @@ public class OrdineForTableView {
 			sup+=(b.getPrezzo()*b.getCopieVenduteNelSingoloOrdine());
 		return sup;
 		//ordine.getTotalCost();
+	}
+	
+	public String getIndirizzoSpedizione() {
+		return this.indirizzoSpedizione;
 	}
 	
 	

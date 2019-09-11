@@ -115,7 +115,7 @@ public class DetailedRespOrdineController implements Initializable{
 		String sup;
 		
 		sup="Costo totale dell'ordine: "+this.localOrder.getPrezzoTot()+"\nData di effettuazione ordine: "+this.localOrder.getDataAcquisto()+""
-				+ "\nStato dell'ordine: " +this.localOrder.getStato()+"\nId acquirente: "+this.localOrder.getIdAcquirente();
+				+ "\nStato dell'ordine: " +this.localOrder.getStato()+"\nId acquirente: "+this.localOrder.getIdAcquirente()+"\nIndirizzo di spedizione: "+this.localOrder.getIndirizzoSpedizione();
 		
 		return sup;
 	}
