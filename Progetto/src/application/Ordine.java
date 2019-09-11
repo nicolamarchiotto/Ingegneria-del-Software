@@ -15,10 +15,11 @@ public class Ordine {
 	private int saldoPuntiOrdine=0;
 	//user che ha effettuato l'ordine
 	private String idUser;
+	private String indirizzoSpedizione = null;
 	
 	Random r=new Random();
 	
-	public Ordine(String idUser, String tipoPagamento, ArrayList<Libro> libriCollection) {
+	public Ordine(String idUser, String tipoPagamento, String indirizzoSpedizione, ArrayList<Libro> libriCollection) {
 		for(Libro l: libriCollection) {
 			this.libriOrdine.add(l);
 			this.totalCost+=(l.getPrezzo()*l.getCopieVenduteNelSingoloOrdine());
@@ -32,7 +33,7 @@ public class Ordine {
 	
 	
 	//costruttore per il pescare dal db
-	public Ordine(String id, int giorno, int mese, int anno, int ora, List<Libro> bookList, double totalCost, String paymentType, int saldoPuntiOrdine, String userId) {
+	public Ordine(String id, int giorno, int mese, int anno, int ora, List<Libro> bookList, double totalCost, String paymentType, int saldoPuntiOrdine, String userId, String indirizzoSpedizione) {
 		this.idOrdine = id;
 		this.data = LocalDateTime.of(anno, mese, giorno, ora, 0);
 		this.libriOrdine = bookList;
@@ -40,6 +41,7 @@ public class Ordine {
 		this.paymentType = paymentType;
 		this.saldoPuntiOrdine = saldoPuntiOrdine;
 		this.idUser = userId;
+		this.indirizzoSpedizione = indirizzoSpedizione;
 	}
 	
 	private String getIdOrdine(String payment, String userId) {
@@ -68,11 +70,6 @@ public class Ordine {
 		return this.data;
 	}
 	
-	//FIXME PROVA
-	public void addCosto() {
-		this.totalCost= 69; //mmh
-	}
-	
 	public String getUserId() {
 		return this.idUser;
 	}
@@ -91,6 +88,10 @@ public class Ordine {
 	
 	public int getSaldoPuntiOrdine() {
 		return this.saldoPuntiOrdine;
+	}
+	
+	public String getIndirizzoSpedizione() {
+		return this.indirizzoSpedizione;
 	}
 	
 	//metodo per trasformare un ordine in userLess nel caso in cui l'utente "padrone" dell'ordine voglia essere cancellato dal sistema

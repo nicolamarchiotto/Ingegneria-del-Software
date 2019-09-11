@@ -14,7 +14,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			System.out.println("\nConnected to da DB!"); 
 			return connect;
 		}
@@ -147,7 +147,8 @@ public class SqliteConnection {
 					sql += order.getTotalCost() + ",\n'";
 					sql += order.getPaymentType() + "',\n";
 					sql += order.getSaldoPuntiOrdine() + ",\n'";
-					sql += order.getStato() + "');";
+					sql += order.getStato() + "',\n'";
+					sql += order.getIndirizzoSpedizione() + "');";
 					
 					
 					Statement stmt = null;
@@ -777,7 +778,7 @@ public class SqliteConnection {
 								ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
 								SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
 								ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-								ordersFromDB.getInt("saldoPuntiOrdine"), user.getEmail()));				
+								ordersFromDB.getInt("saldoPuntiOrdine"), user.getEmail(), ordersFromDB.getString("indirizzoSpedizione")));				
 				}
 			}
 			else { //prendo tutti gli ordini
@@ -792,7 +793,7 @@ public class SqliteConnection {
 									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
 									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
 									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-									ordersFromDB.getInt("saldoPuntiOrdine"), singleUser.getEmail()));
+									ordersFromDB.getInt("saldoPuntiOrdine"), singleUser.getEmail(), ordersFromDB.getString("indirizzoSpedizione")));
 							break;
 						}
 						else if(ordersFromDB.getString("user").equals("")) { //utente non registrato
@@ -800,7 +801,7 @@ public class SqliteConnection {
 									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
 									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
 									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-									ordersFromDB.getInt("saldoPuntiOrdine"), ""));
+									ordersFromDB.getInt("saldoPuntiOrdine"), "", ordersFromDB.getString("indirizzoSpedizione")));
 						}
 					}
 				}
@@ -827,7 +828,7 @@ public class SqliteConnection {
 							ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
 							SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
 							ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-							ordersFromDB.getInt("saldoPuntiOrdine"), ordersFromDB.getString("user"));	
+							ordersFromDB.getInt("saldoPuntiOrdine"), ordersFromDB.getString("user"), ordersFromDB.getString("indirizzoSpedizione"));	
 				}
 			}
 			return null;
