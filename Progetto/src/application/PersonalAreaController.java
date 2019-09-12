@@ -2,8 +2,11 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +17,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class PersonalAreaController implements Initializable{
@@ -27,6 +33,9 @@ public class PersonalAreaController implements Initializable{
 	@FXML private Button signOutButton;
 	@FXML private Button saveChangesButton;
 	
+	LoginController controller=new LoginController();
+	
+	private User userLogged=controller.getUserLogged();
 	
 	/*
 	 * stuff fot the personal data tab
@@ -40,9 +49,23 @@ public class PersonalAreaController implements Initializable{
 	@FXML private TextField email;
 	@FXML private TextField pw;
 	
-	LoginController controller=new LoginController();
 	
-	private User userLogged=controller.getUserLogged();
+	/*
+	 * stuff for the manage the addresses
+	 */
+	@FXML private TableView<Indirizzo> tableView;
+	@FXML private TableColumn<Indirizzo, String> viaColumn;
+	@FXML private TableColumn<Indirizzo, String> cittaColumn;
+	@FXML private TableColumn<Indirizzo, Integer> capColumn;
+	@FXML private Button removeAddressButton;
+	
+	@FXML private TextField viaAdded;
+	@FXML private TextField cittaAdded;
+	@FXML private TextField capAdded;
+	@FXML private Button addAddressButton;
+	
+	
+	private ObservableList<Indirizzo> indirizziList=FXCollections.observableArrayList();
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -54,10 +77,19 @@ public class PersonalAreaController implements Initializable{
 		telNumber.setText(this.userLogged.getTelefono());
 		email.setText(this.userLogged.getEmail());
 		pw.setText(this.userLogged.getPw());
+		
+		//set up the columns in the table
+		viaColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, String>("via"));
+		cittaColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, String>("citta"));
+		capColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, Integer>("cap"));
+		
+		indirizziList=getIndirizzi();
+		tableView.setItems(indirizziList);
 	}
-	
+
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
     {
+		this.userLogged.setIndirizziDaListaDiOgettiIndirizzi(indirizziList);
 		SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
 		controller.setUserLogged(null); //at this point no user is logged
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
@@ -67,8 +99,9 @@ public class PersonalAreaController implements Initializable{
         window.show();      
     }
 	
-	public void goBackButtonPushed(ActionEvent event) throws IOException{
-		
+	public void goBackButtonPushed(ActionEvent event) throws IOException
+	{
+		this.userLogged.setIndirizziDaListaDiOgettiIndirizzi(indirizziList);
 		controller.setUserLogged(userLogged);
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(getClass().getResource("HomeScene.fxml"));
@@ -98,6 +131,8 @@ public class PersonalAreaController implements Initializable{
 				 * aggiornare anche con qualche metodo appartenente a SqliteConncetion??
 				 */
 				
+				AlertBox.display("Success", "Your data have been upadted");
+				
 			}
 			else {
 				AlertBox.display("Error", "All fields must be filled");
@@ -121,13 +156,78 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		if(this.city.getText() == null || this.city.getText().trim().isEmpty())
 			return false;
-		if(this.cap.getText() == null || this.cap.getText().trim().isEmpty() || (Integer.valueOf(this.cap.getText()) instanceof Integer))
+		if(this.cap.getText() == null || this.cap.getText().trim().isEmpty())
 			return false;
-		if(this.telNumber.getText() == null || this.telNumber.getText().trim().isEmpty() || (Integer.valueOf(this.telNumber.getText()) instanceof Integer))
+		if(this.telNumber.getText() == null || this.telNumber.getText().trim().isEmpty())
 			return false;
 		if(this.pw.getText() == null || this.pw.getText().trim().isEmpty())
+			return false;
+		if(!(Integer.valueOf(this.cap.getText()) instanceof Integer && (Integer.valueOf(this.telNumber.getText()) instanceof Integer)))
 			return false;
 		
 		return true;
 	}
+	
+	private ObservableList<Indirizzo> getIndirizzi() {
+		
+		ObservableList<Indirizzo> supList=FXCollections.observableArrayList();
+		
+		List<String> listaInStringhe=this.userLogged.getIndirizziFormattati();
+		for(String s:listaInStringhe) {
+			supList.add(new Indirizzo((s.split(",")[0]), (s.split(",")[1]), (s.split(",")[2])));
+		}
+		return supList;
+	}
+	
+	public void removeAddressButtonPushed() {
+		if(tableView.getSelectionModel().getSelectedItem() == null) {
+			AlertBox.display("ERROR", "Non è stato selezionato nessun indirizzo");
+			return;
+		}else if(tableView.getSelectionModel().getSelectedIndex()==0) {
+			AlertBox.display("ERROR", "Non puoi eliminare il tuo indirizzo di residenza");
+			return;
+		}else {
+			Indirizzo indirizzo=tableView.getSelectionModel().getSelectedItem();
+			this.indirizziList.remove(indirizzo);
+			this.tableView.setItems(this.indirizziList);
+		}
+	}
+	
+	public void addAddressButtonPushed() {
+		try{
+			if(checkAddressInput()) {
+				this.indirizziList.add(new Indirizzo(this.viaAdded.getText(), this.cittaAdded.getText(), this.capAdded.getText()));
+				this.tableView.setItems(this.indirizziList);
+				this.viaAdded.setText("");
+				this.cittaAdded.setText("");
+				this.capAdded.setText("");
+			}
+			else {
+				AlertBox.display("Error", "All fields must be filled");
+				return;
+			}
+		}
+		catch(NumberFormatException e) {
+			AlertBox.display("Error", "Cap must be numeric input");
+			return;
+		}
+			
+		
+			
+	}
+
+	private boolean checkAddressInput() throws NumberFormatException{
+		if(this.viaAdded.getText() == null || this.viaAdded.getText().trim().isEmpty())
+			return false;
+		if(this.cittaAdded.getText() == null || this.cittaAdded.getText().trim().isEmpty())
+			return false;
+		if(this.capAdded.getText() == null || this.capAdded.getText().trim().isEmpty())
+			return false;
+		if(!(Integer.valueOf(this.capAdded.getText()) instanceof Integer))
+			return false;
+		
+		return true;
+	}
+	
+	
 }

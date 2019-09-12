@@ -95,7 +95,7 @@ public class DetailedBookController implements Initializable{
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
-        window.show();      
+        window.show();      	
     }
 	
 	public void goBackButtonPushed(ActionEvent event) throws IOException{
