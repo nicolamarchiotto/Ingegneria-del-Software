@@ -179,7 +179,7 @@ public class ResponsabileController implements Initializable{
 	
 	private boolean verifyDateAndPrice() {
 		
-		return (Integer.valueOf(annoPubblicazione.getText()) instanceof Integer) && (Double.valueOf(prezzo.getText()) instanceof Double); 	
+		return (Long.valueOf(annoPubblicazione.getText()) instanceof Long) && (Double.valueOf(prezzo.getText()) instanceof Double); 	
 	}
 	
 

@@ -90,7 +90,14 @@ public class PersonalAreaController implements Initializable{
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
     {
 		this.userLogged.setIndirizziDaListaDiOgettiIndirizzi(indirizziList);
-		SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
+		for(String s: this.userLogged.getIndirizziFormattati()) {
+			System.out.println(s);
+		}
+		/*
+		 * FIXME GUG
+		 * linea che causa errore che ti dicevo
+		 * SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
+		 */
 		controller.setUserLogged(null); //at this point no user is logged
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
@@ -132,6 +139,7 @@ public class PersonalAreaController implements Initializable{
 				 */
 				
 				AlertBox.display("Success", "Your data have been upadted");
+				//this.tableView.setItems(indirizziList);
 				
 			}
 			else {
@@ -162,7 +170,7 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		if(this.pw.getText() == null || this.pw.getText().trim().isEmpty())
 			return false;
-		if(!(Integer.valueOf(this.cap.getText()) instanceof Integer && (Integer.valueOf(this.telNumber.getText()) instanceof Integer)))
+		if(!((Long.valueOf(this.cap.getText())instanceof Long) && (Long.valueOf(this.telNumber.getText())instanceof Long)))
 			return false;
 		
 		return true;
@@ -210,10 +218,7 @@ public class PersonalAreaController implements Initializable{
 		catch(NumberFormatException e) {
 			AlertBox.display("Error", "Cap must be numeric input");
 			return;
-		}
-			
-		
-			
+		}			
 	}
 
 	private boolean checkAddressInput() throws NumberFormatException{
@@ -223,7 +228,7 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		if(this.capAdded.getText() == null || this.capAdded.getText().trim().isEmpty())
 			return false;
-		if(!(Integer.valueOf(this.capAdded.getText()) instanceof Integer))
+		if(!(Long.valueOf(this.capAdded.getText()) instanceof Long))
 			return false;
 		
 		return true;
