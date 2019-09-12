@@ -79,5 +79,15 @@ public class PersonalAreaController implements Initializable{
         window.setScene(tableViewScene);
         window.show();
     }
+	
+	public void saveChangesButtonPushed() {
+		if(verifyField()) {
+			
+		}
+	}
 
+	private boolean verifyField() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
