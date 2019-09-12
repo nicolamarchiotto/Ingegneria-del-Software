@@ -14,8 +14,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
-			System.out.println("\nConnected to da DB!"); 
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			return connect;
 		}
 		catch(Exception e) {
@@ -143,14 +142,14 @@ public class SqliteConnection {
 					sql += "INSERT INTO OrderList VALUES\n";
 					sql += "('" + order.getIdOrdine() + "',\n'";
 					sql += order.getUserId()+ "',\n'";
-					sql += SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n";
+					sql += SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n'";
+					sql += order.getStringaCopieLibri()+ "',\n";
 					sql += order.getTotalCost() + ",\n'";
 					sql += order.getPaymentType() + "',\n";
 					sql += order.getSaldoPuntiOrdine() + ",\n'";
 					sql += order.getStato() + "',\n'";
 					sql += order.getIndirizzoSpedizione() + "');";
 					
-					System.out.println("OOOOOOO " + sql);
 					Statement stmt = null;
 					
 					try {
@@ -300,18 +299,22 @@ public class SqliteConnection {
 					sql += "INSERT INTO OrderList VALUES\n";
 					sql += "('" + order.getIdOrdine() + "',\n'";
 					sql += order.getUserId()+ "',\n'";
-					sql += SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n";
+					sql += SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n'";
+					sql += order.getStringaCopieLibri()+ "',\n";
 					sql += order.getTotalCost() + ",\n'";
 					sql += order.getPaymentType() + "',\n";
 					sql += order.getSaldoPuntiOrdine() + ",\n'";
-					sql += order.getStato() + "')\n";
+					sql += order.getStato() + "',\n'";
+					sql += order.getIndirizzoSpedizione() + "')\n";
 					sql += "ON CONFLICT(id) DO "; //in caso di conflitto aggiorno l'entry nella tabella
 					sql += "UPDATE SET ";
 					sql += "libriOrdine = '" + SqliteConnection.bookListToISBNString(order.getLibri()) + "',\n";
+					sql += "stringaCopieLibri = '" + order.getStringaCopieLibri() + "',\n";
 					sql += "totalCost = " + order.getTotalCost() + ",\n";
 					sql += "paymentType = '" + order.getPaymentType() + "',\n";
 					sql += "saldoPuntiOrdine = " + order.getSaldoPuntiOrdine() + ",\n";
-					sql += "stato = '" + order.getStato() + "'\n";
+					sql += "stato = '" + order.getStato() + "',\n";
+					sql += "indirizzoSpedizione = '" + order.getIndirizzoSpedizione() + "'\n";
 					sql += "WHERE id = '" + order.getIdOrdine() + "' AND user = '" + order.getUserId() + "';";
 					   
 					Statement stmt = null;
@@ -527,23 +530,38 @@ public class SqliteConnection {
 	
 	
 	//metodo per prendere una stringa di isbn separati tra loro da # e ritornare i libri equivalenti presenti all'interno del DB
-	public static List<Libro> isbnStringToBookList(String isbnString){
+	public static List<Libro> isbnStringToBookList(String isbnString, String bookCopiesString){
 		List<Libro> bookList = new ArrayList<Libro>();
 		String isbnArray[] = isbnString.split("#");
 		
+		System.out.println("ecco l'inghippo: " + bookCopiesString);
+		
+		String bookCopiesArray[] = bookCopiesString.split("#");
+		
+		if(isbnArray.length != bookCopiesArray.length) {
+			AlertBox.display("ERROR", "Oops that's embarassing, this shouldn't pop up..");
+			return null;
+		}
+		
 		if(isbnArray.length != 0) {
 			String sql = "";
+			int i = 0; //iteratore su bookCopiesArray
 			for(String isbn : isbnArray) {
 				sql = "SELECT * FROM BookList\n WHERE BookList.isbn = " + isbn;
 				
 				Statement stmt = null;
 				try {
 					
-					System.out.println("*****CONNESSO PER TRASFORMARE L'ISBN IN BookList*****");
+					//System.out.println("*****CONNESSO PER TRASFORMARE L'ISBN IN BookList*****");
 					
 					stmt = SqliteConnection.dbConnector().createStatement();
 					ResultSet booksFromDB = stmt.executeQuery(sql);
-					bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"), booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("puntiCarta")));
+					bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), 
+							booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"), 
+							booksFromDB.getString("isbn"), booksFromDB.getString("genere"), 
+							booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), 
+							Integer.parseInt(bookCopiesArray[i++]), booksFromDB.getInt("copieVenduteTotali"), 
+							booksFromDB.getInt("puntiCarta")));
 				}
 				catch(SQLException e) {
 					System.out.println(e.getMessage());
@@ -584,19 +602,15 @@ public class SqliteConnection {
 	
 	//metodo per fare update in fase di logOut
 	public static void savingOnLogOut(User user) {
-		if(user.getOrdini() != null && user.getOrdini().size() != 0) {
-			System.out.println("\nSaving user's orders..  ");
-			SqliteConnection.updateOrdine(user.getOrdini());
-			System.out.print("OK");
-		}
-
-		if(user != null) {
-			System.out.println("\nSaving user..  ");
+		if(user != null && user.getLibroCard() != null) { //not admin and logged in
+			if(user.getOrdini() != null && user.getOrdini().size() != 0) { //at least one order to save
+				SqliteConnection.updateOrdine(user.getOrdini());
+				System.out.println("\nUser's orders SAVED");
+			}
 			SqliteConnection.updateUser(user);
-			System.out.print("OK");
-			System.out.println("\n------" + user.getEmail() + " SUCCESFULLY LOGGED OUT------\n");
+			System.out.println("\nUser SAVED");
+			System.out.println("\n------" + user.getEmail() + " SUCCESFULLY LOGGED OUT------\n");	
 		}
-		
 	}
 	
 	
@@ -649,7 +663,13 @@ public class SqliteConnection {
 		List<User> userList = new ArrayList<User>();
 		try {
 			while(usersFromDB.next()) {
-				userList.add(new User(usersFromDB.getString("nome"), usersFromDB.getString("cognome"), usersFromDB.getString("indirizzo"), usersFromDB.getString("cap"), usersFromDB.getString("citta"), usersFromDB.getString("telefono"), usersFromDB.getString("email"), usersFromDB.getString("password"), usersFromDB.getString("libroCard"), usersFromDB.getInt("punti"), usersFromDB.getInt("giorno"), usersFromDB.getInt("mese"), usersFromDB.getInt("anno"), usersFromDB.getInt("ora")));
+				userList.add(new User(usersFromDB.getString("nome"), usersFromDB.getString("cognome"), 
+						usersFromDB.getString("indirizzo"), usersFromDB.getString("cap"), 
+						usersFromDB.getString("citta"), usersFromDB.getString("telefono"), 
+						usersFromDB.getString("email"), usersFromDB.getString("password"),
+						usersFromDB.getString("libroCard"), usersFromDB.getInt("punti"), 
+						usersFromDB.getInt("giorno"), usersFromDB.getInt("mese"), 
+						usersFromDB.getInt("anno"), usersFromDB.getInt("ora")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -709,8 +729,11 @@ public class SqliteConnection {
 		try {
 			while(booksFromDB.next()) {
 				
-				bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
-						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), booksFromDB.getInt("copieVenduteTotali")));
+				bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), 
+						booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
+						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), 
+						booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), 0,
+						booksFromDB.getInt("copieVenduteTotali"), booksFromDB.getInt("puntiCarta")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -776,7 +799,7 @@ public class SqliteConnection {
 					if(ordersFromDB.getString("user").equals(user.getEmail()))
 						orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
 								ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
-								SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
+								SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
 								ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
 								ordersFromDB.getInt("saldoPuntiOrdine"), user.getEmail(), ordersFromDB.getString("indirizzoSpedizione")));				
 				}
@@ -791,7 +814,7 @@ public class SqliteConnection {
 						if(singleUser.getEmail().equals(ordersFromDB.getString("user"))) {
 							orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
 									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
-									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
+									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
 									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
 									ordersFromDB.getInt("saldoPuntiOrdine"), singleUser.getEmail(), ordersFromDB.getString("indirizzoSpedizione")));
 							break;
@@ -799,7 +822,7 @@ public class SqliteConnection {
 						else if(ordersFromDB.getString("user").equals("")) { //utente non registrato
 							orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
 									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
-									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
+									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
 									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
 									ordersFromDB.getInt("saldoPuntiOrdine"), "", ordersFromDB.getString("indirizzoSpedizione")));
 						}
@@ -826,7 +849,7 @@ public class SqliteConnection {
 				if(ordersFromDB.getString("id").equals(id)) {
 					return new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
 							ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
-							SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine")), 
+							SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
 							ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
 							ordersFromDB.getInt("saldoPuntiOrdine"), ordersFromDB.getString("user"), ordersFromDB.getString("indirizzoSpedizione"));	
 				}

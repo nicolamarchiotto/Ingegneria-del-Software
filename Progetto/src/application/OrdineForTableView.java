@@ -2,6 +2,7 @@ package application;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrdineForTableView {
 	
@@ -9,7 +10,7 @@ public class OrdineForTableView {
 	private String idAcquirente;
 	private String dataAcquisto;
 	private String stato;
-	private ArrayList<Libro> libri;
+	private List<Libro> libri;
 	private String indirizzoSpedizione;
 	private User user;
 	private Ordine ordine;
@@ -31,6 +32,7 @@ public class OrdineForTableView {
 		this.dataAcquisto=ordine.getData().toString();
 		this.stato=ordine.getStato();
 		this.indirizzoSpedizione=ordine.getIndirizzoSpedizione();
+		this.libri = this.ordine.getLibri();
 		
 	}
 	public String toString() {
@@ -58,7 +60,7 @@ public class OrdineForTableView {
 		return this.stato;
 	}
 	
-	public ArrayList<Libro> getLibri(){
+	public List<Libro> getLibri(){
 		return this.libri;
 		//this.ordine.getLibri();
 	}

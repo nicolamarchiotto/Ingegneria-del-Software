@@ -61,7 +61,7 @@ public class User implements Comparable<Object>{
 			this.puntiCard=this.librocard.getPunti();
 		}
 		this.setListaOrdini();
-		
+				
 		//FIXME testArea
 		//System.out.println(this.ordini.size() + "    " + this.ordini.toString());
 	}
@@ -90,7 +90,7 @@ public class User implements Comparable<Object>{
 	
 	//FIXME DA TESTARE 
 	public void setListaOrdini(){
-		System.out.println("-----FETCHING ORDERS FOR " + this + "-----");
+		System.out.println("-----FETCHING ORDERS FOR " + this + "-----\n\n");
 	 	this.ordini=SqliteConnection.getOrderList(this);
 	 }
 	
