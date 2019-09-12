@@ -27,7 +27,7 @@
                </font>
             </Label>
             <Button fx:id="BasketButton" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" onAction="#BasketButtonPushed" text="Basket" />
-            <Button fx:id="PersonalAreaButton" maxHeight="25.0" maxWidth="90.0" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Personal Area" />
+            <Button fx:id="PersonalAreaButton" maxHeight="25.0" maxWidth="90.0" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" onAction="#PersonalAreaButtonPushed" prefHeight="25.0" prefWidth="90.0" text="Personal Area" />
             <Button fx:id="SignOutButton" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" onAction="#SignOutButtonPushed" prefHeight="25.0" prefWidth="90.0" text="Sign Out" />
          </children>
       </HBox>

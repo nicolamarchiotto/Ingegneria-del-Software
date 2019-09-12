@@ -104,24 +104,8 @@ public class User implements Comparable<Object>{
 		this.librocard.aggiungiPunti(punti);
 	}
 	
-	public String getEmail() {
-		return this.email;
-	}
-	
-	public String getNome() {
-		return this.nome;
-	}
-	
-	public String getCognome() {
-		return this.cognome;
-	}
-	
 	public String getIndirizzi() {
 		return this.indirizzi;
-	}
-	
-	public String getTelefono() {
-		return this.telefono;
 	}
 	
 	public List<Ordine> getOrdini(){
@@ -137,7 +121,6 @@ public class User implements Comparable<Object>{
 		return true;
 	}
 	
-	
 	public boolean equals(Object other) {
 		if(this.compareTo(other)==0)
 			return true;
@@ -147,10 +130,6 @@ public class User implements Comparable<Object>{
 
 	public String toString() {
 		return this.email + " " +  this.pw ;
-	}
-	
-	public String getPw() {
-		return this.pw.toString();
 	}
 
 	public LibroCard getLibroCard() {
@@ -202,33 +181,27 @@ public class User implements Comparable<Object>{
 		return sup;
 	}
 	
+	//Name
 	
-	//metodi per la gestione di indirizzi
-	public List<String> getIndirizziFormattati(){
-		List<String> indirizziCompleti = new ArrayList<String>();
-		
-		String[] singoliIndirizzi = this.indirizzi.split("%");
-		String[] singoleCitta = this.citta.split("%");
-		String[] singoliCAP = this.cap.split("%");
-		
-		if(singoleCitta.length != singoliCAP.length || singoleCitta.length != singoliIndirizzi.length || singoliCAP.length != singoliIndirizzi.length) {
-			AlertBox.display("ERROR", "Inconsistenza tra dati: length di città, cap, indirizzo");
-			return null;
-		}
-		
-		for(int i = 0; i < singoliIndirizzi.length; i++) {
-			indirizziCompleti.add(singoliIndirizzi[i] + ", " + singoleCitta[i] + ", " + singoliCAP[i]);
-		}
-		
-		return indirizziCompleti;
+	public String getNome() {
+		return this.nome;
 	}
 	
-	public void addIndirizzo(String indirizzo, String citta, String cap) {
-		this.indirizzi += "%" + indirizzo;
-		this.citta += "%" + citta;
-		this.cap += "%" + cap;
+	public void setNome(String nome) {
+		this.nome=nome;
 	}
 	
+	//Surname
+	
+	public String getCognome() {
+		return this.cognome;
+	}
+	
+	public void setCognome(String cognome) {
+		this.cognome=cognome;
+	}
+	
+	//Address
 	
 	public String getIndirizzoResidenzaFormattato() {
 		return this.indirizzi.split("%")[0] + ", " + this.citta.split("%")[0] + ", " + this.cap.split("%")[0];
@@ -239,11 +212,80 @@ public class User implements Comparable<Object>{
 		return this.indirizzi.split("%")[0]; 
 	}
 	
+	public void setIndirizzoResidenza(String residence) {
+		int pos=this.indirizzi.split("%")[0].length();
+		String otherAddress=this.indirizzi.substring(pos, this.indirizzi.length());
+		this.indirizzi=(residence+"%"+otherAddress);
+	}
+	
 	public String getCittaResidenza() {
 		return this.citta.split("%")[0];
+	}
+	
+	public void setCittaResidenza(String residence) {
+		int pos=this.citta.split("%")[0].length();
+		String otherCities=this.citta.substring(pos, this.citta.length());
+		this.citta=(residence+"%"+otherCities);
 	}
 
 	public String getCapResidenza() {
 		return this.cap.split("%")[0];
 	}
+	
+	public void setCapResidenza(String residence) {
+		int pos=this.cap.split("%")[0].length();
+		String otherCap=this.cap.substring(pos, this.cap.length());
+		this.cap=(residence+"%"+otherCap);
+	}
+	
+	
+	
+	//metodi per la gestione di indirizzi
+	public List<String> getIndirizziFormattati(){
+		List<String> indirizziCompleti = new ArrayList<String>();
+			
+		String[] singoliIndirizzi = this.indirizzi.split("%");
+		String[] singoleCitta = this.citta.split("%");
+		String[] singoliCAP = this.cap.split("%");
+			
+		if(singoleCitta.length != singoliCAP.length || singoleCitta.length != singoliIndirizzi.length || singoliCAP.length != singoliIndirizzi.length) {
+			AlertBox.display("ERROR", "Inconsistenza tra dati: length di città, cap, indirizzo");
+			return null;
+		}
+			
+		for(int i = 0; i < singoliIndirizzi.length; i++) {
+			indirizziCompleti.add(singoliIndirizzi[i] + ", " + singoleCitta[i] + ", " + singoliCAP[i]);
+		}
+			
+		return indirizziCompleti;
+	}
+		
+	public void addIndirizzo(String indirizzo, String citta, String cap) {
+		this.indirizzi += "%" + indirizzo;
+		this.citta += "%" + citta;
+		this.cap += "%" + cap;
+	}
+	
+	//Telephone
+	
+	public String getTelefono() {
+		return this.telefono;
+	}
+	
+	//email
+	
+	public String getEmail() {
+		return this.email;
+	}
+	
+	//Password
+	
+	public String getPw() {
+		return this.pw.toString();
+	}
+	
+	public void setPw(String pw) {
+		this.pw=pw;
+	}
+		
 }

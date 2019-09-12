@@ -112,6 +112,17 @@ public class HomeController implements Initializable{
         window.show();      
     }
 	
+	public void PersonalAreaButtonPushed(ActionEvent event) throws IOException
+    {
+		controller.setUserLogged(userLogged);
+        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("PersonalAreaScene.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
+	
+	
 	public void searchButtonPushed(ActionEvent event) throws IOException{
 		if(genereComboBox.getValue() == null) {
 			errorLabel.setText("Devi selezionare un genere per effettuare una ricerca");
