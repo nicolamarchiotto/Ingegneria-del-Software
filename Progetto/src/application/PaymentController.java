@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -157,17 +158,27 @@ public class PaymentController implements Initializable{
 				RadioButton selectedRadioButton = (RadioButton) paymentToggleGroup.getSelectedToggle();
 				String paymentType = selectedRadioButton.getText();
 				
+				//salvo i cambiamenti effettuati ai libri
+				SqliteConnection.updateLibro(userLogged.getCarrello());
+				
+				//creo la stringa utile a sapere quante copie ho ordinato per ogni libro
+				String copiePerOgniSingoloLibro = this.bookCopiesArrayToString();
+				
+				
 				Ordine ordLoc=new Ordine(this.userLogged.getEmail(),paymentType,
-						indirizzoSpedizione, this.userLogged.getCarrello());
+						indirizzoSpedizione, this.userLogged.getCarrello(), copiePerOgniSingoloLibro);
+				
 				
 				this.userLogged.getOrdini().add(ordLoc);
 				SqliteConnection.insertOrder(ordLoc);
 				
-				//FIXME solo in caso utente non sia registrato
 				
-				this.userLogged.aggiungiPunti(ordLoc.getSaldoPuntiOrdine());
-				
-				this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
+				//solo in caso utente sia registrato
+				if(!this.userLogged.getIdentificativoCarta().equals(" ")) {
+					this.userLogged.aggiungiPunti(ordLoc.getSaldoPuntiOrdine());
+					
+					this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
+				}
 				
 				AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!");
 				try {
@@ -230,6 +241,21 @@ public class PaymentController implements Initializable{
 		
 		return sup;
 		
+	}
+	
+	private String bookCopiesArrayToString() {
+		String allCopiesInOneString = "";
+		List<Libro> examinedBooks = new ArrayList<Libro>();
+		
+		for(Libro singleBook : this.userLogged.getCarrello()) {
+			if(!examinedBooks.contains(singleBook)) {
+				examinedBooks.add(singleBook);
+				allCopiesInOneString += singleBook.getCopieVenduteNelSingoloOrdine() + "#";
+			}
+			System.out.println("\nReading: " + singleBook.getTitolo() + " and allcopies are " + allCopiesInOneString);
+		}
+		
+		return allCopiesInOneString.substring(0, allCopiesInOneString.length() - 1);
 	}
 
 }

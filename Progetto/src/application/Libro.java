@@ -40,7 +40,7 @@ public class Libro implements Comparable<Object>{
 	
 	//costruttore per aggiungere da DB a locale
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
-			String isbn, String genere, double prezzo, String brevedescrizione, int copieVenduteTotali) {
+			String isbn, String genere, double prezzo, String brevedescrizione, int copieVenduteNelSingoloOrdine, int copieVenduteTotali, int punti) {
 		
 		this.titolo=titolo;
 		this.autore=autori;
@@ -50,7 +50,9 @@ public class Libro implements Comparable<Object>{
 		this.genere=genere;
 		this.prezzo=prezzo;
 		this.brevedescrizione=brevedescrizione;
+		this.copieVenduteNelSingoloOrdine = copieVenduteNelSingoloOrdine;
 		this.copieVenduteTotali=copieVenduteTotali;
+		this.punti = punti;
 	}
 	
 	
@@ -136,8 +138,8 @@ public class Libro implements Comparable<Object>{
 	}
 	
 	public void aggiungiCopieAlSingoloOrdine(int numCopie) {
-		this.copieVenduteNelSingoloOrdine=this.copieVenduteNelSingoloOrdine+numCopie;
-		
+		this.copieVenduteNelSingoloOrdine += numCopie;
+		this.copieVenduteTotali += numCopie;
 	}
 	
 	public void setToZeroCopieVenduteSingoloOrdine() {
@@ -150,6 +152,7 @@ public class Libro implements Comparable<Object>{
 	
 	public void setCopieVenduteSingoloOrdine(int copie) {
 		this.copieVenduteNelSingoloOrdine=copie;
+		this.copieVenduteTotali += copie;
 	}
 	
 

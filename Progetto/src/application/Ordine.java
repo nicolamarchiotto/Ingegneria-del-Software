@@ -16,20 +16,22 @@ public class Ordine {
 	//user che ha effettuato l'ordine
 	private String idUser;
 	private String indirizzoSpedizione = null;
+	private String stringaCopieLibri = null;
 	
 	Random r=new Random();
 	
-	public Ordine(String idUser, String tipoPagamento, String indirizzoSpedizione, ArrayList<Libro> libriCollection) {
+	public Ordine(String idUser, String tipoPagamento, String indirizzoSpedizione, ArrayList<Libro> libriCollection, String bookCopiesString) {
 		for(Libro l: libriCollection) {
 			this.libriOrdine.add(l);
 			this.totalCost+=(l.getPrezzo()*l.getCopieVenduteNelSingoloOrdine());
-			this.saldoPuntiOrdine+=l.getPunti();
+			this.saldoPuntiOrdine+=l.getPunti()*l.getCopieVenduteNelSingoloOrdine();
 		}
 		this.data=LocalDateTime.now();
 		this.idUser=idUser;
 		this.paymentType=tipoPagamento;
 		this.idOrdine=getIdOrdine(tipoPagamento, idUser);
 		this.indirizzoSpedizione=indirizzoSpedizione;
+		this.stringaCopieLibri = bookCopiesString;
 	}
 	
 	
@@ -99,11 +101,12 @@ public class Ordine {
 		return this.indirizzoSpedizione;
 	}
 	
+	public String getStringaCopieLibri() {
+		return this.stringaCopieLibri;
+	}
+	
 	//metodo per trasformare un ordine in userLess nel caso in cui l'utente "padrone" dell'ordine voglia essere cancellato dal sistema
 	public void becomeUserLess() {
 		this.idUser = "";
 	}
-
-	
-
 }
