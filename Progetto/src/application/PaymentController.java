@@ -152,7 +152,7 @@ public class PaymentController implements Initializable{
 		try {
 			if(checkAllFields() && checkToogleGroup()) {
 				
-				String indirizzoSpedizione=this.viaTextField.getText()+", "+this.cittaTextField.getText()+", "+this.capTextField;
+				String indirizzoSpedizione=this.viaTextField.getText()+", "+this.cittaTextField.getText()+", "+this.capTextField.getText();
 				
 				RadioButton selectedRadioButton = (RadioButton) paymentToggleGroup.getSelectedToggle();
 				String paymentType = selectedRadioButton.getText();

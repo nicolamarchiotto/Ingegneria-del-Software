@@ -107,7 +107,7 @@ public class LoginController implements Initializable{
 			    window = (Stage)((Node)event.getSource()).getScene().getWindow();
 			    
 			 	window.setOnCloseRequest(pressingTheX -> { //salvo i cambiamenti alla pressione di [X]
-			 		System.out.println("later bitches");
+			 		System.out.println("Closing up.. I am " + userLogged.getEmail() );
 			 		SqliteConnection.savingOnLogOut(userLogged); 
 			 	});
 		    }

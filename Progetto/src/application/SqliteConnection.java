@@ -14,7 +14,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			System.out.println("\nConnected to da DB!"); 
 			return connect;
 		}
@@ -584,19 +584,15 @@ public class SqliteConnection {
 	
 	//metodo per fare update in fase di logOut
 	public static void savingOnLogOut(User user) {
-		if(user.getOrdini() != null && user.getOrdini().size() != 0) {
-			System.out.println("\nSaving user's orders..  ");
-			SqliteConnection.updateOrdine(user.getOrdini());
-			System.out.print("OK");
-		}
-
-		if(user != null) {
-			System.out.println("\nSaving user..  ");
+		if(user != null && user.getLibroCard() != null) { //not admin and logged in
+			if(user.getOrdini() != null && user.getOrdini().size() != 0) { //at least one order to save
+				SqliteConnection.updateOrdine(user.getOrdini());
+				System.out.println("\nUser's orders SAVED");
+			}
 			SqliteConnection.updateUser(user);
-			System.out.print("OK");
-			System.out.println("\n------" + user.getEmail() + " SUCCESFULLY LOGGED OUT------\n");
+			System.out.println("\nUser SAVED");
+			System.out.println("\n------" + user.getEmail() + " SUCCESFULLY LOGGED OUT------\n");	
 		}
-		
 	}
 	
 	

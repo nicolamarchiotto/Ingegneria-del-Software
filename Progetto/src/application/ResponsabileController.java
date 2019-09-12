@@ -257,15 +257,15 @@ public class ResponsabileController implements Initializable{
 	
 	private ObservableList<OrdineForTableView> getOrdini() {
 		
-		//FIXME
-		List<Ordine> prova = SqliteConnection.getOrderList();
-		List<OrdineForTableView> prova2 = new ArrayList<OrdineForTableView>();
+		
+		List<Ordine> ordersFromDB = SqliteConnection.getOrderList();
+		List<OrdineForTableView> orderList = new ArrayList<OrdineForTableView>();
 		
 		
-		for(Ordine singleOrdine : prova) {
-			prova2.add(new OrdineForTableView(this.getUserForOrdine(singleOrdine.getUserId()), singleOrdine));
+		for(Ordine singleOrdine : ordersFromDB) {
+			orderList.add(new OrdineForTableView(this.getUserForOrdine(singleOrdine.getUserId()), singleOrdine));
 		}
-		ObservableList<OrdineForTableView> orders = FXCollections.observableArrayList(prova2);
+		ObservableList<OrdineForTableView> orders = FXCollections.observableArrayList(orderList);
 		
 		/*
 		 * TODO
@@ -282,19 +282,6 @@ public class ResponsabileController implements Initializable{
 		 *	String isbn, String genere, double prezzo, String brevedescrizione, int copieVenduteTotali) {
 		 */
 		
-		
-		/*ArrayList<Libro> l=new ArrayList<Libro>();
-		Libro l1=new Libro("tit", "autor", "casaEd", 1, "isbn","gen", 20.21, "brevdes", 2);
-		l1.aggiungiCopieAlSingoloOrdine(3);
-		l.add(l1);
-		
-		Libro l2=new Libro("tit2", "autor", "casaEd", 1, "isbn", "gen", 20.21, "mammamammamammamammamammammamma 	", 1);
-		l2.aggiungiCopieAlSingoloOrdine(1);
-		l.add(l2);
-		
-		orders.add(new OrdineForTableView("Ord2", "Acq2", LocalDate.now(), "In corso", l));
-		orders.add(new OrdineForTableView("Ord3", "Acq3", LocalDate.now(), "In corso", l));
-		*/
 		return orders;
 	}
 	
