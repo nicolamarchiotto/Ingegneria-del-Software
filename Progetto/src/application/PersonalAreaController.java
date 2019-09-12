@@ -25,6 +25,7 @@ public class PersonalAreaController implements Initializable{
 	
 	@FXML private Button goBackButton;
 	@FXML private Button signOutButton;
+	@FXML private Button saveChangesButton;
 	
 	
 	/*
@@ -81,13 +82,52 @@ public class PersonalAreaController implements Initializable{
     }
 	
 	public void saveChangesButtonPushed() {
-		if(verifyField()) {
-			
+		
+		try {
+			if(verifyField()) {
+				this.userLogged.setNome(this.name.getText());
+				this.userLogged.setCognome(this.surname.getText());
+				this.userLogged.setIndirizzoResidenza(this.address.getText());
+				this.userLogged.setCittaResidenza(this.city.getText());
+				this.userLogged.setCapResidenza(this.cap.getText());
+				this.userLogged.setTelefono(this.telNumber.getText());
+				this.userLogged.setPw(this.pw.getText());
+				
+				/*
+				 * FIXME GUG
+				 * aggiornare anche con qualche metodo appartenente a SqliteConncetion??
+				 */
+				
+			}
+			else {
+				AlertBox.display("Error", "All fields must be filled");
+				return;
+			}
 		}
+		catch(NumberFormatException e) {
+			AlertBox.display("Error", "Cap and Telephone number\nmust be numeric inputs");
+			return;
+		}
+		
 	}
 
-	private boolean verifyField() {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean verifyField() throws NumberFormatException{
+		
+		if(this.name.getText() == null || this.name.getText().trim().isEmpty())
+				return false;
+		if(this.surname.getText() == null || this.surname.getText().trim().isEmpty())
+			return false;
+		if(this.address.getText() == null || this.address.getText().trim().isEmpty())
+			return false;
+		if(this.city.getText() == null || this.city.getText().trim().isEmpty())
+			return false;
+		if(this.cap.getText() == null || this.cap.getText().trim().isEmpty() || (Integer.valueOf(this.cap.getText()) instanceof Integer))
+			return false;
+		if(this.telNumber.getText() == null || this.telNumber.getText().trim().isEmpty() || (Integer.valueOf(this.telNumber.getText()) instanceof Integer))
+			return false;
+		if(this.pw.getText() == null || this.pw.getText().trim().isEmpty())
+			return false;
+		
+		return true;
 	}
 }

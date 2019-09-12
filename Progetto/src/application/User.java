@@ -272,6 +272,10 @@ public class User implements Comparable<Object>{
 		return this.telefono;
 	}
 	
+	public void setTelefono(String telefono) {
+		this.telefono=telefono;
+	}
+	
 	//email
 	
 	public String getEmail() {
