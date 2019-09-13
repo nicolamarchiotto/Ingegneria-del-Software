@@ -90,10 +90,10 @@ public class LoginController implements Initializable{
 		
 		userSup=getUserFromListDB(userList, userSup);
 
-		System.out.println("Login effettuato con -> " + userSup.getEmail());
-		
 		if(userSup!=null){
 			setUserLogged(userSup);
+
+			System.out.println("Login effettuato con -> " + userSup.getEmail());
 			
 			Parent tableViewParent;
 			Scene tableViewScene;

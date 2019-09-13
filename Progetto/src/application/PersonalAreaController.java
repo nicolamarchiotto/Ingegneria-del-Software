@@ -138,6 +138,11 @@ public class PersonalAreaController implements Initializable{
 				/*
 				 * FIXME GUG
 				 * aggiornare anche con qualche metodo appartenente a SqliteConncetion??
+				 * Gug: ci sono i vari metodi SqliteConnection.updateUser/Libro/Ordine, tipo così:
+				 * this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList); //per aggiornare la situa
+				 * SqliteConnection.updateUser(this.userLogged);
+				 * 
+				 * Servirebbe un Save changes anche nella zona di aggiunta/rimozione indirizzi secondo me
 				 */
 				
 				AlertBox.display("Success", "Your data have been upadted");
