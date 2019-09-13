@@ -98,8 +98,8 @@ public class SqliteConnection {
 					sql += user.getPw() + "',\n'";
 					sql += user.getNome() + "',\n'";
 					sql += user.getCognome() + "',\n'";
-					sql += user.getIndirizzi() + "',\n";
-					sql += user.getCap() + ",\n'";
+					sql += user.getIndirizzi() + "',\n'";
+					sql += user.getCap() + "',\n'";
 					sql += user.getCitta() + "',\n";
 					sql += user.getTelefono() + ",\n'";
 					sql += libroCard + "')";
@@ -248,7 +248,7 @@ public class SqliteConnection {
 					sql += "nome = '" + user.getNome() + "',\n";
 					sql += "cognome = '" + user.getCognome() + "',\n";
 					sql += "indirizzo = '" + user.getIndirizzi() + "',\n";
-					sql += "cap = " + user.getCap() + ",\n";
+					sql += "cap = '" + user.getCap() + "',\n";
 					sql += "citta = '" + user.getCitta() + "',\n";
 					sql += "telefono = " + user.getTelefono() + "\n";
 					sql += "WHERE email = '" + user.getEmail() + "' AND libroCard = '" + user.getLibroCard().getId() + "';";

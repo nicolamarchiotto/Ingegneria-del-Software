@@ -93,15 +93,13 @@ public class PersonalAreaController implements Initializable{
 
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
     {
-		this.userLogged.setIndirizziDaListaDiOgettiIndirizzi(indirizziList);
+		this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
 		for(String s: this.userLogged.getIndirizziFormattati()) {
 			System.out.println(s);
 		}
-		/*
-		 * FIXME GUG
-		 * linea che causa errore che ti dicevo
-		 * SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
-		 */
+		
+		SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
+		 
 		controller.setUserLogged(null); //at this point no user is logged
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
@@ -112,7 +110,7 @@ public class PersonalAreaController implements Initializable{
 	
 	public void goBackButtonPushed(ActionEvent event) throws IOException
 	{
-		this.userLogged.setIndirizziDaListaDiOgettiIndirizzi(indirizziList);
+		this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
 		controller.setUserLogged(userLogged);
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(getClass().getResource("HomeScene.fxml"));

@@ -88,13 +88,11 @@ public class User implements Comparable<Object>{
 			return -1;		
 	}
 	
-	//FIXME DA TESTARE 
 	public void setListaOrdini(){
 		System.out.println("-----FETCHING ORDERS FOR " + this + "-----\n\n");
 	 	this.ordini=SqliteConnection.getOrderList(this);
 	 }
 	
-	//FIXME PER TESTARE
 	public void addOrder(Ordine order) {
 		this.ordini.add(order);
 	}
@@ -249,7 +247,7 @@ public class User implements Comparable<Object>{
 		String[] singoliCAP = this.cap.split("%");
 			
 		if(singoleCitta.length != singoliCAP.length || singoleCitta.length != singoliIndirizzi.length || singoliCAP.length != singoliIndirizzi.length) {
-			AlertBox.display("ERROR", "Inconsistenza tra dati: length di città, cap, indirizzo");
+			AlertBox.display("ERROR", "Inconsistenza tra dati: length di città: " + singoleCitta.length +", cap: " + singoliCAP.length + ", indirizzo: " + singoliIndirizzi.length);
 			return null;
 		}
 			
@@ -260,7 +258,7 @@ public class User implements Comparable<Object>{
 		return indirizziCompleti;
 	}
 	
-	public void setIndirizziDaListaDiOgettiIndirizzi(List<Indirizzo> indirizzi) {
+	public void setIndirizziDaListaDiOggettiIndirizzi(List<Indirizzo> indirizzi) {
 		String newAddress="";
 		String newCity="";
 		String newCap="";
