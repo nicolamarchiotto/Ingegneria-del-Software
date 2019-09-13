@@ -35,11 +35,11 @@ public class HomeController implements Initializable{
 	@FXML private Label WellcomeLabel;
 	@FXML private Button SeeDetailesButton;
 	@FXML private Button BasketButton;
+	@FXML private Button AddToBasketButton;
 	
 	@FXML private ComboBox<String> genereComboBox;
 	@FXML private Button searchButton;
 	
-	@FXML private Label errorLabel;
 	
 	LoginController controller=new LoginController();
 	
@@ -102,6 +102,8 @@ public class HomeController implements Initializable{
         window.show();      
     }
 	
+	
+	
 	public void BasketButtonPushed(ActionEvent event) throws IOException
     {
 		controller.setUserLogged(userLogged);
@@ -122,18 +124,33 @@ public class HomeController implements Initializable{
         window.show();      
     }
 	
-	
 	public void searchButtonPushed(ActionEvent event) throws IOException{
 		if(genereComboBox.getValue() == null) {
-			errorLabel.setText("Devi selezionare un genere per effettuare una ricerca");
+			AlertBox.display("Error", "Devi selezionare un genere per effettuare una ricerca");
 			return;
 		}
-		errorLabel.setText("");
-		
 		String selectedGenere=genereComboBox.getValue().toString();
 		
 		tableView.setItems(getLibri(selectedGenere));
 
+	}
+	
+	public void addToBasketButtonPushed() {
+		Libro selectedLibro=this.tableView.getSelectionModel().getSelectedItem();
+		if(selectedLibro==null) {
+			AlertBox.display("Error", "Nessun libro selezionato");
+			return;
+		}
+		else if(this.userLogged.getCarrello().contains(selectedLibro)) {
+			AlertBox.display("Error", "Libro già presente nel tuo carrello\nPer rimuoverlo vai alla sezione carrello");
+			return;
+		}
+		else {
+			AlertBox.display("Hurray", "Libro agginuto al tuo carrello");
+			this.userLogged.addLibroToCarrello(selectedLibro);
+			return;
+		}
+		
 	}
 	
 	@Override
@@ -145,7 +162,6 @@ public class HomeController implements Initializable{
 		
 		WellcomeLabel.setText("Welcome " +userLogged.getNome()+", good Shopping");
 		
-		errorLabel.setText("");
 		
 		//set up the columns in the table
 		titoloColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));

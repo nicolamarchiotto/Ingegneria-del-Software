@@ -24,7 +24,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <GridPane alignment="CENTER" layoutX="20.0" layoutY="26.0" maxHeight="300.0" minHeight="500.0" prefHeight="300.0" prefWidth="560.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="26.0">
+                        <GridPane alignment="CENTER" layoutX="20.0" layoutY="-10.0" maxHeight="321.0" minHeight="216.0" prefHeight="306.0" prefWidth="560.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="-10.0">
                           <columnConstraints>
                               <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="108.0" minWidth="9.0" prefWidth="76.0" />
                             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="271.0" minWidth="10.0" prefWidth="202.0" />
@@ -32,20 +32,21 @@
                             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="192.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="40.0" minHeight="60.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="40.0" minHeight="60.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="40.0" minHeight="60.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="40.0" minHeight="60.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="55.0" minHeight="55.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="55.0" minHeight="55.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="55.0" minHeight="55.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="55.0" minHeight="55.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="55.0" minHeight="55.0" prefHeight="55.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <TextField fx:id="name" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="1" />
                               <TextField fx:id="surname" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <TextField fx:id="address" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <TextField fx:id="city" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField fx:id="cap" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="3" />
-                              <TextField fx:id="telNumber" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                              <TextField fx:id="email" editable="false" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                              <TextField fx:id="pw" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              <TextField fx:id="cap" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="telNumber" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="3" />
+                              <TextField fx:id="email" editable="false" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <TextField fx:id="pw" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                               <Label text="Name">
                                  <font>
                                     <Font name="System Bold Italic" size="12.0" />
@@ -66,26 +67,38 @@
                                     <Font name="System Bold Italic" size="12.0" />
                                  </font>
                               </Label>
-                              <Label text="CAP of&#10;residence" GridPane.columnIndex="2">
+                              <Label text="CAP of&#10;residence" GridPane.rowIndex="4">
                                  <font>
                                     <Font name="System Bold Italic" size="12.0" />
                                  </font>
                               </Label>
-                              <Label text="Telephone&#10;Number" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <Label text="Telephone&#10;number" GridPane.columnIndex="2">
                                  <font>
                                     <Font name="System Bold Italic" size="12.0" />
                                  </font>
                               </Label>
-                              <Label text="E-mail" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                              <Label text="E-mail" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <font>
                                     <Font name="System Bold Italic" size="12.0" />
                                  </font>
                               </Label>
-                              <Label text="Password" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                              <Label text="Password" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                  <font>
                                     <Font name="System Bold Italic" size="12.0" />
                                  </font>
                               </Label>
+                              <Label text="Punti LibroCard" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="System Bold Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Data creazione&#10;account" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font name="System Bold Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="puntiLibroCard" editable="false" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              <TextField fx:id="dataCreazioneAccount" editable="false" maxHeight="25.0" maxWidth="170.0" minHeight="25.0" minWidth="170.0" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                         <HBox alignment="CENTER_RIGHT" layoutX="-6.0" layoutY="198.0" prefHeight="50.0" prefWidth="600.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -133,7 +146,34 @@
             </Tab>
           <Tab fx:id="orderTab" text="I tuoi ordini">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="20.0" layoutY="61.0" prefHeight="200.0" prefWidth="424.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                          <columns>
+                            <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Id Ordine" />
+                            <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Data Acquisto" />
+                              <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Stato" />
+                              <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Saldo Ordine" />
+                          </columns>
+                        </TableView>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TextField promptText="Inserisci id ordine" />
+                              <Button mnemonicParsing="false" text="Cerca tramite id ordine" />
+                           </children>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" layoutX="8.0" layoutY="221.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="270.0">
+                           <children>
+                              <Button mnemonicParsing="false" text="See detailes" />
+                           </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </HBox>
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>

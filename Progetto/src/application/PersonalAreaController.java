@@ -48,6 +48,8 @@ public class PersonalAreaController implements Initializable{
 	@FXML private TextField telNumber;
 	@FXML private TextField email;
 	@FXML private TextField pw;
+	@FXML private TextField puntiLibroCard;
+	@FXML private TextField dataCreazioneAccount;
 	
 	
 	/*
@@ -77,6 +79,8 @@ public class PersonalAreaController implements Initializable{
 		telNumber.setText(this.userLogged.getTelefono());
 		email.setText(this.userLogged.getEmail());
 		pw.setText(this.userLogged.getPw());
+		puntiLibroCard.setText(String.valueOf(this.userLogged.getLibroCard().getPunti()));
+		dataCreazioneAccount.setText(this.userLogged.getLibroCard().getDataEmissione().toString());
 		
 		//set up the columns in the table
 		viaColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, String>("via"));
