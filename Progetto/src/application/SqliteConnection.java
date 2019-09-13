@@ -187,7 +187,6 @@ public class SqliteConnection {
 				
 				System.out.println("*****CONNESSO PER AGGIUNGERE UN LIBRO*****");
 				
-				System.out.println("ciao" + objectList.toString());
 				for(Object libro : objectList) {
 					Libro book = (Libro)libro;
 					
@@ -280,8 +279,6 @@ public class SqliteConnection {
 				
 				for(Object ordine : objectList) {
 					Ordine order = (Ordine)ordine;//non voglio permettere il variare i campi PRIMARY KEY o UNIQUE (vedi stessa situazione in UPDATE Libri)
-					
-					System.out.println("prova prova per: " + order.getIdOrdine() + " copie: " + order.getStringaCopieLibri());
 					
 					//idea di fondo: provo a fare un inserimento dove se vado in conflitto (ordine esiste già), non inserisco e faccio un update
 					sql += "INSERT INTO DateList VALUES\n";
@@ -801,7 +798,7 @@ public class SqliteConnection {
 								ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
 								SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
 								ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-								ordersFromDB.getInt("saldoPuntiOrdine"), user.getEmail(), ordersFromDB.getString("indirizzoSpedizione")));				
+								ordersFromDB.getInt("saldoPuntiOrdine"), user.getEmail(), ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri")));				
 				}
 			}
 			else { //prendo tutti gli ordini
@@ -816,7 +813,7 @@ public class SqliteConnection {
 									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
 									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
 									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-									ordersFromDB.getInt("saldoPuntiOrdine"), singleUser.getEmail(), ordersFromDB.getString("indirizzoSpedizione")));
+									ordersFromDB.getInt("saldoPuntiOrdine"), singleUser.getEmail(), ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri")));
 							break;
 						}
 						else if(ordersFromDB.getString("user").equals("")) { //utente non registrato
@@ -824,7 +821,7 @@ public class SqliteConnection {
 									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
 									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
 									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-									ordersFromDB.getInt("saldoPuntiOrdine"), "", ordersFromDB.getString("indirizzoSpedizione")));
+									ordersFromDB.getInt("saldoPuntiOrdine"), "", ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri")));
 						}
 					}
 				}
@@ -851,7 +848,7 @@ public class SqliteConnection {
 							ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
 							SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
 							ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-							ordersFromDB.getInt("saldoPuntiOrdine"), ordersFromDB.getString("user"), ordersFromDB.getString("indirizzoSpedizione"));	
+							ordersFromDB.getInt("saldoPuntiOrdine"), ordersFromDB.getString("user"), ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri"));	
 				}
 			}
 			return null;

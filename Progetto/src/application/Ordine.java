@@ -36,7 +36,7 @@ public class Ordine {
 	
 	
 	//costruttore per il pescare dal db
-	public Ordine(String id, int giorno, int mese, int anno, int ora, List<Libro> bookList, double totalCost, String paymentType, int saldoPuntiOrdine, String userId, String indirizzoSpedizione) {
+	public Ordine(String id, int giorno, int mese, int anno, int ora, List<Libro> bookList, double totalCost, String paymentType, int saldoPuntiOrdine, String userId, String indirizzoSpedizione, String bookCopiesString) {
 		this.idOrdine = id;
 		this.data = LocalDateTime.of(anno, mese, giorno, ora, 0);
 		this.libriOrdine = bookList;
@@ -45,6 +45,7 @@ public class Ordine {
 		this.saldoPuntiOrdine = saldoPuntiOrdine;
 		this.idUser = userId;
 		this.indirizzoSpedizione = indirizzoSpedizione;
+		this.stringaCopieLibri = bookCopiesString;
 	}
 	
 	private String getIdOrdine(String payment, String userId) {

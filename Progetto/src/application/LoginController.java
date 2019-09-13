@@ -85,11 +85,12 @@ public class LoginController implements Initializable{
 		String pwSup=pwPasswordField.getText();
 		
 		User userSup = new User(emailSup, pwSup);
-		System.out.println(userSup.toString());
 		
 		List<User> userList=getUserList();
 		
 		userSup=getUserFromListDB(userList, userSup);
+
+		System.out.println("Login effettuato con -> " + userSup.getEmail());
 		
 		if(userSup!=null){
 			setUserLogged(userSup);
