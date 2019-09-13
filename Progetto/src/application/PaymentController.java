@@ -168,9 +168,13 @@ public class PaymentController implements Initializable{
 				Ordine ordLoc=new Ordine(this.userLogged.getEmail(),paymentType,
 						indirizzoSpedizione, this.userLogged.getCarrello(), copiePerOgniSingoloLibro);
 				
-				
+				System.out.println(this.userLogged.getOrdini());
 				this.userLogged.getOrdini().add(ordLoc);
+				System.out.println(this.userLogged.getOrdini());
+
 				SqliteConnection.insertOrder(ordLoc);
+				System.out.println(this.userLogged.getOrdini());
+				//FIXME WTF sembra che già prima dell aggiunta dell'ordine gli ordini precedenti abbiano le copiePerOgniSingolo libro a NULL
 				
 				
 				//solo in caso utente sia registrato
@@ -179,6 +183,10 @@ public class PaymentController implements Initializable{
 					
 					this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
 				}
+				
+				System.out.println("prova stampa Ordini: ");
+				for(Ordine singolo : userLogged.getOrdini())
+					System.out.println(singolo.getStringaCopieLibri());
 				
 				AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!");
 				try {

@@ -281,6 +281,8 @@ public class SqliteConnection {
 				for(Object ordine : objectList) {
 					Ordine order = (Ordine)ordine;//non voglio permettere il variare i campi PRIMARY KEY o UNIQUE (vedi stessa situazione in UPDATE Libri)
 					
+					System.out.println("prova prova per: " + order.getIdOrdine() + " copie: " + order.getStringaCopieLibri());
+					
 					//idea di fondo: provo a fare un inserimento dove se vado in conflitto (ordine esiste già), non inserisco e faccio un update
 					sql += "INSERT INTO DateList VALUES\n";
 					sql += "('" + order.getIdOrdine() + "',\n";
@@ -533,8 +535,6 @@ public class SqliteConnection {
 	public static List<Libro> isbnStringToBookList(String isbnString, String bookCopiesString){
 		List<Libro> bookList = new ArrayList<Libro>();
 		String isbnArray[] = isbnString.split("#");
-		
-		System.out.println("ecco l'inghippo: " + bookCopiesString);
 		
 		String bookCopiesArray[] = bookCopiesString.split("#");
 		

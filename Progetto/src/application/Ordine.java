@@ -54,7 +54,7 @@ public class Ordine {
 	}
 	
 	public String toString() {
-		return this.idOrdine+" "+this.idUser+" "+this.indirizzoSpedizione;
+		return this.idOrdine+" "+this.idUser+" "+this.indirizzoSpedizione + " " + this.getStringaCopieLibri();
 	}
 	
 	public String getStato() {
