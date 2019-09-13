@@ -61,6 +61,9 @@ public class User implements Comparable<Object>{
 			this.puntiCard=this.librocard.getPunti();
 		}
 		this.setListaOrdini();
+				
+		//FIXME testArea
+		//System.out.println(this.ordini.size() + "    " + this.ordini.toString());
 	}
 	
 	public User(String indirizzi, String cap, String citta) {
@@ -255,6 +258,25 @@ public class User implements Comparable<Object>{
 		}
 			
 		return indirizziCompleti;
+	}
+	
+	public void setIndirizziDaListaDiOgettiIndirizzi(List<Indirizzo> indirizzi) {
+		String newAddress="";
+		String newCity="";
+		String newCap="";
+		
+		for(Indirizzo i:indirizzi) {
+			newAddress+=("%" +i.getVia());
+			newCity+=("%" + i.getCitta());
+			newCap+=("%"+ i.getCap());
+		}
+		newAddress=newAddress.substring(1);
+		newCity=newCity.substring(1);
+		newCap=newCap.substring(1);
+		
+		this.indirizzi=newAddress;
+		this.citta=newCity;
+		this.cap=newCap;
 	}
 		
 	public void addIndirizzo(String indirizzo, String citta, String cap) {
