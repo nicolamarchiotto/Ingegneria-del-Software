@@ -3,6 +3,8 @@ package application;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 
@@ -42,13 +44,18 @@ public class SqliteConnection {
 					sql += "(" + book.getIsbn() + ",\n'";
 					sql += book.getTitolo() + "',\n'";
 					sql += book.getAutore() + "',\n";
-					sql += book.getAnnoPublicazione() + ",\n'";
+					sql += book.getAnnoPubblicazione() + ",\n'";
 					sql += book.getCasaEditrice() + "',\n'";
 					sql += book.getGenere() + "',\n";
 					sql += book.getPrezzo() + ",\n'";
 					sql += book.getBreveDescrizione() + "',\n";
 					sql += book.getCopieVendute() + ",\n";
 					sql += book.getPunti() + ",\n";
+					sql += -1 + ",\n";
+					sql += -1 + ",\n";
+					sql += -1 + ",\n";
+					sql += -1 + ",\n";
+					sql += 1 + ",\n";
 					sql += book.getDisponibilita() + ");";
 					
 					
@@ -193,7 +200,7 @@ public class SqliteConnection {
 					
 					sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE quindi non c'è update del campo isbn
 					sql += "autore = '" + book.getAutore() + "',\n";
-					sql += "annoPubblicazione = " + book.getAnnoPublicazione() + ",\n";
+					sql += "annoPubblicazione = " + book.getAnnoPubblicazione() + ",\n";
 					sql += "casaEditrice = '" + book.getCasaEditrice() + "',\n";
 					sql += "genere = '" + book.getGenere() + "',\n";
 					sql += "prezzo = " + book.getPrezzo() + ",\n";
@@ -489,38 +496,6 @@ public class SqliteConnection {
 	}
 	
 	
-	//metodo per ricevere i campi delle colonne richieste di una SINGOLA TABELLA
-	public static ResultSet getFromTableDB(String tableName, List<String> columnList) {
-		String sql = "SELECT ";
-		int iterator = 1;
-		
-		for(String singleColumn : columnList) {
-			sql += singleColumn + (columnList.size() == iterator++ ? " " : ", "); 
-		}
-		
-		sql += "FROM " + tableName + ";";
-		
-		Statement stmt = null;
-		
-		try {
-			
-			System.out.println("*****CONNESSO PER RICEVERE DA " + tableName + "*****");
-			
-			stmt = SqliteConnection.dbConnector().createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			return rs;
-		}
-		catch(SQLException e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
-	
-	
-	
-	
-	
-	
 	
 	//metodo per trasformare la lista di libri interna all'ordine in una stringa di isbn divisi da #
 	private static String bookListToISBNString(List<Libro> bookList) {
@@ -589,17 +564,89 @@ public class SqliteConnection {
 	 * Il responsabile può aggiornare la classifica quando vuole
 	 */
 	
+	//-----METODI CLASSIFICA-----//
+	
+	//TODO attenzione a quando l'aggiornamento è settimanale e quando è del responsabile
+	
 	//metodo per aggiornare la classifica
-	public static List<Libro> updateClassifica(){
+	public static Map<Libro, Integer> updateClassifica(String genere){ //null per classifica globale, novità per la classifica dei libri inseriti in settimana, genere per le classifiche solo per genere
 		//TODO
 		/*Classifiche saranno delle richieste al db ordinate per numero di vendita con ricerca basata su genere
 		 * ogni libro ha un campo contenente la precedente posizione e quante settimane è rimasto in essa, così ad ogni aggiornamento è facile
 		 * salvare questa informazione. 
 		 * Fa eccezione la categoria  Novità, la quale a mio parere non è un genere ma si basa sulla data di aggiunta e vale solo per la settimana
 		 * in corso, tralasciando così problematiche di quante settimane è stato in una certa posizione.
-		 * DOBBIAMO DUNQUE AGGIUNGERE UNA DATA AI LIBRI?? O BASTA UN BOOLEANO COME CAMPO, CHE VERRA' DISATTIVATO DOPO LA PRIMA SETTIMANA/PRIMO AGGIORNAMENTO CLASSIFICA DOPO L'INSERIMENTO DEL LIBRO??
 		 */
-		return null;
+		
+		if(genere.isEmpty()) { //classifica globale
+			ResultSet gettingPreviousGlobalPositions = SqliteConnection.selectByGenre(null);
+			List<Integer> previousGlobalPosition = new ArrayList<Integer>(); 
+			List<Integer> weeksInSamePositionGlobal = new ArrayList<Integer>();
+			Map<Libro, Integer> entryClassifica = new TreeMap<Libro, Integer>();
+			
+			try {
+				while(gettingPreviousGlobalPositions.next()) {
+					previousGlobalPosition.add(gettingPreviousGlobalPositions.getInt("precedentePosizioneClassifica"));
+					weeksInSamePositionGlobal.add(gettingPreviousGlobalPositions.getInt("settimaneStessaPosizione"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			List<Libro> bookList = SqliteConnection.getAvailableBooks(gettingPreviousGlobalPositions);
+			
+			for(int i = 0; i < bookList.size(); i++) {
+				if(previousGlobalPosition.get(i) == i + 1) //posizione di questa settimana = posizione della settimana scorsa
+					weeksInSamePositionGlobal.set(i, weeksInSamePositionGlobal.get(i) + 1);
+				else weeksInSamePositionGlobal.set(i, 1); //posizione di questa settimana != posizione della settimana scorsa
+				entryClassifica.put(bookList.get(i), weeksInSamePositionGlobal.get(i));
+			}
+			
+			SqliteConnection.updatePosizioniClassifica(bookList, weeksInSamePositionGlobal, true);
+			return entryClassifica;
+			
+			
+		}
+		else if(genere.equals("novità")) {//classifica delle novità
+			List<Libro> bookList = SqliteConnection.getAvailableBooks(SqliteConnection.selectByNovelty());
+			Map<Libro, Integer> entryClassifica = new TreeMap<Libro, Integer>();
+			
+			for(Libro singleBook : bookList) {
+				entryClassifica.put(singleBook, 1);
+			}
+			
+			SqliteConnection.removeFromNovelty(bookList);
+			
+			return entryClassifica;
+			
+		}
+		else {//classifica per genere
+			ResultSet gettingPreviousPositions = SqliteConnection.selectByGenre(genere);
+			List<Integer> previousPosition = new ArrayList<Integer>(); 
+			List<Integer> weeksInSamePosition = new ArrayList<Integer>();
+			Map<Libro, Integer> entryClassifica = new TreeMap<Libro, Integer>();
+			
+			try {
+				while(gettingPreviousPositions.next()) {
+					previousPosition.add(gettingPreviousPositions.getInt("precedentePosizioneClassifica"));
+					weeksInSamePosition.add(gettingPreviousPositions.getInt("settimaneStessaPosizione"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			List<Libro> bookList = SqliteConnection.getAvailableBooks(gettingPreviousPositions);
+			
+			for(int i = 0; i < bookList.size(); i++) {
+				if(previousPosition.get(i) == i + 1) //posizione di questa settimana = posizione della settimana scorsa
+					weeksInSamePosition.set(i, weeksInSamePosition.get(i) + 1);
+				else weeksInSamePosition.set(i, 1); //posizione di questa settimana != posizione della settimana scorsa
+				entryClassifica.put(bookList.get(i), weeksInSamePosition.get(i));
+			}
+			
+			SqliteConnection.updatePosizioniClassifica(bookList, weeksInSamePosition, false);
+			return entryClassifica;
+		}
 	}
 	
 	//metodo per fare update in fase di logOut
@@ -653,11 +700,6 @@ public class SqliteConnection {
 	//prendi tutta la tabella User
 	public static ResultSet getFieldUser() {
 		return SqliteConnection.getEverythingFromTableDB("UserList");
-	}
-	
-	//prendi solo i campi richiesti da la tabella User
-	public static ResultSet getFieldUser(List<String> columnList) {
-		return SqliteConnection.getFromTableDB("UserList", columnList);
 	}
 	
 	//metodo per ritornare una lista di User data una ResultSet della tabella User
@@ -719,11 +761,6 @@ public class SqliteConnection {
 		return SqliteConnection.getEverythingFromTableDB("BookList");
 	}
 	
-	//prendi solo i campi richiesti da la tabella Libro
-	public static ResultSet getFieldLibro(List<String> columnList) {
-		return SqliteConnection.getFromTableDB("BookList", columnList);
-	}
-	
 	//metodo per ritornare una lista di libri dato un ResultSet
 	public static List<Libro> getBookList(ResultSet booksFromDB){
 		List<Libro> bookList = new ArrayList<Libro>();
@@ -754,6 +791,143 @@ public class SqliteConnection {
 		}
 		
 		return bookList;
+	}
+	
+	//metodo per ricevere i libri di un certo genere
+	public static ResultSet selectByGenre(String genere) {
+		if(genere == null) { //selezione per classifica generale
+			String sql = "SELECT FROM BookList" + "\nWHERE " + "disponibilita = 1";
+			sql += "\nORDER BY copieVenduteTotali;";
+			
+			Statement stmt = null;
+			
+			try {
+				
+				System.out.println("*****CONNESSO PER RICEVERE IL GENERE " + genere + "*****");
+					
+				stmt = SqliteConnection.dbConnector().createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
+				return rs;
+			}
+			catch(SQLException e) {
+				System.out.println(e.getMessage());
+				return null;
+			}
+		}
+		
+		//selezione per singolo genere
+		String sql = "SELECT FROM BookList" + "\nWHERE " + "genere = '" + genere + "' AND disponibilita = 1";
+		sql += "\nORDER BY copieVenduteTotali;";
+			
+		Statement stmt = null;
+			
+		try {
+				
+			System.out.println("*****CONNESSO PER RICEVERE IL GENERE " + genere + "*****");
+				
+			stmt = SqliteConnection.dbConnector().createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			return rs;
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	//metodo per ricevere i libri novità
+	public static ResultSet selectByNovelty() {
+		String sql = "SELECT FROM BookList" + "\nWHERE " + "novita = 1 AND disponibilita = 1";
+		sql += "\nORDER BY copieVenduteTotali;";
+			
+		Statement stmt = null;
+			
+		try {
+				
+			System.out.println("*****CONNESSO PER RICEVERE LE NOVITA'*****");
+				
+			stmt = SqliteConnection.dbConnector().createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			return rs;
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	
+	//metodo per aggiornare i campi relativi alla classifica nella bookList
+	public static void updatePosizioniClassifica(List<Libro> bookList, List<Integer> weeksInSamePosition, boolean global) {
+		int iterator = 0;
+		String sql = "";
+		
+		Connection connect = SqliteConnection.dbConnector();
+		
+		for(Libro book : bookList) {
+			if(global) {
+				sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE quindi non c'è update del campo isbn
+				sql += "settimaneStessaPosizioneGlobale = " + weeksInSamePosition.get(iterator);
+				sql += "precedentePosizioneClassificaGlobale = " + ++iterator;
+				sql += "WHERE isbn = '" + book.getIsbn() + "';";
+			}
+			else {
+				sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE quindi non c'è update del campo isbn
+				sql += "settimaneStessaPosizione = " + weeksInSamePosition.get(iterator);
+				sql += "precedentePosizioneClassifica = " + ++iterator;
+				sql += "WHERE isbn = '" + book.getIsbn() + "';";
+			}
+			
+			Statement stmt = null;
+			
+			try {
+				stmt = connect.createStatement();
+				stmt.executeUpdate(sql);
+			}
+			catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			finally {
+				if(stmt != null)
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+			}
+		}
+	}
+	
+	//metodo per togliere i libri dalla sezione novità (dal successivo aggiornamento della classifica)
+	public static void removeFromNovelty(List<Libro> bookList) {
+		String sql = "";
+		
+		Connection connect = SqliteConnection.dbConnector();
+		
+		for(Libro book : bookList) {
+			
+			sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE quindi non c'è update del campo isbn
+			sql += "novita = 0";
+			sql += "WHERE isbn = '" + book.getIsbn() + "';";
+			
+			Statement stmt = null;
+			
+			try {
+				stmt = connect.createStatement();
+				stmt.executeUpdate(sql);
+			}
+			catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			finally {
+				if(stmt != null)
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+			}
+		}
 	}
 	
 	
@@ -795,10 +969,6 @@ public class SqliteConnection {
 		return SqliteConnection.getEverythingFromTableDB("OrderList");
 	}
 	
-	//prendi solo i campi richiesti da la tabella Ordine
-	public static ResultSet getFieldOrdine(List<String> columnList) {
-		return SqliteConnection.getFromTableDB("OrderList", columnList);
-	}
 	
 	//metodo per ritornare una lista di ordini dato un ResultSet. Se viene dato uno User ritorno la lista di ordini relativa allo User dato.
 	public static List<Ordine> getOrderList(User user){
