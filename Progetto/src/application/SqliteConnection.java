@@ -468,6 +468,9 @@ public class SqliteConnection {
 		else if(tableName.equals("OrderList")) {
 			sql += " INNER JOIN DateList ON OrderList.id = DateList.id;";
 		}
+		else if(tableName.equals("BookList")) {
+			sql += "\nORDER BY titolo;";
+		}
 		
 		Statement stmt = null;
 			
