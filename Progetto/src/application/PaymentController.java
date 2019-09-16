@@ -63,7 +63,9 @@ public class PaymentController implements Initializable{
 		String sup="---Inserisci un indirizzo---";
 		indirizziComboBox.getItems().add(sup);
 		indirizziComboBox.setPromptText(sup);
-		indirizziComboBox.getItems().addAll(this.userLogged.getIndirizziFormattati());
+		if(!this.userLogged.getEmail().equals("#####")) {
+			indirizziComboBox.getItems().addAll(this.userLogged.getIndirizziFormattati());
+		}
 		this.vetTextField.add(0, viaTextField);
 		this.vetTextField.add(1, cittaTextField);
 		this.vetTextField.add(2, capTextField);
@@ -178,7 +180,7 @@ public class PaymentController implements Initializable{
 					this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
 				}
 				
-				AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!");
+				AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!\n\nThe id for your order is" +ordLoc.getIdOrdine());
 				try {
 					goToHomePage(event);
 				} catch (IOException e) {
