@@ -34,8 +34,7 @@ public class DetailedBookController implements Initializable{
 	
 	private String backPage="";
 	private String idOrdine="";
-	private String idAcquirente;
-	
+	private String lato="";
 	
 	
 	
@@ -76,9 +75,10 @@ public class DetailedBookController implements Initializable{
 	public void setBackPage(String name) {
 		this.backPage=name;
 		
-		if(name.compareTo("DetailedRespOrdineScene.fxml")==0) {
+		if(name.compareTo("DetailedOrdineScene.fxml")==0) {
 			this.purchaseButton.setVisible(false);
 			this.basketButton.setVisible(false);
+			
 		}
 		else {
 			this.purchaseButton.setVisible(true);
@@ -86,9 +86,13 @@ public class DetailedBookController implements Initializable{
 		}
 	}
 	
+	public void setIdOrdineForRespView(String idOrdine) {
+		this.idOrdine=idOrdine;
+	}
+	
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
     {
-		if(this.backPage.compareTo("DetailedRespOrdineScene.fxml")!=0) SqliteConnection.savingOnLogOut(userLogged); //saving on logOut if i'm not an admin
+		if(this.backPage.compareTo("DetailedOrdineScene.fxml")!=0) SqliteConnection.savingOnLogOut(userLogged); //saving on logOut if i'm not an admin
 		
 		controller.setUserLogged(null); //at this point no user is logged
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
@@ -107,17 +111,17 @@ public class DetailedBookController implements Initializable{
         Scene tableViewScene = new Scene(TableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         
-        //codice in caso da responsabile si volesse ritornare a alla DetailedRespOrdineScene
-        if(this.backPage.compareTo("DetailedRespOrdineScene.fxml")==0) {
+        //codice in caso da responsabile si volesse ritornare a alla DetailedOrdineScene
+        if(this.backPage.compareTo("DetailedOrdineScene.fxml")==0) {
         	
-        	DetailedRespOrdineController controller=loader.getController();
-        	/*
-        	 *metodo per ottenere ordine da DB 
-        	 */
-        	//OrdineForTableView order=new OrdineForTableView(getUserFromDB(this.idAcquirente),getOrdineFromDB(this.idOrdine));
-        	//controller.setOrderFromTableView(order);
+        	DetailedOrdineController detailedOrdController=loader.getController();
         	
-        	this.idAcquirente="";
+        	Ordine ord=SqliteConnection.getOrderByID(idOrdine);
+      
+        	detailedOrdController.setOrderFromTableView(ord);
+        	detailedOrdController.setLato(this.lato);
+        	
+        	this.lato="";
         	this.idOrdine="";
         }
         
@@ -174,10 +178,8 @@ public class DetailedBookController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 	}
 
-	public void setIdOrdineEUser(String codiceOrdine, String idAcquirente) {
-		this.idAcquirente=codiceOrdine;
-		this.idAcquirente=idAcquirente;
-		
+	public void setLato(String lato) {
+		this.lato=lato;
 	}
 
 }

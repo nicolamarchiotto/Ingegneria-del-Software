@@ -14,7 +14,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			return connect;
 		}
 		catch(Exception e) {
@@ -856,6 +856,16 @@ public class SqliteConnection {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	//metodo per ritornare lo user di un certo ordine dato l'id dello user contenuto nell'ordine
+	public static User getUserForOrdine(String userId) {
+		LoginController controller=new LoginController();
+		List<User> userList = controller.getUserList();
+		for(User singleUser : userList)
+			if(userId.equals(singleUser.getEmail()))
+				return singleUser;
+		return null;
 	}
 }
 

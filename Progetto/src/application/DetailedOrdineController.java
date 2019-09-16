@@ -21,11 +21,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class DetailedRespOrdineController implements Initializable{
+public class DetailedOrdineController implements Initializable{
 
 	@FXML private Label titleLabel;
 	@FXML private Button goBackButton;
 	@FXML private Button seeDetailesButton;
+	@FXML private Button signOutButton;
 	@FXML private TextArea sumTextArea;
 	
 	
@@ -35,16 +36,19 @@ public class DetailedRespOrdineController implements Initializable{
 	@FXML private TableColumn<Libro, Integer> prezzoColumn;
 	@FXML private TableColumn<Libro, Integer> numeroCopieColumn;
 	
-	private OrdineForTableView localOrder;
+	private String backpage="";
+	private String lato="";
 	
-	public void setOrderFromTableView(OrdineForTableView order) {
+	private Ordine localOrder;
+	
+	public void setOrderFromTableView(Ordine order) {
 		localOrder=order;
 		
 		this.sumTextArea.setText(getSummary());
 
 		tableView.setItems(getLibriFromOrder());
 		
-		this.titleLabel.setText("Codice Ordine: "+this.localOrder.getCodiceOrdine());
+		this.titleLabel.setText("Codice Ordine: "+this.localOrder.getIdOrdine());
 		
 		titoloColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
@@ -62,9 +66,18 @@ public class DetailedRespOrdineController implements Initializable{
 		return books;
 	}
 	
+	public void setBackPage(String backpage) {
+		this.backpage=backpage;
+	}
+	
 	public void goBackButtonPushed(ActionEvent event) throws IOException{
 		
-        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("ResponsabileScene.fxml"));
+		if(this.lato.compareTo("User")==0)
+			this.backpage="PersonalAreaScene.fxml";
+		else
+			this.backpage="ResponsabileScene.fxml";
+		
+        Parent tableViewParent =  FXMLLoader.load(getClass().getResource(this.backpage));
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
@@ -89,12 +102,21 @@ public class DetailedRespOrdineController implements Initializable{
 		}
 		else controller.setBookData(tableView.getSelectionModel().getSelectedItem());
 		
-		controller.setBackPage("DetailedRespOrdineScene.fxml");
+		controller.setBackPage("DetailedOrdineScene.fxml");
+		controller.setLato(this.lato);
 		
 		//metodo che mi serve per ripopolare la tabella in caso di return to backPage
-		controller.setIdOrdineEUser(this.localOrder.getCodiceOrdine(), this.localOrder.getIdAcquirente());
+		controller.setIdOrdineForRespView(this.localOrder.getIdOrdine());
 		
-		
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
+	
+	public void SignOutButtonPushed(ActionEvent event) throws IOException
+    {
+        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
         window.show();      
@@ -114,9 +136,13 @@ public class DetailedRespOrdineController implements Initializable{
 	private String getSummary() {
 		String sup;
 		
-		sup="Costo totale dell'ordine: "+this.localOrder.getPrezzoTot()+"\nData di effettuazione ordine: "+this.localOrder.getDataAcquisto()+""
-				+ "\nStato dell'ordine: " +this.localOrder.getStato()+"\nId acquirente: "+this.localOrder.getIdAcquirente()+"\nIndirizzo di spedizione: "+this.localOrder.getIndirizzoSpedizione();
+		sup="Costo totale dell'ordine: "+this.localOrder.getTotalCost()+"\nData di effettuazione ordine: "+this.localOrder.getData()+""
+				+ "\nStato dell'ordine: " +this.localOrder.getStato()+"\nId acquirente: "+this.localOrder.getUserId()+"\nIndirizzo di spedizione: "+this.localOrder.getIndirizzoSpedizione();
 		
 		return sup;
+	}
+
+	public void setLato(String lato) {
+		this.lato=lato;		
 	}
 }

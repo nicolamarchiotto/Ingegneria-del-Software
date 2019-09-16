@@ -148,15 +148,15 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="20.0" layoutY="61.0" prefHeight="200.0" prefWidth="424.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                        <TableView fx:id="tableViewOrder" layoutX="20.0" layoutY="61.0" prefHeight="200.0" prefWidth="424.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                           <columns>
-                            <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Id Ordine" />
-                            <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Data Acquisto" />
-                              <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Stato" />
-                              <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Saldo Ordine" />
+                            <TableColumn fx:id="idOrdineColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Id Ordine" />
+                            <TableColumn fx:id="dataAcquistoColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Data Acquisto" />
+                              <TableColumn fx:id="statoColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Stato" />
+                              <TableColumn fx:id="saldoOrdColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Saldo Ordine" />
                           </columns>
                         </TableView>
-                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="260.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <TextField promptText="Inserisci id ordine" />
                               <Button mnemonicParsing="false" text="Cerca tramite id ordine" />
@@ -165,9 +165,9 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER_RIGHT" layoutX="8.0" layoutY="221.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="270.0">
+                        <HBox alignment="CENTER_RIGHT" layoutX="8.0" layoutY="221.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="260.0">
                            <children>
-                              <Button mnemonicParsing="false" text="See detailes" />
+                              <Button fx:id="seeDetailesButton" mnemonicParsing="false" onAction="#seeDetailesButtonPushed" text="See detailes" />
                            </children>
                            <padding>
                               <Insets right="20.0" />
