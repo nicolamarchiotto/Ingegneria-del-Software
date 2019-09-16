@@ -12,7 +12,7 @@ public class Libro implements Comparable<Object>{
 	private String genere;
 	private double prezzo;
 	private String brevedescrizione;
-	private int copieVenduteTotali;
+	private int copieVenduteTotali = 0;
 	private int punti;
 	private int copieVenduteNelSingoloOrdine=0;
 	
