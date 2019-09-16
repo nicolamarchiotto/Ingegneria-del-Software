@@ -586,8 +586,8 @@ public class SqliteConnection {
 			
 			try {
 				while(gettingPreviousGlobalPositions.next()) {
-					previousGlobalPosition.add(gettingPreviousGlobalPositions.getInt("precedentePosizioneClassifica"));
-					weeksInSamePositionGlobal.add(gettingPreviousGlobalPositions.getInt("settimaneStessaPosizione"));
+					previousGlobalPosition.add(gettingPreviousGlobalPositions.getInt("precedentePosizioneClassificaGlobale"));
+					weeksInSamePositionGlobal.add(gettingPreviousGlobalPositions.getInt("settimaneStessaPosizioneGlobale"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
