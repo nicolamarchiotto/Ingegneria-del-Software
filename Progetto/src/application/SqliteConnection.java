@@ -16,7 +16,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			return connect;
 		}
 		catch(Exception e) {
@@ -193,7 +193,7 @@ public class SqliteConnection {
 			//**********aggiornare Libri************//
 			if(objectList.get(0) instanceof Libro) {
 				
-				System.out.println("*****CONNESSO PER AGGIUNGERE UN LIBRO*****");
+				System.out.println("*****CONNESSO PER AGGIORNARE UN LIBRO*****");
 				
 				for(Object libro : objectList) {
 					Libro book = (Libro)libro;
@@ -206,7 +206,7 @@ public class SqliteConnection {
 					sql += "prezzo = " + book.getPrezzo() + ",\n";
 					sql += "breveDescrizione = '" + book.getBreveDescrizione() + "',\n";
 					sql += "copieVenduteTotali = " + book.getCopieVendute() + ",\n";
-					sql += "puntiCarta = " + book.getPunti() +"\n";
+					sql += "puntiCarta = " + book.getPunti() +",\n";
 					sql += "disponibilita = " + book.getDisponibilita() + "\n";
 					sql += "WHERE isbn = '" + book.getIsbn() + "';";
 					
