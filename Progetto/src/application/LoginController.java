@@ -127,6 +127,16 @@ public class LoginController implements Initializable{
 		}	
 	}
 	
+	public void EnterAsGuestButtonPushed(ActionEvent event) throws IOException
+    {
+		this.setUserLogged(new User("Guest", "Guest", "Guest", "Guest", "Guest", "Guest", "#####", "#####"));
+        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();
+    }
+	
 	private User getUserFromListDB(List<User> userList, User userSup) {
 		User userNotFound=null;
 		
