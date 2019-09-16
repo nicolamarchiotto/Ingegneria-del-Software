@@ -26,6 +26,7 @@ public class DetailedBookController implements Initializable{
 	@FXML private Label genereLabel;
 	@FXML private Label prezzoLabel;
 	@FXML private Label breveDescrizioneLabel;
+	@FXML private Label disponibilita;
 	
 	@FXML private Button goBackButton;
 	@FXML private Button signOutButton;
@@ -70,6 +71,9 @@ public class DetailedBookController implements Initializable{
 			this.purchaseButton.setText("Add book to your basket");	 
 			bookAlreadyInBasket=false;
 		}
+		
+		if(libro.getDisponibilita() == 0)
+			this.disponibilita.setVisible(true);
 	}
 	
 	public void setBackPage(String name) {
@@ -160,7 +164,7 @@ public class DetailedBookController implements Initializable{
 			this.userLogged.removeLibroFromCarrello(this.selectedLibro);
 		
 		/*
-		 * prova carrrello to string
+		 * prova carrello to string
 		 */
 		System.out.println("\nstampa carrello user\n" +this.userLogged.carrelloToString());
 	}

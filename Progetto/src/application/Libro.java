@@ -1,6 +1,7 @@
 package application;
 
 import java.util.Random;
+import java.lang.Math;
 
 public class Libro implements Comparable<Object>{
 	private String titolo;
@@ -14,6 +15,9 @@ public class Libro implements Comparable<Object>{
 	private int copieVenduteTotali;
 	private int punti;
 	private int copieVenduteNelSingoloOrdine=0;
+	
+	//campo per capire se un libro è stato cancellato o meno
+	private int disponibilita;
 	
 	static Random r=new Random();
 	
@@ -34,13 +38,16 @@ public class Libro implements Comparable<Object>{
 		long sup=r.nextLong();
 		if(sup<0)
 			sup=sup*-1;
-		this.isbn=Long.toString(sup);
+		this.isbn=Long.toString(Math.abs(sup));
+		
+		//disponibile dato che appena creato
+		this.disponibilita = 1;
 	}
 	
 	
 	//costruttore per aggiungere da DB a locale
 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
-			String isbn, String genere, double prezzo, String brevedescrizione, int copieVenduteNelSingoloOrdine, int copieVenduteTotali, int punti) {
+			String isbn, String genere, double prezzo, String brevedescrizione, int copieVenduteNelSingoloOrdine, int copieVenduteTotali, int punti, int disponibilita) {
 		
 		this.titolo=titolo;
 		this.autore=autori;
@@ -53,6 +60,7 @@ public class Libro implements Comparable<Object>{
 		this.copieVenduteNelSingoloOrdine = copieVenduteNelSingoloOrdine;
 		this.copieVenduteTotali=copieVenduteTotali;
 		this.punti = punti;
+		this.disponibilita = disponibilita;
 	}
 	
 	
@@ -132,6 +140,11 @@ public class Libro implements Comparable<Object>{
 	public int getCopieVendute() {
 		return this.copieVenduteTotali;
 	}
+	
+	public int getDisponibilita() {
+		return this.disponibilita;
+	}
+	
 	
 	public String toString() {
 		return "Stampa Libro, titolo: "+titolo + " autore: " +autore + " prezzo:" + prezzo;
