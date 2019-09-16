@@ -138,7 +138,6 @@ public class PersonalAreaController implements Initializable{
 			this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
 		
 		SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
-		 
 		controller.setUserLogged(null); //at this point no user is logged
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
@@ -151,6 +150,7 @@ public class PersonalAreaController implements Initializable{
 	{
 		if(!this.userLogged.getEmail().equals("#####"))
 			this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
+		
 		controller.setUserLogged(userLogged);
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(getClass().getResource("HomeScene.fxml"));
@@ -304,6 +304,22 @@ public class PersonalAreaController implements Initializable{
         window.setScene(tableViewScene);
         window.show();
     }
+	
+	public void searchButtonPushed(ActionEvent event) throws IOException{
+			
+		if(this.searchTextField.getText() == null || this.searchTextField.getText().trim().isEmpty()) {
+			AlertBox.display("Error", "Devi inserire il codice dell'ordine");
+			return;
+		}
+		
+		Ordine ordineTrovato=SqliteConnection.getOrderByID(this.searchTextField.getText());
+		if(ordineTrovato==null) {
+			AlertBox.display("Error", "Nessun ordine corrisponde a tale identificativo");
+			return;
+		}
+		else
+			this.tableViewOrder.getItems().add(ordineTrovato);
+	}
 	
 	
 	

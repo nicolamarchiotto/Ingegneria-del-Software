@@ -169,18 +169,26 @@ public class PaymentController implements Initializable{
 				
 				Ordine ordLoc=new Ordine(this.userLogged.getEmail(),paymentType,
 						indirizzoSpedizione, this.userLogged.getCarrello(), copiePerOgniSingoloLibro);
-				this.userLogged.getOrdini().add(ordLoc);
 				SqliteConnection.insertOrder(ordLoc);
 				
 				
-				//solo in caso utente sia registrato
-				if(!this.userLogged.getIdentificativoCarta().equals(" ")) {
-					this.userLogged.aggiungiPunti(ordLoc.getSaldoPuntiOrdine());
+				//SE UTENTE NON REGISTRATO				
+				String idOrdine;
+				if(this.userLogged.getEmail().equals("#####")) {
+					idOrdine="\n\nThe id for your order is: " +ordLoc.getIdOrdine();
+				}
+				else {
 					
+					//SE UTENTE E' REGISTRATO
+					
+					idOrdine="";
+					
+					this.userLogged.getOrdini().add(ordLoc);	
+					this.userLogged.aggiungiPunti(ordLoc.getSaldoPuntiOrdine());
 					this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
 				}
 				
-				AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!\n\nThe id for your order is" +ordLoc.getIdOrdine());
+				AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!"+idOrdine);
 				try {
 					goToHomePage(event);
 				} catch (IOException e) {

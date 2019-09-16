@@ -159,7 +159,7 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="260.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <TextField fx:id="searchTextField" promptText="Inserisci id ordine" />
-                              <Button fx:id="searchButton" mnemonicParsing="false" text="Cerca tramite id ordine" />
+                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchButtonPushed" text="Cerca tramite id ordine" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
