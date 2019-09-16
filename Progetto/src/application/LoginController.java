@@ -129,7 +129,7 @@ public class LoginController implements Initializable{
 	
 	public void EnterAsGuestButtonPushed(ActionEvent event) throws IOException
     {
-		this.setUserLogged(new User("Guest", "Guest", "Guest", "Guest", "Guest", "Guest", "#####", "#####"));
+		this.userLogged=new User("Guest", "Guest", "", "", "", "", "#####", "#####");
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();

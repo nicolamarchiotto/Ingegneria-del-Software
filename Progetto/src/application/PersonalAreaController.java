@@ -27,6 +27,7 @@ public class PersonalAreaController implements Initializable{
 
 	@FXML private TabPane tabPane;
 	@FXML private Tab personalDataTab;
+	@FXML private Tab addressTab;
 	@FXML private Tab orderTab; 
 	
 	@FXML private Button goBackButton;
@@ -72,6 +73,9 @@ public class PersonalAreaController implements Initializable{
 	
 	@FXML private Button seeDetailesButton;
 	
+	@FXML private Button searchButton;
+	@FXML private TextField searchTextField;
+	
 	@FXML private TableView<Ordine> tableViewOrder;
 	@FXML private TableColumn<Ordine, String> idOrdineColumn;
 	@FXML private TableColumn<Ordine, String> dataAcquistoColumn;
@@ -84,24 +88,6 @@ public class PersonalAreaController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		name.setText(this.userLogged.getNome());
-		surname.setText(this.userLogged.getCognome());
-		address.setText(this.userLogged.getIndirizzoResidenza());
-		city.setText(this.userLogged.getCittaResidenza());
-		cap.setText(this.userLogged.getCapResidenza());
-		telNumber.setText(this.userLogged.getTelefono());
-		email.setText(this.userLogged.getEmail());
-		pw.setText(this.userLogged.getPw());
-		puntiLibroCard.setText(String.valueOf(this.userLogged.getLibroCard().getPunti()));
-		dataCreazioneAccount.setText(this.userLogged.getLibroCard().getDataEmissione().toString());
-		
-		//set up the columns in the address table
-		viaColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, String>("via"));
-		cittaColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, String>("citta"));
-		capColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, Integer>("cap"));
-		
-		indirizziList=getIndirizzi();
-		tableView.setItems(indirizziList);
 		
 
 		//set up the columns in the order table
@@ -110,18 +96,48 @@ public class PersonalAreaController implements Initializable{
 		statoColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("stato"));
 		saldoOrdColumn.setCellValueFactory(new PropertyValueFactory<Ordine, Double>("totalCost"));
 		
-		tableViewOrder.setItems(FXCollections.observableArrayList(SqliteConnection.getOrderList(userLogged)));
+		if(this.userLogged.getEmail().equals("#####")) {
+			this.tabPane.getTabs().remove(personalDataTab);
+			this.tabPane.getTabs().remove(addressTab);
+			
+			this.searchButton.setVisible(true);
+			this.searchTextField.setVisible(true);
+		}
+		else {
+			name.setText(this.userLogged.getNome());
+			surname.setText(this.userLogged.getCognome());
+			address.setText(this.userLogged.getIndirizzoResidenza());
+			city.setText(this.userLogged.getCittaResidenza());
+			cap.setText(this.userLogged.getCapResidenza());
+			telNumber.setText(this.userLogged.getTelefono());
+			email.setText(this.userLogged.getEmail());
+			pw.setText(this.userLogged.getPw());
+			puntiLibroCard.setText(String.valueOf(this.userLogged.getLibroCard().getPunti()));
+			dataCreazioneAccount.setText(this.userLogged.getLibroCard().getDataEmissione().toString());
+			
+			//hide the search mechanism for the logged users
+			this.searchButton.setVisible(false);
+			this.searchTextField.setVisible(false);
+			
+			//set up the columns in the address table
+			viaColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, String>("via"));
+			cittaColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, String>("citta"));
+			capColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, Integer>("cap"));
+			
+			indirizziList=getIndirizzi();
+			tableView.setItems(indirizziList);
+			
+			tableViewOrder.setItems(FXCollections.observableArrayList(SqliteConnection.getOrderList(userLogged)));
+		}
+		
 	}
 
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
-    {
-		this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
-		for(String s: this.userLogged.getIndirizziFormattati()) {
-			System.out.println(s);
-		}
+    {	
+		if(!this.userLogged.getEmail().equals("#####"))
+			this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
 		
 		SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
-		 
 		controller.setUserLogged(null); //at this point no user is logged
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
@@ -132,7 +148,9 @@ public class PersonalAreaController implements Initializable{
 	
 	public void goBackButtonPushed(ActionEvent event) throws IOException
 	{
-		this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
+		if(!this.userLogged.getEmail().equals("#####"))
+			this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
+		
 		controller.setUserLogged(userLogged);
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(getClass().getResource("HomeScene.fxml"));
@@ -286,6 +304,22 @@ public class PersonalAreaController implements Initializable{
         window.setScene(tableViewScene);
         window.show();
     }
+	
+	public void searchButtonPushed(ActionEvent event) throws IOException{
+			
+		if(this.searchTextField.getText() == null || this.searchTextField.getText().trim().isEmpty()) {
+			AlertBox.display("Error", "Devi inserire il codice dell'ordine");
+			return;
+		}
+		
+		Ordine ordineTrovato=SqliteConnection.getOrderByID(this.searchTextField.getText());
+		if(ordineTrovato==null) {
+			AlertBox.display("Error", "Nessun ordine corrisponde a tale identificativo");
+			return;
+		}
+		else
+			this.tableViewOrder.getItems().add(ordineTrovato);
+	}
 	
 	
 	

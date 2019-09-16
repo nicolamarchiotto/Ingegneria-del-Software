@@ -18,6 +18,7 @@ public class Ordine {
 	private String indirizzoSpedizione = null;
 	private String stringaCopieLibri = null;
 	
+	private static final char[] vetChar= {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}; 
 	
 	Random r=new Random();
 	
@@ -52,7 +53,12 @@ public class Ordine {
 	private String getIdOrdine(String payment, String userId) {
 		int i=1000+r.nextInt(8999);
 		
-		return i+payment.substring(0, 1)+userId.substring(0,1);
+		
+		
+		if(userId.equals("#####"))
+			return i+payment.substring(0, 1)+vetChar[r.nextInt(vetChar.length)];
+		else
+			return i+payment.substring(0, 1)+userId.substring(0,1);
 	}
 	
 	public String toString() {
