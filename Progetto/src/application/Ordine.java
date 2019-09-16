@@ -18,6 +18,7 @@ public class Ordine {
 	private String indirizzoSpedizione = null;
 	private String stringaCopieLibri = null;
 	
+	
 	Random r=new Random();
 	
 	public Ordine(String idUser, String tipoPagamento, String indirizzoSpedizione, ArrayList<Libro> libriCollection, String bookCopiesString) {
@@ -68,6 +69,10 @@ public class Ordine {
 			return "spedito";
 		else
 			return "consegnato";
+	}
+	
+	public String getIdUser() {
+		return this.idUser;
 	}
 	
 	public String getIdOrdine() {

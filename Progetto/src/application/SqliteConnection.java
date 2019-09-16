@@ -1043,5 +1043,15 @@ public class SqliteConnection {
 			return null;
 		}
 	}
+	
+	//metodo per ritornare lo user di un certo ordine dato l'id dello user contenuto nell'ordine
+	public static User getUserForOrdine(String userId) {
+		LoginController controller=new LoginController();
+		List<User> userList = controller.getUserList();
+		for(User singleUser : userList)
+			if(userId.equals(singleUser.getEmail()))
+				return singleUser;
+		return null;
+	}
 }
 

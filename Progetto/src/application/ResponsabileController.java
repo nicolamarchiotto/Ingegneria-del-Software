@@ -70,25 +70,16 @@ public class ResponsabileController implements Initializable{
 	 * stuff for the order section 
 	 */
 	
-	@FXML private TableView<OrdineForTableView> tableViewOrders;
-	@FXML private TableColumn<OrdineForTableView, String> codiceOrdineColumn;
-	@FXML private TableColumn<OrdineForTableView, String> idAcquirenteColumn;
-	@FXML private TableColumn<OrdineForTableView, String> dataAcquistoColumn;
-	@FXML private TableColumn<OrdineForTableView, String> statoColumn;
+	@FXML private TableView<Ordine> tableViewOrders;
+	@FXML private TableColumn<Ordine, String> codiceOrdineColumn;
+	@FXML private TableColumn<Ordine, String> idAcquirenteColumn;
+	@FXML private TableColumn<Ordine, String> dataAcquistoColumn;
+	@FXML private TableColumn<Ordine, String> statoColumn;
 	
 	@FXML private Button seeDetailesButton;
 	
 	//FIXME
 	LoginController controller=new LoginController();
-
-	//metodo per ritornare lo user di un certo ordine
-	public User getUserForOrdine(String userId) {
-		List<User> userList = controller.getUserList();
-		for(User singleUser : userList)
-			if(userId.equals(singleUser.getEmail()))
-				return singleUser;
-		return null;
-	}
 	
 	public void addToLibraryButtonPushed(ActionEvent event) throws IOException{
 		
@@ -238,49 +229,15 @@ public class ResponsabileController implements Initializable{
 		
 		ObservableList<User> user =FXCollections.observableArrayList(userList);
 		
-		//public User(String nome, String cognome, String indirizzi, String cap, String citta, String telefono, String email,
-				//String pw) {
-		
-		/*
-		 * TODO
-		 * local values to eliminate, should it be..
-		 * User u;
-		 * LibroCard c;
-		 * user.add(new UserForTableView(c.getId(), u.getEmail(), u.getCognome(), u.getNome(), c.getPunti()));
-		 */
-		
 		return user;
 	}
 	
 	
 	//functions for the orders section
 	
-	private ObservableList<OrdineForTableView> getOrdini() {
+	private ObservableList<Ordine> getOrdini() {
 		
-		
-		List<Ordine> ordersFromDB = SqliteConnection.getOrderList();
-		List<OrdineForTableView> orderList = new ArrayList<OrdineForTableView>();
-		
-		
-		for(Ordine singleOrdine : ordersFromDB) {
-			orderList.add(new OrdineForTableView(this.getUserForOrdine(singleOrdine.getUserId()), singleOrdine));
-		}
-		ObservableList<OrdineForTableView> orders = FXCollections.observableArrayList(orderList);
-		
-		/*
-		 * TODO
-		 * local values to eliminate, should it be..
-		 * User u;
-		 * Ordine o;
-		 * orders.add(new OrdineForTableView(User u, Ordine o));
-		 */
-		
-		
-		/*
-		 * dummy collection of Libro
-		 * 	public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
-		 *	String isbn, String genere, double prezzo, String brevedescrizione, int copieVenduteTotali) {
-		 */
+		ObservableList<Ordine> orders = FXCollections.observableArrayList(SqliteConnection.getOrderList());
 		
 		return orders;
 	}
@@ -290,18 +247,22 @@ public class ResponsabileController implements Initializable{
 		
 		
 		FXMLLoader loader=new FXMLLoader();
-		loader.setLocation(getClass().getResource("DetailedRespOrdineScene.fxml"));
+		loader.setLocation(getClass().getResource("DetailedOrdineScene.fxml"));
 		Parent TableViewParent=loader.load();
 		
 
-		DetailedRespOrdineController controller=loader.getController();
+		DetailedOrdineController controller=loader.getController();
 		
 		//controllo se è stato selezionato qualcosa
 		if(tableViewOrders.getSelectionModel().getSelectedItem() == null) {
 			AlertBox.display("ERROR", "Non è stato selezionato nessun ordine");
 			return;
 		}
-		else controller.setOrderFromTableView(tableViewOrders.getSelectionModel().getSelectedItem());
+		else{
+			controller.setOrderFromTableView(tableViewOrders.getSelectionModel().getSelectedItem());
+			controller.setBackPage("ResponsabileScene.fxml");
+			controller.setLato("Responsabile");
+		}
 		
 		
 		
@@ -339,10 +300,10 @@ public class ResponsabileController implements Initializable{
 		//code for the Orders Section
 		
 		
-		codiceOrdineColumn.setCellValueFactory(new PropertyValueFactory<OrdineForTableView, String>("codiceOrdine"));
-		idAcquirenteColumn.setCellValueFactory(new PropertyValueFactory<OrdineForTableView, String>("idAcquirente"));
-		dataAcquistoColumn.setCellValueFactory(new PropertyValueFactory<OrdineForTableView, String>("dataAcquisto"));
-		statoColumn.setCellValueFactory(new PropertyValueFactory<OrdineForTableView, String>("stato"));
+		codiceOrdineColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("idOrdine"));
+		idAcquirenteColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("idUser"));
+		dataAcquistoColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("data"));
+		statoColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("stato"));
 		
 		tableViewOrders.setItems(getOrdini());
 	}

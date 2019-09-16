@@ -66,6 +66,19 @@ public class PersonalAreaController implements Initializable{
 	@FXML private TextField capAdded;
 	@FXML private Button addAddressButton;
 	
+	/*
+	 * stuff for the order section
+	 */
+	
+	@FXML private Button seeDetailesButton;
+	
+	@FXML private TableView<Ordine> tableViewOrder;
+	@FXML private TableColumn<Ordine, String> idOrdineColumn;
+	@FXML private TableColumn<Ordine, String> dataAcquistoColumn;
+	@FXML private TableColumn<Ordine, String> statoColumn;
+	@FXML private TableColumn<Ordine, Double> saldoOrdColumn;
+	
+	
 	
 	private ObservableList<Indirizzo> indirizziList=FXCollections.observableArrayList();
 	
@@ -82,13 +95,22 @@ public class PersonalAreaController implements Initializable{
 		puntiLibroCard.setText(String.valueOf(this.userLogged.getLibroCard().getPunti()));
 		dataCreazioneAccount.setText(this.userLogged.getLibroCard().getDataEmissione().toString());
 		
-		//set up the columns in the table
+		//set up the columns in the address table
 		viaColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, String>("via"));
 		cittaColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, String>("citta"));
 		capColumn.setCellValueFactory(new PropertyValueFactory<Indirizzo, Integer>("cap"));
 		
 		indirizziList=getIndirizzi();
 		tableView.setItems(indirizziList);
+		
+
+		//set up the columns in the order table
+		idOrdineColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("idOrdine"));
+		dataAcquistoColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("data"));
+		statoColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("stato"));
+		saldoOrdColumn.setCellValueFactory(new PropertyValueFactory<Ordine, Double>("totalCost"));
+		
+		tableViewOrder.setItems(FXCollections.observableArrayList(SqliteConnection.getOrderList(userLogged)));
 	}
 
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
@@ -234,6 +256,37 @@ public class PersonalAreaController implements Initializable{
 		
 		return true;
 	}
+	
+	/*
+	 * Your orders section
+	 */
+	
+	public void seeDetailesButtonPushed(ActionEvent event) throws IOException
+	{
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource("DetailedOrdineScene.fxml"));
+		Parent TableViewParent=loader.load();
+		
+		DetailedOrdineController controller=loader.getController();
+		
+		//controllo se è stato selezionato qualcosa
+		if(tableViewOrder.getSelectionModel().getSelectedItem() == null) {
+			AlertBox.display("ERROR", "Non è stato selezionato nessun ordine");
+			return;
+		}
+		else{
+			controller.setOrderFromTableView(tableViewOrder.getSelectionModel().getSelectedItem());
+			controller.setBackPage("PersonalAreaScene.fxml");
+			controller.setLato("User");
+		}
+		
+        Scene tableViewScene = new Scene(TableViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        
+        window.setScene(tableViewScene);
+        window.show();
+    }
+	
 	
 	
 }
