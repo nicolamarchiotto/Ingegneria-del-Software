@@ -48,7 +48,8 @@ public class SqliteConnection {
 					sql += book.getPrezzo() + ",\n'";
 					sql += book.getBreveDescrizione() + "',\n";
 					sql += book.getCopieVendute() + ",\n";
-					sql += book.getPunti() + ");";
+					sql += book.getPunti() + ",\n";
+					sql += book.getDisponibilita() + ");";
 					
 					
 					Statement stmt = null;
@@ -199,6 +200,7 @@ public class SqliteConnection {
 					sql += "breveDescrizione = '" + book.getBreveDescrizione() + "',\n";
 					sql += "copieVenduteTotali = " + book.getCopieVendute() + ",\n";
 					sql += "puntiCarta = " + book.getPunti() +"\n";
+					sql += "disponibilita = " + book.getDisponibilita() + "\n";
 					sql += "WHERE isbn = '" + book.getIsbn() + "';";
 					
 					Statement stmt = null;
@@ -558,7 +560,7 @@ public class SqliteConnection {
 							booksFromDB.getString("isbn"), booksFromDB.getString("genere"), 
 							booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), 
 							Integer.parseInt(bookCopiesArray[i++]), booksFromDB.getInt("copieVenduteTotali"), 
-							booksFromDB.getInt("puntiCarta")));
+							booksFromDB.getInt("puntiCarta"), booksFromDB.getInt("disponibilita")));
 				}
 				catch(SQLException e) {
 					System.out.println(e.getMessage());
@@ -730,7 +732,7 @@ public class SqliteConnection {
 						booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
 						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), 
 						booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), 0,
-						booksFromDB.getInt("copieVenduteTotali"), booksFromDB.getInt("puntiCarta")));
+						booksFromDB.getInt("copieVenduteTotali"), booksFromDB.getInt("puntiCarta"), booksFromDB.getInt("disponibilita")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -739,6 +741,17 @@ public class SqliteConnection {
 		return bookList;
 	}
 	
+	//metodo per ritornare una lista di libri DISPONIBILI
+	public static List<Libro> getAvailableBooks(ResultSet booksFromDB){
+		List<Libro> bookList = SqliteConnection.getBookList(booksFromDB);
+		for(Libro singleBook : bookList) {
+			if(singleBook.getDisponibilita() == 0) {
+				bookList.remove(singleBook);
+			}
+		}
+		
+		return bookList;
+	}
 	
 	
 	//-------------------------//

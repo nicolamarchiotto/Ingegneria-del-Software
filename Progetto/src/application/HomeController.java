@@ -51,7 +51,7 @@ public class HomeController implements Initializable{
 		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
 		
 		
-		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getBookList(booksFromDB));
+		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
 		
 		if(genere!="Tutti") {
 			for(int i=libri.size();i>0;i--) {
