@@ -57,7 +57,7 @@ public class DetailedBookController implements Initializable{
 		titoloLabel.setText(libro.getTitolo());
 		autoreLabel.setText(libro.getAutore());
 		casaEditriceLabel.setText(libro.getCasaEditrice());
-		annoPubblicazioneLabel.setText(Integer.toString(libro.getAnnoPublicazione()));
+		annoPubblicazioneLabel.setText(Integer.toString(libro.getAnnoPubblicazione()));
 		isbnLabel.setText(libro.getIsbn());
 		genereLabel.setText(libro.getGenere());
 		prezzoLabel.setText(String.valueOf(libro.getPrezzo()));

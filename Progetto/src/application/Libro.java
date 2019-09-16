@@ -92,7 +92,7 @@ public class Libro implements Comparable<Object>{
 	public String getCasaEditrice() {
 		return this.casaeditrice;
 	}
-	public int getAnnoPublicazione() {
+	public int getAnnoPubblicazione() {
 		return this.annopubblicazione;
 	}
 	public String getGenere() {
