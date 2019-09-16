@@ -2,6 +2,7 @@ package application;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,7 +17,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			return connect;
 		}
 		catch(Exception e) {
@@ -565,7 +566,7 @@ public class SqliteConnection {
 	 */
 	
 	//-----METODI CLASSIFICA-----//
-	
+	///////////////////////////////////////////////////////////////////////////////
 	//TODO attenzione a quando l'aggiornamento è settimanale e quando è del responsabile
 	
 	//metodo per aggiornare la classifica
@@ -577,8 +578,7 @@ public class SqliteConnection {
 		 * Fa eccezione la categoria  Novità, la quale a mio parere non è un genere ma si basa sulla data di aggiunta e vale solo per la settimana
 		 * in corso, tralasciando così problematiche di quante settimane è stato in una certa posizione.
 		 */
-		
-		if(genere.isEmpty()) { //classifica globale
+		if(genere == null) { //classifica globale
 			ResultSet gettingPreviousGlobalPositions = SqliteConnection.selectByGenre(null);
 			List<Integer> previousGlobalPosition = new ArrayList<Integer>(); 
 			List<Integer> weeksInSamePositionGlobal = new ArrayList<Integer>();
@@ -593,7 +593,7 @@ public class SqliteConnection {
 				e.printStackTrace();
 			}
 			
-			List<Libro> bookList = SqliteConnection.getAvailableBooks(gettingPreviousGlobalPositions);
+			List<Libro> bookList = SqliteConnection.getAvailableBooks(SqliteConnection.selectByGenre(null));
 			
 			for(int i = 0; i < bookList.size(); i++) {
 				if(previousGlobalPosition.get(i) == i + 1) //posizione di questa settimana = posizione della settimana scorsa
@@ -635,7 +635,7 @@ public class SqliteConnection {
 				e.printStackTrace();
 			}
 			
-			List<Libro> bookList = SqliteConnection.getAvailableBooks(gettingPreviousPositions);
+			List<Libro> bookList = SqliteConnection.getAvailableBooks(SqliteConnection.selectByGenre(genere));
 			
 			for(int i = 0; i < bookList.size(); i++) {
 				if(previousPosition.get(i) == i + 1) //posizione di questa settimana = posizione della settimana scorsa
@@ -649,9 +649,20 @@ public class SqliteConnection {
 		}
 	}
 	
+	//metodo per avere una lista ordinata di scorrimento della classifica
+	public static List<Libro> getOrderedMapKeys(Map<Libro, Integer> classifica){
+		List<Libro> sortedBooks = new ArrayList<Libro>(classifica.keySet());
+		sortedBooks.sort(new Comparator<Libro>() {
+			public int compare(Libro o1, Libro o2) {
+				return o2.getCopieVendute() - o1.getCopieVendute();
+			}
+		});
+		return sortedBooks;
+	}
+	
 	//metodo per fare update in fase di logOut
 	public static void savingOnLogOut(User user) {
-		if(user != null && user.getLibroCard() != null) { //not admin and logged in
+		if(user != null && user.getLibroCard() != null && !user.getEmail().equals("#####")) { //not admin, not guest and logged in
 			if(user.getOrdini() != null && user.getOrdini().size() != 0) { //at least one order to save
 				SqliteConnection.updateOrdine(user.getOrdini());
 				System.out.println("\nUser's orders SAVED");
@@ -796,14 +807,15 @@ public class SqliteConnection {
 	//metodo per ricevere i libri di un certo genere
 	public static ResultSet selectByGenre(String genere) {
 		if(genere == null) { //selezione per classifica generale
-			String sql = "SELECT FROM BookList" + "\nWHERE " + "disponibilita = 1";
-			sql += "\nORDER BY copieVenduteTotali;";
+			String sql = "SELECT * FROM BookList" + "\nWHERE disponibilita = 1";
+			sql += "\nORDER BY copieVenduteTotali DESC;";
+			
 			
 			Statement stmt = null;
 			
 			try {
 				
-				System.out.println("*****CONNESSO PER RICEVERE IL GENERE " + genere + "*****");
+				System.out.println("*****CONNESSO PER RICEVERE TUTTI I GENERI*****");
 					
 				stmt = SqliteConnection.dbConnector().createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
@@ -816,8 +828,8 @@ public class SqliteConnection {
 		}
 		
 		//selezione per singolo genere
-		String sql = "SELECT FROM BookList" + "\nWHERE " + "genere = '" + genere + "' AND disponibilita = 1";
-		sql += "\nORDER BY copieVenduteTotali;";
+		String sql = "SELECT * FROM BookList" + "\nWHERE " + "genere = '" + genere + "' AND disponibilita = 1";
+		sql += "\nORDER BY copieVenduteTotali DESC;";
 			
 		Statement stmt = null;
 			
@@ -837,8 +849,8 @@ public class SqliteConnection {
 	
 	//metodo per ricevere i libri novità
 	public static ResultSet selectByNovelty() {
-		String sql = "SELECT FROM BookList" + "\nWHERE " + "novita = 1 AND disponibilita = 1";
-		sql += "\nORDER BY copieVenduteTotali;";
+		String sql = "SELECT * FROM BookList" + "\nWHERE " + "novita = 1 AND disponibilita = 1";
+		sql += "\nORDER BY copieVenduteTotali DESC;";
 			
 		Statement stmt = null;
 			
@@ -867,14 +879,14 @@ public class SqliteConnection {
 		for(Libro book : bookList) {
 			if(global) {
 				sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE quindi non c'è update del campo isbn
-				sql += "settimaneStessaPosizioneGlobale = " + weeksInSamePosition.get(iterator);
-				sql += "precedentePosizioneClassificaGlobale = " + ++iterator;
+				sql += "settimaneStessaPosizioneGlobale = " + weeksInSamePosition.get(iterator) + ",\n";
+				sql += "precedentePosizioneClassificaGlobale = " + ++iterator + "\n";
 				sql += "WHERE isbn = '" + book.getIsbn() + "';";
 			}
 			else {
 				sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE quindi non c'è update del campo isbn
-				sql += "settimaneStessaPosizione = " + weeksInSamePosition.get(iterator);
-				sql += "precedentePosizioneClassifica = " + ++iterator;
+				sql += "settimaneStessaPosizione = " + weeksInSamePosition.get(iterator) + ",\n";
+				sql += "precedentePosizioneClassifica = " + ++iterator + "\n";
 				sql += "WHERE isbn = '" + book.getIsbn() + "';";
 			}
 			

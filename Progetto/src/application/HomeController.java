@@ -3,6 +3,10 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -176,6 +180,14 @@ public class HomeController implements Initializable{
 		
 		genereComboBox.getItems().addAll("Tutti","Romanzo", "Novità", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
 		 
+		//FIXME sezione di prova per le classifiche
+		Map<Libro, Integer> classifica = SqliteConnection.updateClassifica(null);
+		
+		List<Libro> sortedBooks = SqliteConnection.getOrderedMapKeys(classifica);
+		
+		for(Libro book : sortedBooks) {
+			System.out.println(book.getTitolo() + " é da " + classifica.get(book) + " settimane in " + (sortedBooks.indexOf(book) + 1) + " posizione in classifica" );
+		}
 		
 	}
 
