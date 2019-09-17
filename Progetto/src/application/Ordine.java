@@ -119,6 +119,6 @@ public class Ordine {
 	
 	//metodo per trasformare un ordine in userLess nel caso in cui l'utente "padrone" dell'ordine voglia essere cancellato dal sistema
 	public void becomeUserLess() {
-		this.idUser = "";
+		this.idUser = "#####";
 	}
 }

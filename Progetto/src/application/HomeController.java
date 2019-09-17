@@ -5,9 +5,12 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -150,7 +153,7 @@ public class HomeController implements Initializable{
 			return;
 		}
 		else {
-			AlertBox.display("Hurray", "Libro agginuto al tuo carrello");
+			AlertBox.display("Hurray", "Libro aggiunto al tuo carrello");
 			this.userLogged.addLibroToCarrello(selectedLibro);
 			return;
 		}
@@ -181,14 +184,13 @@ public class HomeController implements Initializable{
 		genereComboBox.getItems().addAll("Tutti","Romanzo", "Novità", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
 		 
 		//FIXME sezione di prova per le classifiche
-		Map<Libro, Integer> classifica = SqliteConnection.updateClassifica(null);
-		
-		List<Libro> sortedBooks = SqliteConnection.getOrderedMapKeys(classifica);
-		
-		for(Libro book : sortedBooks) {
-			System.out.println(book.getTitolo() + " é da " + classifica.get(book) + " settimane in " + (sortedBooks.indexOf(book) + 1) + " posizione in classifica" );
+		Classifica.updateClassifica(true);
+		HashMap<List<Libro>, List<Integer>> classifica = Classifica.getClassifica(null);
+		List<Libro> bookList = Classifica.getBooksFromMap(classifica);
+		List<Integer> weeks = Classifica.getWeeksFromMap(classifica);
+		for(int i = 0; i < bookList.size(); i++) {
+			System.out.println("Cazzo: " + bookList.get(i).getTitolo() + "  posiz:  " + weeks.get(i));
 		}
-		
 	}
 
 }
