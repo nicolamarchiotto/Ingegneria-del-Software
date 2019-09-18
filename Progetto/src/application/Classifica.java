@@ -24,6 +24,8 @@ public class Classifica {
 			updateClassifica("Fantascienza", updateSettimanale);
 			updateClassifica("Ragazzi", updateSettimanale);
 			updateClassifica("Poliziesco", updateSettimanale);
+			updateClassifica("Altro", updateSettimanale);
+			
 		}
 		
 		//metodo per aggiornare la classifica genere per genere
@@ -34,6 +36,8 @@ public class Classifica {
 				ResultSet gettingPreviousGlobalPositions = Classifica.selectByGenre(null, "update");
 				List<Integer> previousGlobalPosition = new ArrayList<Integer>(); 
 				List<Integer> weeksInSamePositionGlobal = new ArrayList<Integer>();
+				
+				if(gettingPreviousGlobalPositions == null) return;
 				
 				try {
 					while(gettingPreviousGlobalPositions.next()) {
@@ -74,6 +78,8 @@ public class Classifica {
 				ResultSet gettingPreviousPositions = Classifica.selectByGenre(genere, "update");
 				List<Integer> previousPosition = new ArrayList<Integer>(); 
 				List<Integer> weeksInSamePosition = new ArrayList<Integer>();
+				
+				if(gettingPreviousPositions == null) return;
 				
 				try {
 					while(gettingPreviousPositions.next()) {
@@ -116,7 +122,7 @@ public class Classifica {
 				List<Integer> weeksInSamePositionGlobal = new ArrayList<Integer>();
 				
 
-				
+				if(gettingPreviousGlobalPositions == null) return null;
 				try {
 					while(gettingPreviousGlobalPositions.next()) {
 						weeksInSamePositionGlobal.add(gettingPreviousGlobalPositions.getInt("settimaneStessaPosizioneGlobale"));

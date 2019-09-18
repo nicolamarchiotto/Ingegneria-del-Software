@@ -288,7 +288,7 @@ public class ResponsabileController implements Initializable{
 		
 		errorLabel.setText("");
 		
-		genere.getItems().addAll("Romanzo", "Novità", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		genere.getItems().addAll("Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
 		 
 		
 		//code for the libroCard Section

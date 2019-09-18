@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -59,6 +60,8 @@ public class HomeController implements Initializable{
 	@FXML private Button searchButtonClassifica;
 	
 	
+	private ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe;
+	
 	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
 	private HashMap<List<Libro>, List<Integer>> classificaNovita = null;
 	private HashMap<List<Libro>, List<Integer>> classificaNarrativa = null;
@@ -67,6 +70,7 @@ public class HomeController implements Initializable{
 	private HashMap<List<Libro>, List<Integer>> classificaFantascienza = null;
 	private HashMap<List<Libro>, List<Integer>> classificaRagazzi = null;
 	private HashMap<List<Libro>, List<Integer>> classificaPoliziesco = null;
+	private HashMap<List<Libro>, List<Integer>> classificaAltro = null;
 	
 	
 	LoginController controller=new LoginController();
@@ -190,10 +194,8 @@ public class HomeController implements Initializable{
 			AlertBox.display("Error", "Devi selezionare un genere per effettuare una ricerca");
 			return;
 		}
+		
 		String selectedGenere=genereComboBoxClassifica.getValue().toString();
-		if(selectedGenere.equals("Tutti")) {
-			selectedGenere=null;
-		}
 		
 		this.tableViewClassifica.setItems(getLibriClassifica(selectedGenere));
 		
@@ -201,7 +203,9 @@ public class HomeController implements Initializable{
 	
 	private ObservableList<Libro> getLibriClassifica(String genere) {
 		
-		HashMap<List<Libro>, List<Integer>> mappa=this.classificaGenerale;
+		int indexComboBox=genereComboBoxClassifica.getItems().indexOf(genere);
+		
+		HashMap<List<Libro>, List<Integer>> mappa=this.vettoreMappe.get(indexComboBox);
 		
 		if(mappa == null) return null; //nessun libro di questo genere
 		
@@ -211,12 +215,56 @@ public class HomeController implements Initializable{
 		
 		
 		for(Libro l:classifica) {
-			l.setPosizioneLocale(classifica.indexOf(l));
+			l.setPosizioneLocale(classifica.indexOf(l)+1);
 			l.setSettimaneLocale(settimane.get(classifica.indexOf(l)));
 		}
 		
 		return FXCollections.observableArrayList(classifica);
 	}
+	
+	public void addToBasketButtonClassificaPushed() {
+		Libro selectedLibro=this.tableViewClassifica.getSelectionModel().getSelectedItem();
+		if(selectedLibro==null) {
+			AlertBox.display("Error", "Nessun libro selezionato");
+			return;
+		}
+		else if(this.userLogged.getCarrello().contains(selectedLibro)) {
+			AlertBox.display("Error", "Libro già presente nel tuo carrello\nPer rimuoverlo vai alla sezione carrello");
+			return;
+		}
+		else {
+			AlertBox.display("Hurray", "Libro aggiunto al tuo carrello");
+			this.userLogged.addLibroToCarrello(selectedLibro);
+			return;
+		}
+		
+	}
+	
+	public void SeeDetailesButtonClassificaPushed(ActionEvent event) throws IOException
+    {
+		controller.setUserLogged(userLogged);
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource("DetailedBookScene.fxml"));
+		Parent TableViewParent=loader.load();
+		
+		Scene tableViewScene = new Scene(TableViewParent);  
+		
+		DetailedBookController controller=loader.getController();
+		
+		//controllo se è stato selezionato qualcosa
+		if(tableViewClassifica.getSelectionModel().getSelectedItem() == null) {
+			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
+			return;
+		}
+		else controller.setBookData(tableViewClassifica.getSelectionModel().getSelectedItem());
+				
+		controller.setBackPage("HomeScene.fxml");
+		
+		
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
 	
 	
 	
@@ -256,7 +304,19 @@ public class HomeController implements Initializable{
 		 */
 		this.getClassifica();
 		
+		this.vettoreMappe = new ArrayList<HashMap<List<Libro>, List<Integer>>>();
+		
+		this.vettoreMappe.add(this.classificaGenerale);
+		this.vettoreMappe.add(this.classificaRomanzo);
+		this.vettoreMappe.add(this.classificaNarrativa);
+		this.vettoreMappe.add(this.classificaRagazzi);
+		this.vettoreMappe.add(this.classificaFantascienza);
+		this.vettoreMappe.add(this.classificaPoliziesco);
+		this.vettoreMappe.add(this.classificaStoria);
+		this.vettoreMappe.add(this.classificaAltro);
+		
 		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		
 		titoloColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
 		genereColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("genere"));
@@ -295,6 +355,8 @@ public class HomeController implements Initializable{
 		if(classificaRagazzi == null) this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
 			
 		if(classificaPoliziesco == null) this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
+
+		if(classificaAltro == null) this.classificaAltro = Classifica.getClassifica("Altro");
 	}
 	
 	private void visualizeAllClassifiche() {
@@ -380,6 +442,17 @@ public class HomeController implements Initializable{
 		weeks = Classifica.getWeeksFromMap(this.classificaPoliziesco);
 		
 		System.out.println("\nCLASSIFICA POLIZIESCO\n");
+		if(libri != null)
+			for(int i = 0; i < libri.size(); i++) {
+				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
+			}
+		System.out.println("\n\n");
+		
+		
+		libri = Classifica.getBooksFromMap(this.classificaAltro);
+		weeks = Classifica.getWeeksFromMap(this.classificaAltro);
+		
+		System.out.println("\nCLASSIFICA ALTRO\n");
 		if(libri != null)
 			for(int i = 0; i < libri.size(); i++) {
 				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
