@@ -30,6 +30,6 @@
             <Button fx:id="guestButton" mnemonicParsing="false" onAction="#EnterAsGuestButtonPushed" prefHeight="25.0" prefWidth="100.0" text="Enter as guest" />
          </children>
       </HBox>
-      <Button fx:id="dbButton" layoutX="179.0" layoutY="321.0" mnemonicParsing="false" onAction="#DBButtonPushed" prefHeight="31.0" prefWidth="242.0" text="Prova DB" />
+      <Button fx:id="updateButton" layoutX="179.0" layoutY="321.0" mnemonicParsing="false" onAction="#UpdateSettimanaleButtonPushed" prefHeight="31.0" prefWidth="242.0" text="Update Settimanale" />
    </children>
 </AnchorPane>

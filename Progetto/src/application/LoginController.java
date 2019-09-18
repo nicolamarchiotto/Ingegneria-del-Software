@@ -25,7 +25,7 @@ public class LoginController implements Initializable{
 	@FXML private Button loginButton;
 	@FXML private Button signUpButton;
 	@FXML private Button guestButton;
-	@FXML private Button dbButton;
+	@FXML private Button updateButton;
 	
 	@FXML private TextField emailPasswordField;
 	@FXML private PasswordField pwPasswordField;
@@ -49,22 +49,6 @@ public class LoginController implements Initializable{
 		this.userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
 		
 		System.out.println("Users possibili: \n" + this.userList);
-		
-		/*User u = userList.get(1);  TEST PROVA
-		
-		List<Libro> bookList = SqliteConnection.getBookList(SqliteConnection.getFieldLibro());
-		u.addOrder(new Ordine(u, "contanti", bookList.get(0), bookList.get(1)));*/
-	}
-	
-	
-	//metodo di prova (RIMUOVERE) per visualizzare il DB e provare a vedere se è tutto ok
-	public void DBButtonPushed(ActionEvent event) throws IOException{
-		Parent tableViewParent =  FXMLLoader.load(getClass().getResource("DBWindowShow.fxml"));
-        Scene tableViewScene = new Scene(tableViewParent);
-        Stage window = new Stage(); //facendo new Stage si overlappano le finestre
-        window.setScene(tableViewScene);
-        window.setX(((Node)event.getSource()).getScene().getWindow().getWidth());
-        window.show();
 	}
 	
 	
@@ -76,6 +60,12 @@ public class LoginController implements Initializable{
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
         window.show();
+    }
+    
+    //esegue l'aggiornamento settimanale
+    public void UpdateSettimanaleButtonPushed(ActionEvent event) throws IOException
+    {
+    	Classifica.updateClassifica(true); //eseguo update settimanale
     }
     
     
