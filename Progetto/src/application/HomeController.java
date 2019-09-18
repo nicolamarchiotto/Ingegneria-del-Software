@@ -211,12 +211,56 @@ public class HomeController implements Initializable{
 		
 		
 		for(Libro l:classifica) {
-			l.setPosizioneLocale(classifica.indexOf(l));
+			l.setPosizioneLocale(classifica.indexOf(l)+1);
 			l.setSettimaneLocale(settimane.get(classifica.indexOf(l)));
 		}
 		
 		return FXCollections.observableArrayList(classifica);
 	}
+	
+	public void addToBasketButtonClassificaPushed() {
+		Libro selectedLibro=this.tableViewClassifica.getSelectionModel().getSelectedItem();
+		if(selectedLibro==null) {
+			AlertBox.display("Error", "Nessun libro selezionato");
+			return;
+		}
+		else if(this.userLogged.getCarrello().contains(selectedLibro)) {
+			AlertBox.display("Error", "Libro già presente nel tuo carrello\nPer rimuoverlo vai alla sezione carrello");
+			return;
+		}
+		else {
+			AlertBox.display("Hurray", "Libro aggiunto al tuo carrello");
+			this.userLogged.addLibroToCarrello(selectedLibro);
+			return;
+		}
+		
+	}
+	
+	public void SeeDetailesButtonClassificaPushed(ActionEvent event) throws IOException
+    {
+		controller.setUserLogged(userLogged);
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource("DetailedBookScene.fxml"));
+		Parent TableViewParent=loader.load();
+		
+		Scene tableViewScene = new Scene(TableViewParent);  
+		
+		DetailedBookController controller=loader.getController();
+		
+		//controllo se è stato selezionato qualcosa
+		if(tableViewClassifica.getSelectionModel().getSelectedItem() == null) {
+			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
+			return;
+		}
+		else controller.setBookData(tableViewClassifica.getSelectionModel().getSelectedItem());
+				
+		controller.setBackPage("HomeScene.fxml");
+		
+		
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
 	
 	
 	
@@ -256,7 +300,8 @@ public class HomeController implements Initializable{
 		 */
 		this.getClassifica();
 		
-		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo","Novità", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		
 		titoloColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
 		genereColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("genere"));
