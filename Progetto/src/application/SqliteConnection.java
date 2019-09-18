@@ -675,10 +675,9 @@ public class SqliteConnection {
 	//metodo per ritornare una lista di libri dato un ResultSet
 	public static List<Libro> getBookList(ResultSet booksFromDB){
 		List<Libro> bookList = new ArrayList<Libro>();
-		
 		try {
 			while(booksFromDB.next()) {
-				
+				System.out.println(booksFromDB.getString("titolo"));
 				bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), 
 						booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
 						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), 
@@ -688,12 +687,17 @@ public class SqliteConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return bookList;
+		System.out.println(bookList.isEmpty() + "   " + bookList);
+		if(bookList.isEmpty()) return null;
+		else return bookList;
 	}
 	
 	//metodo per ritornare una lista di libri DISPONIBILI
 	public static List<Libro> getAvailableBooks(ResultSet booksFromDB){
 		List<Libro> bookList = SqliteConnection.getBookList(booksFromDB);
+		
+		if(bookList == null || bookList.isEmpty()) return null;
+		
 		for(Libro singleBook : bookList) {
 			if(singleBook.getDisponibilita() == 0) {
 				bookList.remove(singleBook);
@@ -777,13 +781,13 @@ public class SqliteConnection {
 									ordersFromDB.getInt("saldoPuntiOrdine"), singleUser.getEmail(), ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri")));
 							break;
 						}
-						else if(ordersFromDB.getString("user").equals("")) { //utente non registrato
-							orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
-									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
-									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
-									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-									ordersFromDB.getInt("saldoPuntiOrdine"), "", ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri")));
-						}
+					}
+					if(ordersFromDB.getString("user").equals("#####")) { //utente non registrato
+						orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
+								ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
+								SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
+								ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
+								ordersFromDB.getInt("saldoPuntiOrdine"), "#####", ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri")));
 					}
 				}
 			}

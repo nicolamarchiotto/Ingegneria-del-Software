@@ -317,6 +317,8 @@ public class PersonalAreaController implements Initializable{
 			AlertBox.display("Error", "Nessun ordine corrisponde a tale identificativo");
 			return;
 		}
+		else if(!ordineTrovato.getUserId().equals("#####"))
+			AlertBox.display("Error", "This order is from a registered user, mind your own business");
 		else
 			this.tableViewOrder.getItems().add(ordineTrovato);
 	}

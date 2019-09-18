@@ -163,7 +163,7 @@ public class BasketController implements Initializable{
 
 	private void removeLibroFromCarrello(String id) throws IOException {
 		int number=Character.getNumericValue(id.charAt(id.length()-1));
-		System.out.println("Numero del Bottone: "+number);
+		System.out.println("Numero del Bottone: " + number);
 		this.carrelloUser.remove(number);
 		this.comboboxArray.remove(number);
 		this.labelArray.remove(number);

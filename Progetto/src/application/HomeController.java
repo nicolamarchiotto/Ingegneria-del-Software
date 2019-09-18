@@ -48,6 +48,16 @@ public class HomeController implements Initializable{
 	@FXML private Button searchButton;
 	
 	
+	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
+	private HashMap<List<Libro>, List<Integer>> classificaNovita = null;
+	private HashMap<List<Libro>, List<Integer>> classificaNarrativa = null;
+	private HashMap<List<Libro>, List<Integer>> classificaStoria = null;
+	private HashMap<List<Libro>, List<Integer>> classificaRomanzo = null;
+	private HashMap<List<Libro>, List<Integer>> classificaFantascienza = null;
+	private HashMap<List<Libro>, List<Integer>> classificaRagazzi = null;
+	private HashMap<List<Libro>, List<Integer>> classificaPoliziesco = null;
+	
+	
 	LoginController controller=new LoginController();
 	
 	private User userLogged;
@@ -182,15 +192,128 @@ public class HomeController implements Initializable{
 		tableView.setItems(getLibri("Tutti"));
 		
 		genereComboBox.getItems().addAll("Tutti","Romanzo", "Novità", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		
+		if(this.userLogged.getEmail().equals("#####"))
+			this.PersonalAreaButton.setText("Check Orders");
 		 
-		//FIXME sezione di prova per le classifiche
+		//this.updateClassifica();
+		
+		this.getClassifica();
+		
+		
+		this.visualizeAllClassifiche();
+	}
+	
+	private void updateClassifica() {
 		Classifica.updateClassifica(true);
-		HashMap<List<Libro>, List<Integer>> classifica = Classifica.getClassifica(null);
-		List<Libro> bookList = Classifica.getBooksFromMap(classifica);
-		List<Integer> weeks = Classifica.getWeeksFromMap(classifica);
-		for(int i = 0; i < bookList.size(); i++) {
-			System.out.println("Cazzo: " + bookList.get(i).getTitolo() + "  posiz:  " + weeks.get(i));
-		}
+	}
+	
+	private void getClassifica() {
+		if(classificaGenerale == null) this.classificaGenerale = Classifica.getClassifica(null);
+		
+		if(classificaNovita == null) this.classificaNovita = Classifica.getClassifica("novita");
+		
+		if(classificaNarrativa == null) this.classificaNarrativa = Classifica.getClassifica("Narrativa");
+		
+		if(classificaStoria == null) this.classificaStoria = Classifica.getClassifica("Storia");
+			
+		if(classificaRomanzo == null) this.classificaRomanzo = Classifica.getClassifica("Romanzo");
+			
+		if(classificaFantascienza == null) this.classificaFantascienza = Classifica.getClassifica("Fantascienza");
+	
+		if(classificaRagazzi == null) this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
+			
+		if(classificaPoliziesco == null) this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
+	}
+	
+	private void visualizeAllClassifiche() {
+		List<Libro> libri = Classifica.getBooksFromMap(this.classificaGenerale);
+		List<Integer> weeks = Classifica.getWeeksFromMap(this.classificaGenerale);
+		
+		System.out.println("\nCLASSIFICA GENERALE\n");
+		if(libri != null)
+			for(int i = 0; i < libri.size(); i++) {
+				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
+			}
+		System.out.println("\n\n");
+		
+		
+		
+		libri = Classifica.getBooksFromMap(this.classificaNovita);
+		weeks = Classifica.getWeeksFromMap(this.classificaNovita);
+		
+		System.out.println("\nCLASSIFICA NOVITA\n");
+		if(libri != null)
+			for(int i = 0; i < libri.size(); i++) {
+				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
+			}
+		System.out.println("\n\n");
+		
+		
+		libri = Classifica.getBooksFromMap(this.classificaNarrativa);
+		weeks = Classifica.getWeeksFromMap(this.classificaNarrativa);
+		
+		System.out.println("\nCLASSIFICA NARRATIVA\n");
+		if(libri != null)
+			for(int i = 0; i < libri.size(); i++) {
+				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
+			}
+		System.out.println("\n\n");
+		
+		
+		libri = Classifica.getBooksFromMap(this.classificaStoria);
+		weeks = Classifica.getWeeksFromMap(this.classificaStoria);
+		
+		System.out.println("\nCLASSIFICA STORIA\n");
+		if(libri != null)
+			for(int i = 0; i < libri.size(); i++) {
+				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
+			}
+		System.out.println("\n\n");
+		
+		
+		libri = Classifica.getBooksFromMap(this.classificaRomanzo);
+		weeks = Classifica.getWeeksFromMap(this.classificaRomanzo);
+		
+		System.out.println("\nCLASSIFICA ROMANZO\n");
+		if(libri != null)
+			for(int i = 0; i < libri.size(); i++) {
+				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
+			}
+		System.out.println("\n\n");
+		
+		
+		libri = Classifica.getBooksFromMap(this.classificaFantascienza);
+		weeks = Classifica.getWeeksFromMap(this.classificaFantascienza);
+		
+		System.out.println("\nCLASSIFICA FANTASCIENZA\n");
+		if(libri != null)
+			for(int i = 0; i < libri.size(); i++) {
+				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
+			}
+		System.out.println("\n\n");
+		
+		
+		libri = Classifica.getBooksFromMap(this.classificaRagazzi);
+		weeks = Classifica.getWeeksFromMap(this.classificaRagazzi);
+		
+		System.out.println("\nCLASSIFICA RAGAZZI\n");
+		if(libri != null)
+			for(int i = 0; i < libri.size(); i++) {
+				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
+			}
+		System.out.println("\n\n");
+		
+		
+		libri = Classifica.getBooksFromMap(this.classificaPoliziesco);
+		weeks = Classifica.getWeeksFromMap(this.classificaPoliziesco);
+		
+		System.out.println("\nCLASSIFICA POLIZIESCO\n");
+		if(libri != null)
+			for(int i = 0; i < libri.size(); i++) {
+				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
+			}
+		System.out.println("\n\n");
 	}
 
 }

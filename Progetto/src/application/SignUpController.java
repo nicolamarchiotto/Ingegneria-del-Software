@@ -73,6 +73,14 @@ public class SignUpController implements Initializable{
 		if(Password.getText() == null || Password.getText().trim().isEmpty())
 			sup=false;
 		
+		if(Cap.getText().length() != 5) {
+			AlertBox.display("Error", "Il CAP deve essere un valore numerico di 5 cifre");
+			sup=false;
+		}
+		if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) {
+			AlertBox.display("Error", "Inserire un numero di telefono valido");
+		}
+		
 		return sup;
 	}
 	
