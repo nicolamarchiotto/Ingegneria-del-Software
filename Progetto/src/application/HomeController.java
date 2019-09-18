@@ -196,7 +196,7 @@ public class HomeController implements Initializable{
 		if(this.userLogged.getEmail().equals("#####"))
 			this.PersonalAreaButton.setText("Check Orders");
 		 
-		//this.updateClassifica();
+		this.updateClassifica();
 		
 		this.getClassifica();
 		
@@ -211,7 +211,7 @@ public class HomeController implements Initializable{
 	private void getClassifica() {
 		if(classificaGenerale == null) this.classificaGenerale = Classifica.getClassifica(null);
 		
-		if(classificaNovita == null) this.classificaNovita = Classifica.getClassifica("novita");
+		if(classificaNovita == null) this.classificaNovita = Classifica.getClassifica("novità");
 		
 		if(classificaNarrativa == null) this.classificaNarrativa = Classifica.getClassifica("Narrativa");
 		

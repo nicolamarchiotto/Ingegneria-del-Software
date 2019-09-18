@@ -208,6 +208,7 @@ public class Classifica {
 					
 				stmt = connect.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
+				if(rs.isClosed()) return null;
 				return rs;
 			}
 			catch(SQLException e) {
@@ -240,6 +241,7 @@ public class Classifica {
 				stmt = SqliteConnection.dbConnector().createStatement();
 				stmt.executeUpdate(sql);
 				ResultSet rs = stmt.executeQuery(sql);
+				if(rs.isClosed()) return null;
 				return rs;
 			}
 			catch(SQLException e) {
