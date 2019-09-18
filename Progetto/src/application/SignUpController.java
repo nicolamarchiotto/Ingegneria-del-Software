@@ -73,13 +73,16 @@ public class SignUpController implements Initializable{
 		if(Password.getText() == null || Password.getText().trim().isEmpty())
 			sup=false;
 		
-		if(Cap.getText().length() != 5) {
+		//controllini su cap, telefono, email, password
+		if(Cap.getText().length() != 5) 
 			AlertBox.display("Error", "Il CAP deve essere un valore numerico di 5 cifre");
 			sup=false;
-		}
-		if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) {
+		if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) 
 			AlertBox.display("Error", "Inserire un numero di telefono valido");
-		}
+		if(Email.getText().length() < 6)
+			AlertBox.display("error", "Email must be at least 6 characters long");
+		if(Password.getText().length() < 6)
+			AlertBox.display("error", "Password must be at least 6 characters long");
 		
 		return sup;
 	}

@@ -196,7 +196,7 @@ public class HomeController implements Initializable{
 		if(this.userLogged.getEmail().equals("#####"))
 			this.PersonalAreaButton.setText("Check Orders");
 		 
-		this.updateClassifica();
+		//this.updateClassifica();
 		
 		this.getClassifica();
 		

@@ -171,6 +171,9 @@ public class Libro implements Comparable<Object>{
 	public void setToZeroCopieVendute() {
 		this.copieVenduteTotali = 0;
 	}
-
+	
+	public void setCopieVendute(int value) {
+		this.copieVenduteTotali = value;
+	}
 	
 }
