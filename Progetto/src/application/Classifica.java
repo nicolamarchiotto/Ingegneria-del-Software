@@ -178,7 +178,7 @@ public class Classifica {
 			Connection connect = SqliteConnection.dbConnector();
 			String ordering = getOrUpdate.equals("get") ? "copieVenduteSettimanaPrecedente" : "copieVenduteTotali";
 			if(genere == null) { //selezione per classifica generale
-				String sql = "SELECT * FROM BookList\nWHERE disponibilita = 1";
+				String sql = "SELECT * FROM BookList\nWHERE disponibilita = 1 AND copieVenduteSettimanaPrecedente != -1";
 				sql += "\nORDER BY " + ordering + " DESC;";
 				
 				
@@ -199,7 +199,7 @@ public class Classifica {
 			}
 			
 			//selezione per singolo genere
-			String sql = "SELECT * FROM BookList\nWHERE genere = '" + genere + "' AND disponibilita = 1";
+			String sql = "SELECT * FROM BookList\nWHERE genere = '" + genere + "' AND disponibilita = 1 AND copieVenduteSettimanaPrecedente != -1";
 			sql += "\nORDER BY " + ordering + " DESC;";
 				
 			Statement stmt = null;
@@ -221,7 +221,7 @@ public class Classifica {
 		
 		//metodo per ricevere i libri novità (libri in 3 possibili stati: 1 -> novita totale, quando faccio update lo fisso a 0 -> novita settimanale, ovvero la novita che mi arriva facendo le get post update, nel successivo update gli 0 diventano -1 -> non più novità
 		public static ResultSet selectByNovelty(int updatingOrViewing) {
-			String sql = "SELECT * FROM BookList\nWHERE novita = " + updatingOrViewing + " AND disponibilita = 1 OR novita = 2 AND disponibilita = 1 ";
+			String sql = "SELECT * FROM BookList\nWHERE (novita = " + updatingOrViewing + " AND disponibilita = 1 OR novita = 2 AND disponibilita = 1) AND copieVenduteSettimanaPrecedente != -1";
 			if(updatingOrViewing == 1) {
 				sql += "\nORDER BY copieVenduteTotali DESC;";
 				sql += "\nUPDATE BookList SET\n";
