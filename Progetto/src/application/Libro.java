@@ -15,6 +15,8 @@ public class Libro implements Comparable<Object>{
 	private int copieVenduteTotali = 0;
 	private int punti;
 	private int copieVenduteNelSingoloOrdine=0;
+	private int posizioneLocale=0;
+	private int settimaneLocale=0;
 	
 	//campo per capire se un libro è stato cancellato o meno
 	private int disponibilita;
@@ -176,4 +178,22 @@ public class Libro implements Comparable<Object>{
 		this.copieVenduteTotali = value;
 	}
 	
+	public void setPosizioneLocale(int pos) {
+		this.posizioneLocale=pos;
+	}
+	
+	public int getPosizioneLocale() {
+		return this.posizioneLocale;
+	}
+	
+	public void setSettimaneLocale(int settimane) {
+		this.settimaneLocale=settimane;
+	}
+	
+	public int getSettimaneLocale() {
+		return this.settimaneLocale;
+	}
+
+	
+
 }

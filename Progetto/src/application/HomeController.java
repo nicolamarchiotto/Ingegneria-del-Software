@@ -3,14 +3,9 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.TreeMap;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,21 +26,37 @@ import javafx.stage.Stage;
 
 public class HomeController implements Initializable{
 
-	@FXML private TableView<Libro> tableView;
-	@FXML private TableColumn<Libro, String> titoloColumn;
-	@FXML private TableColumn<Libro, String> autoreColumn;
-	@FXML private TableColumn<Libro, Integer> prezzoColumn;
-	@FXML private TableColumn<Libro, String> genereColumn;
-	
 	@FXML private Button SignOutButton;
 	@FXML private Button PersonalAreaButton;
 	@FXML private Label WellcomeLabel;
-	@FXML private Button SeeDetailesButton;
 	@FXML private Button BasketButton;
-	@FXML private Button AddToBasketButton;
 	
-	@FXML private ComboBox<String> genereComboBox;
-	@FXML private Button searchButton;
+	//stuff for the catalogo tab
+	@FXML private TableView<Libro> tableViewCatalogo;
+	@FXML private TableColumn<Libro, String> titoloColumnCatalogo;
+	@FXML private TableColumn<Libro, String> autoreColumnCatalogo;
+	@FXML private TableColumn<Libro, Integer> prezzoColumnCatalogo;
+	@FXML private TableColumn<Libro, String> genereColumnCatalogo;
+	
+	@FXML private Button SeeDetailesButtonCatalogo;
+	@FXML private Button AddToBasketButtonCatalogo;
+	
+	@FXML private ComboBox<String> genereComboBoxCatalogo;
+	@FXML private Button searchButtonCatalogo;
+	
+	//stuff for the classifica tab
+	@FXML private TableView<Libro> tableViewClassifica;
+	@FXML private TableColumn<Libro, String> titoloColumnClassifica;
+	@FXML private TableColumn<Libro, String> autoreColumnClassifica;
+	@FXML private TableColumn<Libro, String> genereColumnClassifica;
+	@FXML private TableColumn<Libro, Integer> posizioneColumnClassifica;
+	@FXML private TableColumn<Libro, Integer> settimanePosColumnClassifica;
+	
+	@FXML private Button SeeDetailesButtonClassifica;
+	@FXML private Button AddToBasketButtonClassifica;
+	
+	@FXML private ComboBox<String> genereComboBoxClassifica;
+	@FXML private Button searchButtonClassifica;
 	
 	
 	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
@@ -63,22 +74,6 @@ public class HomeController implements Initializable{
 	private User userLogged;
 	
 	
-	private ObservableList<Libro> getLibri(String genere) {
-		
-		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
-		
-		
-		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
-		
-		if(genere!="Tutti") {
-			for(int i=libri.size();i>0;i--) {
-				if(libri.get(i-1).getGenere().compareTo(genere)!=0)
-					libri.remove(i-1);
-			}
-		}
-		return libri;
-	}
-	
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
     {
 		SqliteConnection.savingOnLogOut(userLogged); //saving on logOut
@@ -89,37 +84,6 @@ public class HomeController implements Initializable{
         window.setScene(tableViewScene);
         window.show();      
     }
-	
-	//change scene to detailedBookView
-	
-	
-	public void SeeDetailesButtonPushed(ActionEvent event) throws IOException
-    {
-		controller.setUserLogged(userLogged);
-		FXMLLoader loader=new FXMLLoader();
-		loader.setLocation(getClass().getResource("DetailedBookScene.fxml"));
-		Parent TableViewParent=loader.load();
-		
-		Scene tableViewScene = new Scene(TableViewParent);  
-		
-		DetailedBookController controller=loader.getController();
-		
-		//controllo se è stato selezionato qualcosa
-		if(tableView.getSelectionModel().getSelectedItem() == null) {
-			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
-			return;
-		}
-		else controller.setBookData(tableView.getSelectionModel().getSelectedItem());
-				
-		controller.setBackPage("HomeScene.fxml");
-		
-		
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(tableViewScene);
-        window.show();      
-    }
-	
-	
 	
 	public void BasketButtonPushed(ActionEvent event) throws IOException
     {
@@ -141,19 +105,37 @@ public class HomeController implements Initializable{
         window.show();      
     }
 	
-	public void searchButtonPushed(ActionEvent event) throws IOException{
-		if(genereComboBox.getValue() == null) {
+	/*
+	 * functions for the catalogo tab
+	 */
+	
+	
+	public void searchButtonCatalogoPushed(ActionEvent event) throws IOException{
+		if(genereComboBoxCatalogo.getValue() == null) {
 			AlertBox.display("Error", "Devi selezionare un genere per effettuare una ricerca");
 			return;
 		}
-		String selectedGenere=genereComboBox.getValue().toString();
+		String selectedGenere=genereComboBoxCatalogo.getValue().toString();
 		
-		tableView.setItems(getLibri(selectedGenere));
-
+		tableViewCatalogo.setItems(getLibriCatalogo(selectedGenere));
 	}
 	
-	public void addToBasketButtonPushed() {
-		Libro selectedLibro=this.tableView.getSelectionModel().getSelectedItem();
+	private ObservableList<Libro> getLibriCatalogo(String genere) {
+		
+		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
+		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
+		
+		if(genere!="Tutti") {
+			for(int i=libri.size();i>0;i--) {
+				if(libri.get(i-1).getGenere().compareTo(genere)!=0)
+					libri.remove(i-1);
+			}
+		}
+		return libri;
+	}
+	
+	public void addToBasketButtonCatalogoPushed() {
+		Libro selectedLibro=this.tableViewCatalogo.getSelectionModel().getSelectedItem();
 		if(selectedLibro==null) {
 			AlertBox.display("Error", "Nessun libro selezionato");
 			return;
@@ -170,6 +152,76 @@ public class HomeController implements Initializable{
 		
 	}
 	
+	public void SeeDetailesButtonCatalogoPushed(ActionEvent event) throws IOException
+    {
+		controller.setUserLogged(userLogged);
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource("DetailedBookScene.fxml"));
+		Parent TableViewParent=loader.load();
+		
+		Scene tableViewScene = new Scene(TableViewParent);  
+		
+		DetailedBookController controller=loader.getController();
+		
+		//controllo se è stato selezionato qualcosa
+		if(tableViewCatalogo.getSelectionModel().getSelectedItem() == null) {
+			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
+			return;
+		}
+		else controller.setBookData(tableViewCatalogo.getSelectionModel().getSelectedItem());
+				
+		controller.setBackPage("HomeScene.fxml");
+		
+		
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
+	
+	
+	
+	/*
+	 * functions for the classifica tab
+	 */
+	
+	
+	public void searchButtonClassificaPushed(ActionEvent event) throws IOException{
+		if(genereComboBoxClassifica.getValue() == null) {
+			AlertBox.display("Error", "Devi selezionare un genere per effettuare una ricerca");
+			return;
+		}
+		String selectedGenere=genereComboBoxClassifica.getValue().toString();
+		if(selectedGenere.equals("Tutti")) {
+			selectedGenere=null;
+		}
+		
+		this.tableViewClassifica.setItems(getLibriClassifica(selectedGenere));
+		
+	}
+	
+	private ObservableList<Libro> getLibriClassifica(String genere) {
+		
+		HashMap<List<Libro>, List<Integer>> mappa=this.classificaGenerale;
+		
+		if(mappa == null) return null; //nessun libro di questo genere
+		
+		
+		List<Libro> classifica=Classifica.getBooksFromMap(mappa);
+		List<Integer> settimane=Classifica.getWeeksFromMap(mappa);
+		
+		
+		for(Libro l:classifica) {
+			l.setPosizioneLocale(classifica.indexOf(l));
+			l.setSettimaneLocale(settimane.get(classifica.indexOf(l)));
+		}
+		
+		return FXCollections.observableArrayList(classifica);
+	}
+	
+	
+	
+	
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1){		
 		
@@ -179,26 +231,45 @@ public class HomeController implements Initializable{
 		
 		WellcomeLabel.setText("Welcome " +userLogged.getNome()+", good Shopping");
 		
+		/*
+		 * stuff for the catalogo tab
+		 */
 		
 		//set up the columns in the table
-		titoloColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
-		autoreColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
-		prezzoColumn.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("prezzo"));
-		genereColumn.setCellValueFactory(new PropertyValueFactory<Libro, String>("genere"));
+		titoloColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
+		autoreColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
+		prezzoColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("prezzo"));
+		genereColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("genere"));
 		
-		//populates the tableView with dummy items
 		//setItems must have an ObservableList as parameter, ObservableList almost like ArrayList	
 		
-		tableView.setItems(getLibri("Tutti"));
+		tableViewCatalogo.setItems(getLibriCatalogo("Tutti"));
 		
-		genereComboBox.getItems().addAll("Tutti","Romanzo", "Novità", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		genereComboBoxCatalogo.getItems().addAll("Tutti","Romanzo", "Novità", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
 		
 		if(this.userLogged.getEmail().equals("#####"))
 			this.PersonalAreaButton.setText("Check Orders");
+		
+		
+		/*
+		 * stuff for the classifica tab
+		 */
+		this.getClassifica();
+		
+		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		titoloColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
+		autoreColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
+		genereColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("genere"));
+		posizioneColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("posizioneLocale"));
+		settimanePosColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("settimaneLocale"));
+		
+		 
+		this.tableViewClassifica.setItems(this.getLibriClassifica("Tutti"));
+		
 		 
 		//this.updateClassifica();
 		
-		this.getClassifica();
+		
 		
 		
 		this.visualizeAllClassifiche();
@@ -229,7 +300,7 @@ public class HomeController implements Initializable{
 	private void visualizeAllClassifiche() {
 		List<Libro> libri = Classifica.getBooksFromMap(this.classificaGenerale);
 		List<Integer> weeks = Classifica.getWeeksFromMap(this.classificaGenerale);
-		
+			
 		System.out.println("\nCLASSIFICA GENERALE\n");
 		if(libri != null)
 			for(int i = 0; i < libri.size(); i++) {

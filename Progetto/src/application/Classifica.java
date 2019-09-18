@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class Classifica {
 	
 		//metodo per aggiornare TUTTE le classifiche
+		//vero se update settimanale,falso se respondabile
 		public static void updateClassifica(boolean updateSettimanale) {
 			updateClassifica(null, updateSettimanale);
 			updateClassifica("novità", updateSettimanale);
@@ -131,7 +132,7 @@ public class Classifica {
 				
 				HashMap<List<Libro>, List<Integer>> classifica = new HashMap<List<Libro>, List<Integer>>();
 				classifica.put(bookList, weeksInSamePositionGlobal);
-				return classifica;
+				return classifica; 
 			}
 			else if(genere.equals("novità")) {//classifica delle novità
 				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByNovelty(0));
@@ -152,7 +153,7 @@ public class Classifica {
 				ResultSet gettingPreviousPositions = Classifica.selectByGenre(genere, "get");
 				List<Integer> weeksInSamePosition = new ArrayList<Integer>();
 
-				
+				if(gettingPreviousPositions == null) return null;
 				try {
 					while(gettingPreviousPositions.next()) {
 						weeksInSamePosition.add(gettingPreviousPositions.getInt("settimaneStessaPosizione"));
