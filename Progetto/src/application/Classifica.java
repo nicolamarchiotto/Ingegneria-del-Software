@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.HashMap;
 
 public class Classifica {
@@ -209,6 +210,7 @@ public class Classifica {
 					
 				stmt = connect.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
+				if(rs.isClosed()) return null;
 				return rs;
 			}
 			catch(SQLException e) {
@@ -241,6 +243,7 @@ public class Classifica {
 				stmt = SqliteConnection.dbConnector().createStatement();
 				stmt.executeUpdate(sql);
 				ResultSet rs = stmt.executeQuery(sql);
+				if(rs.isClosed()) return null;
 				return rs;
 			}
 			catch(SQLException e) {
@@ -323,5 +326,36 @@ public class Classifica {
 			for(List<Integer> mapPiece : map.values())
 				 return mapPiece;
 			return null;
+		}
+		
+		
+		//metodo per randomizzare le copie vendute, inizializzare le novità
+		public static void randomize() {
+			Connection connect = SqliteConnection.dbConnector();
+			List<Libro> bookList = SqliteConnection.getAvailableBooks(SqliteConnection.getFieldLibro());
+			
+			Random r = new Random();
+			
+			for(Libro book : bookList) {
+				String sql = "UPDATE BookList SET\ncopieVenduteTotali = " + r.nextInt(50) + ",\nnovita = " + r.nextInt(2) 
+						+ ",\nprecedentePosizioneClassifica = -1,\n" 
+						+ "settimaneStessaPosizione = -1,\n" 
+						+ "precedentePosizioneClassificaGlobale = -1,\n" 
+						+ "settimaneStessaPosizioneGlobale = -1,\n" 
+						+ "copieVenduteSettimanaPrecedente = 0" 
+						+ "\nWHERE isbn = '" + book.getIsbn() + "';";
+				
+				
+				Statement stmt = null;
+				try {
+					stmt = connect.createStatement();
+					stmt.executeUpdate(sql);
+				}
+				catch(SQLException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			
 		}
 }

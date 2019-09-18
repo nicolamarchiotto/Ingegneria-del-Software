@@ -174,6 +174,10 @@ public class Libro implements Comparable<Object>{
 		this.copieVenduteTotali = 0;
 	}
 	
+	public void setCopieVendute(int value) {
+		this.copieVenduteTotali = value;
+	}
+	
 	public void setPosizioneLocale(int pos) {
 		this.posizioneLocale=pos;
 	}
@@ -191,4 +195,5 @@ public class Libro implements Comparable<Object>{
 	}
 
 	
+
 }

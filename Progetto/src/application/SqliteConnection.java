@@ -42,14 +42,14 @@ public class SqliteConnection {
 				for(Object libro : objectList) {
 					sql = "INSERT INTO BookList VALUES";
 					Libro book = (Libro)libro;
-					sql += "(" + book.getIsbn() + ",\n'";
-					sql += book.getTitolo() + "',\n'";
+					sql += "(" + book.getIsbn() + ",\n\"";
+					sql += book.getTitolo() + "\",\n'";
 					sql += book.getAutore() + "',\n";
 					sql += book.getAnnoPubblicazione() + ",\n'";
 					sql += book.getCasaEditrice() + "',\n'";
 					sql += book.getGenere() + "',\n";
-					sql += book.getPrezzo() + ",\n'";
-					sql += book.getBreveDescrizione() + "',\n";
+					sql += book.getPrezzo() + ",\n\"";
+					sql += book.getBreveDescrizione() + "\",\n";
 					sql += book.getCopieVendute() + ",\n";
 					sql += book.getPunti() + ",\n";
 					sql += -1 + ",\n"; //precedentePosizioneClassifica
@@ -675,6 +675,7 @@ public class SqliteConnection {
 	//metodo per ritornare una lista di libri dato un ResultSet
 	public static List<Libro> getBookList(ResultSet booksFromDB){
 		List<Libro> bookList = new ArrayList<Libro>();
+		if(booksFromDB == null) return null;
 		try {
 			while(booksFromDB.next()) {
 				System.out.println(booksFromDB.getString("titolo"));

@@ -277,7 +277,7 @@ public class HomeController implements Initializable{
 	private void getClassifica() {
 		if(classificaGenerale == null) this.classificaGenerale = Classifica.getClassifica(null);
 		
-		if(classificaNovita == null) this.classificaNovita = Classifica.getClassifica("novita");
+		if(classificaNovita == null) this.classificaNovita = Classifica.getClassifica("novità");
 		
 		if(classificaNarrativa == null) this.classificaNarrativa = Classifica.getClassifica("Narrativa");
 		
