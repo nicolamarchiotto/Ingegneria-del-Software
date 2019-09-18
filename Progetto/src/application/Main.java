@@ -17,7 +17,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Libreria Digitale");
-			Classifica.randomize(); //inizializzazione dei valori
+			Classifica.randomize(); //inizializzazione dei valore
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
