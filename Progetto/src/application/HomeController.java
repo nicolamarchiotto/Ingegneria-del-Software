@@ -201,7 +201,11 @@ public class HomeController implements Initializable{
 	
 	private ObservableList<Libro> getLibriClassifica(String genere) {
 		
-		HashMap<List<Libro>, List<Integer>> mappa=Classifica.getClassifica(genere);
+		HashMap<List<Libro>, List<Integer>> mappa=this.classificaGenerale;
+		
+		if(mappa == null) return null; //nessun libro di questo genere
+		
+		
 		List<Libro> classifica=Classifica.getBooksFromMap(mappa);
 		List<Integer> settimane=Classifica.getWeeksFromMap(mappa);
 		
@@ -250,6 +254,7 @@ public class HomeController implements Initializable{
 		/*
 		 * stuff for the classifica tab
 		 */
+		this.getClassifica();
 		
 		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
 		titoloColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
@@ -264,7 +269,7 @@ public class HomeController implements Initializable{
 		 
 		//this.updateClassifica();
 		
-		this.getClassifica();
+		
 		
 		
 		this.visualizeAllClassifiche();

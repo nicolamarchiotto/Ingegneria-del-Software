@@ -153,7 +153,7 @@ public class Classifica {
 				ResultSet gettingPreviousPositions = Classifica.selectByGenre(genere, "get");
 				List<Integer> weeksInSamePosition = new ArrayList<Integer>();
 
-				
+				if(gettingPreviousPositions == null) return null;
 				try {
 					while(gettingPreviousPositions.next()) {
 						weeksInSamePosition.add(gettingPreviousPositions.getInt("settimaneStessaPosizione"));

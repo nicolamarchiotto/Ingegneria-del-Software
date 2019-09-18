@@ -18,6 +18,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Libreria Digitale");
 			Classifica.randomize(); //inizializzazione dei valori
+			Classifica.updateClassifica(true);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
