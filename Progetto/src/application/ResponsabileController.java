@@ -48,6 +48,8 @@ public class ResponsabileController implements Initializable{
 	
 	@FXML private Button addToLibraryButton;
 	@FXML private Button signOutButton;
+	@FXML private Button removeFromLibraryButton;
+	@FXML private Button updateAdminButton;
 	
 	@FXML private Label errorLabel;
 	
@@ -101,13 +103,6 @@ public class ResponsabileController implements Initializable{
 				
 				Libro l=new Libro(titolo.getText(), toACapoMode(autori.getText(), '-'), casaEditrice.getText(), Integer.valueOf(annoPubblicazione.getText()),
 						genere.getValue().toString(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(),(int)Math.round(Double.valueOf(prezzo.getText())));
-			
-				//TODO
-				/*
-				 * Stampa libro da cancellare
-				 * va fatto inserimento libro nel database
-				 * controllare se non c'è già lo stesso libro??
-				 */
 				
 				LinkedList<Libro> list=new LinkedList<Libro>();
 				list.add(l);
@@ -271,6 +266,18 @@ public class ResponsabileController implements Initializable{
         window.setScene(tableViewScene);
         window.show();      
     }
+	
+	//rende non più disponibile il libro
+	public void RemoveFromLibraryButtonPushed(ActionEvent event) throws IOException{
+		Libro l=new Libro(titolo.getText(), toACapoMode(autori.getText(), '-'), casaEditrice.getText(), Integer.valueOf(annoPubblicazione.getText()),
+				genere.getValue().toString(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(),(int)Math.round(Double.valueOf(prezzo.getText())));
+		
+		SqliteConnection.deleteLibro(l);
+	}
+	
+	public void UpdateAdminButtonPushed(ActionEvent event) throws IOException{
+		Classifica.updateClassifica(false); //aggiornamento effettuato come responsabile
+	}
 	
 	
 	@Override

@@ -412,7 +412,7 @@ public class SqliteConnection {
 			Libro book = (Libro)object;
 			
 			//elimino il libro richiesto
-			sql += "DELETE FROM BookList\n";
+			sql += "UPDATE BookList SET\ndisponibilita = 0\n";
 			sql += "WHERE isbn = '" + book.getIsbn() + "';\n\n";
 			
 			Statement stmt = null;

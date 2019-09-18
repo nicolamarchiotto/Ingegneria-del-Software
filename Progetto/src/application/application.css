@@ -1,5 +1,4 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
-el-header {
+/*el-header {
     -fx-font-size: 32pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: black;
@@ -7,7 +6,10 @@ el-header {
 }
 
 .anchor-pane {
-	-fx-background-color: #c2ecfc;
+	-fx-background-color: #e3fcea;
+	}
+.tab-pane {
+	-fx-background-color: #e3fcea;
 	}
 
 .table-view {
@@ -76,17 +78,12 @@ el-header {
     -fx-font-family: "Segoe UI Semibold";
 }
 
-/* 
- * Metro style Push Button
- * Author: Pedro Duque Vieira
- * http://pixelduke.wordpress.com/2012/10/23/jmetro-windows-8-controls-on-java/
- */
 .button {
     -fx-padding: 5 22 5 22;   
     -fx-border-color: #000;
     -fx-border-width: 2;
     -fx-background-radius: 0;
-    -fx-background-color: #c2ecfc;
+    -fx-background-color: #9df5a7;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11pt;
     -fx-text-fill: #000;
@@ -101,6 +98,7 @@ el-header {
   -fx-background-color: white;
   -fx-text-fill: #1d1d1d;
 }
+
 
 .button:focused {
     -fx-border-color: black, black;
@@ -123,4 +121,4 @@ el-header {
 
 .button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30%);
-}
+}*/
