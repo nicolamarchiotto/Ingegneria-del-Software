@@ -56,7 +56,7 @@ public class SqliteConnection {
 					sql += -1 + ",\n"; //settimaneStessaPosizione
 					sql += -1 + ",\n"; //precedentePosizioneClassificaGlobale
 					sql += -1 + ",\n"; //settimaneStessaPosizioneGlobale
-					sql += 0 + ",\n"; //copieVenduteSettimanaPrecedente 
+					sql += -1 + ",\n"; //copieVenduteSettimanaPrecedente (se quando cerco qualcosa è a -1 vuol dire che non fa parte della classifica della settimana corrente)
 					sql += 1 + ",\n"; //novita
 					sql += book.getDisponibilita() + ");";
 					
