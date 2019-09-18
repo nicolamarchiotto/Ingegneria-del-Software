@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -31,5 +33,10 @@
          </children>
       </HBox>
       <Button fx:id="updateButton" layoutX="179.0" layoutY="321.0" mnemonicParsing="false" onAction="#UpdateSettimanaleButtonPushed" prefHeight="31.0" prefWidth="242.0" text="Update Settimanale" />
+      <ImageView fitHeight="182.0" fitWidth="108.0" layoutX="490.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../maxresdefault.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
