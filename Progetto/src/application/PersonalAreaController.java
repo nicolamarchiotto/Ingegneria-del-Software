@@ -319,8 +319,11 @@ public class PersonalAreaController implements Initializable{
 		}
 		else if(!ordineTrovato.getUserId().equals("#####"))
 			AlertBox.display("Error", "This order is from a registered user, mind your own business");
-		else
+		else {
+			this.tableViewOrder.getItems().removeAll(this.tableViewOrder.getItems());
 			this.tableViewOrder.getItems().add(ordineTrovato);
+			
+		}
 	}
 	
 	
