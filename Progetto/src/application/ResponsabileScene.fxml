@@ -105,8 +105,8 @@
                         </TableView>
                         <HBox alignment="CENTER_LEFT" layoutY="-36.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
                            <children>
-                              <ComboBox fx:id="genereComboBoxClassifica" prefWidth="150.0" />
-                              <Button fx:id="searchButtonClassifica" mnemonicParsing="false" text="Search" />
+                              <ComboBox fx:id="genereComboBoxClassifica" prefWidth="150.0" promptText="Search by genre" />
+                              <Button fx:id="searchButtonClassifica" mnemonicParsing="false" onAction="#searchButtonClassificaPushed" text="Search" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
@@ -114,7 +114,7 @@
                         </HBox>
                         <HBox alignment="CENTER" layoutX="209.0" layoutY="250.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
                            <children>
-                              <Button fx:id="updateAdminButton" mnemonicParsing="false" text="Aggiorna classifica manualmente" />
+                              <Button fx:id="updateAdminButton" mnemonicParsing="false" onAction="#UpdateAdminButtonPushed" text="Aggiorna classifica manualmente" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />

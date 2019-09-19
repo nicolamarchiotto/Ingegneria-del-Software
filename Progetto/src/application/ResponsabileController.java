@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -82,6 +82,20 @@ public class ResponsabileController implements Initializable{
 	
 	@FXML private ComboBox<String> genereComboBoxClassifica;
 	@FXML private Button searchButtonClassifica;
+	
+	//private List<Libro> listaCatalogoLocale=new ArrayList<Libro>();
+	
+	private ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe;
+	
+	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
+	private HashMap<List<Libro>, List<Integer>> classificaNovita = null;
+	private HashMap<List<Libro>, List<Integer>> classificaNarrativa = null;
+	private HashMap<List<Libro>, List<Integer>> classificaStoria = null;
+	private HashMap<List<Libro>, List<Integer>> classificaRomanzo = null;
+	private HashMap<List<Libro>, List<Integer>> classificaFantascienza = null;
+	private HashMap<List<Libro>, List<Integer>> classificaRagazzi = null;
+	private HashMap<List<Libro>, List<Integer>> classificaPoliziesco = null;
+	private HashMap<List<Libro>, List<Integer>> classificaAltro = null;
 	
 	/*
 	 * stuff for the libroCard section
@@ -333,6 +347,68 @@ public class ResponsabileController implements Initializable{
 		this.tableViewCatalogo.setItems(this.getLibriCatalogo("Tutti"));
 	}
 	
+	/*
+	 * code for the classifica section
+	 */
+	
+	public void searchButtonClassificaPushed(ActionEvent event) throws IOException{
+		if(genereComboBoxClassifica.getValue() == null) {
+			AlertBox.display("Error", "Devi selezionare un genere per effettuare una ricerca");
+			return;
+		}
+		
+		String selectedGenere=genereComboBoxClassifica.getValue().toString();
+		
+		this.tableViewClassifica.setItems(getLibriClassifica(selectedGenere));
+		
+	}
+	
+	private ObservableList<Libro> getLibriClassifica(String genere) {
+		
+		int indexComboBox=genereComboBoxClassifica.getItems().indexOf(genere);
+			
+		HashMap<List<Libro>, List<Integer>> mappa=this.vettoreMappe.get(indexComboBox);
+		
+		if(mappa == null) return null; //nessun libro di questo genere
+		
+		
+		List<Libro> classifica=Classifica.getBooksFromMap(mappa);
+		List<Integer> settimane=Classifica.getWeeksFromMap(mappa);
+		
+		
+		for(Libro l:classifica) {
+			l.setPosizioneLocale(classifica.indexOf(l)+1);
+			l.setSettimaneLocale(settimane.get(classifica.indexOf(l)));
+		}
+		
+		return FXCollections.observableArrayList(classifica);
+	}
+	
+	private void getClassifica() {
+		if(classificaGenerale == null) this.classificaGenerale = Classifica.getClassifica(null);
+		
+		if(classificaNovita == null) this.classificaNovita = Classifica.getClassifica("novità");
+		
+		if(classificaNarrativa == null) this.classificaNarrativa = Classifica.getClassifica("Narrativa");
+		
+		if(classificaStoria == null) this.classificaStoria = Classifica.getClassifica("Storia");
+			
+		if(classificaRomanzo == null) this.classificaRomanzo = Classifica.getClassifica("Romanzo");
+			
+		if(classificaFantascienza == null) this.classificaFantascienza = Classifica.getClassifica("Fantascienza");
+	
+		if(classificaRagazzi == null) this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
+			
+		if(classificaPoliziesco == null) this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
+
+		if(classificaAltro == null) this.classificaAltro = Classifica.getClassifica("Altro");
+	}
+	
+	public void UpdateAdminButtonPushed(ActionEvent event) throws IOException{
+		Classifica.updateClassifica(false); //aggiornamento effettuato come responsabile
+		this.getClassifica();
+		this.tableViewClassifica.setItems(this.getLibriClassifica("Tutti"));
+	}
 	
 	
 	/*
@@ -355,6 +431,8 @@ public class ResponsabileController implements Initializable{
 		
 		return user;
 	}
+	
+	
 	
 	
 	/*
@@ -398,10 +476,6 @@ public class ResponsabileController implements Initializable{
         window.show();      
     }
 	
-	public void UpdateAdminButtonPushed(ActionEvent event) throws IOException{
-		Classifica.updateClassifica(false); //aggiornamento effettuato come responsabile
-	}
-	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -414,15 +488,42 @@ public class ResponsabileController implements Initializable{
 		//code for the catalogo section
 		
 		//set up the columns in the table
+		
+		
+		
+		
 		titoloColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
 		prezzoColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("prezzo"));
 		genereColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("genere"));
 				
-		//setItems must have an ObservableList as parameter, ObservableList almost like ArrayList	
-				
 		tableViewCatalogo.setItems(getLibriCatalogo("Tutti"));	
 		 
+		//code for the classifica section
+		
+		this.getClassifica();
+		
+		this.vettoreMappe = new ArrayList<HashMap<List<Libro>, List<Integer>>>();
+		
+		this.vettoreMappe.add(this.classificaGenerale);
+		this.vettoreMappe.add(this.classificaRomanzo);
+		this.vettoreMappe.add(this.classificaNarrativa);
+		this.vettoreMappe.add(this.classificaRagazzi);
+		this.vettoreMappe.add(this.classificaFantascienza);
+		this.vettoreMappe.add(this.classificaPoliziesco);
+		this.vettoreMappe.add(this.classificaStoria);
+		this.vettoreMappe.add(this.classificaAltro);
+		
+
+		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		
+		titoloColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
+		autoreColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
+		genereColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("genere"));
+		posizioneColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("posizioneLocale"));
+		settimanePosColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("settimaneLocale"));
+		
+		this.tableViewClassifica.setItems(this.getLibriClassifica("Tutti"));
 		
 		//code for the libroCard Section
 		
