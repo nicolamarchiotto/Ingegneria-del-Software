@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.plaf.SeparatorUI;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,6 +35,7 @@ public class PersonalAreaController implements Initializable{
 	@FXML private Button goBackButton;
 	@FXML private Button signOutButton;
 	@FXML private Button saveChangesButton;
+	@FXML private Button deleteAccount;
 	
 	LoginController controller=new LoginController();
 	
@@ -326,6 +329,10 @@ public class PersonalAreaController implements Initializable{
 		}
 	}
 	
-	
+	public void deleteAccountButtonPushed(ActionEvent event) throws IOException{
+		SqliteConnection.deleteUser(this.userLogged);
+		this.controller.setUserLogged(null);
+		this.SignOutButtonPushed(event);
+	}
 	
 }

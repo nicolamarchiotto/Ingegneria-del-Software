@@ -188,7 +188,7 @@ public class PaymentController implements Initializable{
 					this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
 				}
 				
-				AlertBox.display("Hurray", "Your order has benn recieved,\nthanks for choosing us!"+idOrdine);
+				AlertBox.display("Hurray", "Your order has benn received,\nthanks for choosing us!"+idOrdine);
 				try {
 					goToHomePage(event);
 				} catch (IOException e) {
@@ -242,7 +242,7 @@ public class PaymentController implements Initializable{
 				sup=false;
 		if(this.cittaTextField.getText() == null || this.cittaTextField.getText().trim().isEmpty())
 			sup=false;
-		if(this.capTextField.getText() == null || this.capTextField.getText().trim().isEmpty())
+		if(this.capTextField.getText() == null || this.capTextField.getText().trim().isEmpty() || this.capTextField.getText().length() != 5)
 			sup=false;
 		if(!(Integer.valueOf(this.capTextField.getText()) instanceof Integer))
 			sup=false;

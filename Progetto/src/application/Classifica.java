@@ -254,7 +254,6 @@ public class Classifica {
 			try {
 					
 				System.out.println("*****CONNESSO PER RICEVERE LE NOVITA'*****");
-				System.out.println("what\n" + sql);
 				stmt = SqliteConnection.dbConnector().createStatement();
 				stmt.executeUpdate(sql);
 				ResultSet rs = stmt.executeQuery(sql);

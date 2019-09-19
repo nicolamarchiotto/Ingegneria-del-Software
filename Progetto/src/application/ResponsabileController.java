@@ -378,6 +378,8 @@ public class ResponsabileController implements Initializable{
 		List<Libro> classifica=Classifica.getBooksFromMap(mappa);
 		List<Integer> settimane=Classifica.getWeeksFromMap(mappa);
 		
+		System.out.println(classifica);
+		
 		
 		for(Libro l:classifica) {
 			l.setPosizioneLocale(classifica.indexOf(l)+1);

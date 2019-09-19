@@ -136,7 +136,7 @@ public class DetailedOrdineController implements Initializable{
 	private String getSummary() {
 		String sup;
 		
-		sup="Costo totale dell'ordine: "+this.localOrder.getTotalCost()+"\nData di effettuazione ordine: "+this.localOrder.getData()+""
+		sup="Costo totale dell'ordine: "+String.format("%.2f",this.localOrder.getTotalCost())+"\nData di effettuazione ordine: "+this.localOrder.getData()+""
 				+ "\nStato dell'ordine: " +this.localOrder.getStato()+"\nId acquirente: "+this.localOrder.getUserId()+"\nIndirizzo di spedizione: "+this.localOrder.getIndirizzoSpedizione();
 		
 		return sup;
