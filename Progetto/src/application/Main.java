@@ -26,7 +26,12 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
+		LeaderboardUpdateThread prova = new LeaderboardUpdateThread(); //thread to simulate week passing
+		
+		prova.start(); //starting the thread
 			
-		launch(args);
+		launch(args); //starting the application
+		
+		prova.interrupt(); //terminatin thread
 	}
 }
