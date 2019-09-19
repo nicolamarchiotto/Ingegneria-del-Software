@@ -321,6 +321,7 @@ public class ResponsabileController implements Initializable{
 		
 		AlertBox.display("Success", "Libro eliminato");
 		
+		this.libriGlobal.remove(l);
 		this.tableViewCatalogo.setItems(this.libriGlobal);
 	}
 	
@@ -368,6 +369,7 @@ public class ResponsabileController implements Initializable{
 	public void UpdateAdminButtonPushed(ActionEvent event) throws IOException{
 		System.out.println("\n\n--------STO AGGIORNANDO LA CLASSIFICA DA RESPONSABILE--------\n\n");
 		Classifica.updateClassifica(false); //aggiornamento effettuato come responsabile
+		this.loginController.getClassifica(true);
 		this.vettoreMappe=this.loginController.getVettoreMappeClassificaFromLoginController();
 		//this.visualizeAllClassifiche();
 		this.tableViewClassifica.setItems(this.getLibriClassifica("Tutti"));

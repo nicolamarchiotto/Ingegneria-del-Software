@@ -193,7 +193,7 @@ public class LoginController implements Initializable{
 		return this.libriGlobal;
 	}
 	
-	private void getClassifica(boolean cond) {
+	public void getClassifica(boolean cond) {
 		
 		if(classificaGenerale == null || cond==true) 
 			this.classificaGenerale = Classifica.getClassifica(null);
@@ -233,6 +233,8 @@ public class LoginController implements Initializable{
 		vettoreMappe.add(this.classificaStoria);
 		vettoreMappe.add(this.classificaAltro);
 	}
+	
+	
 	
 	public ArrayList<HashMap<List<Libro>, List<Integer>>> getVettoreMappeClassificaFromLoginController(){
 		
