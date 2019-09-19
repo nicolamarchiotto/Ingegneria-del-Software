@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -16,7 +17,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ResponsabileController">
    <children>
-      <TabPane layoutX="75.0" layoutY="50.0" prefHeight="350.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="182.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+      <TabPane layoutX="75.0" layoutY="50.0" prefHeight="350.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="104.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
         <tabs>
           <Tab text="Inserimento Libri">
             <content>
@@ -39,11 +40,6 @@
                         </VBox>
                         <HBox alignment="CENTER_RIGHT" layoutX="200.0" layoutY="250.0" minHeight="50.0" prefHeight="51.0" prefWidth="579.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="280.0">
                            <children>
-                              <Label fx:id="errorLabel" prefHeight="35.0" prefWidth="416.0" text="Label">
-                                 <font>
-                                    <Font name="System Bold Italic" size="12.0" />
-                                 </font>
-                              </Label>
                               <Button fx:id="addToLibraryButton" mnemonicParsing="false" onAction="#addToLibraryButtonPushed" text="Add book to library" />
                            </children>
                         </HBox>
@@ -56,6 +52,78 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab text="Catalogo Libri">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableViewCatalogo" layoutX="20.0" layoutY="51.0" prefHeight="230.0" prefWidth="560.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
+                          <columns>
+                            <TableColumn fx:id="titoloColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Titolo" />
+                            <TableColumn fx:id="autoreColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Autore" />
+                              <TableColumn fx:id="prezzoColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Prezzo" />
+                              <TableColumn fx:id="genereColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Genere" />
+                          </columns>
+                        </TableView>
+                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="-36.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+                           <children>
+                              <TextField fx:id="searchTextFieldCatalogo" promptText="Search by title" />
+                              <Button fx:id="searchButtonCatalogo" mnemonicParsing="false" onAction="#searchButtonCatalogoPushed" text="Search" />
+                              <Button fx:id="resetButtonCatalogo" mnemonicParsing="false" onAction="#resetButtonPushed" text="Reset" />
+                           </children>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" layoutY="231.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
+                           <children>
+                              <Button fx:id="removeFromLibraryButton" mnemonicParsing="false" onAction="#RemoveFromLibraryButtonPushed" text="Remove from library" />
+                              <Button fx:id="SeeDetailesButtonCatalogo" mnemonicParsing="false" onAction="#SeeDetailesButtonCatalogoPushed" text="See detailes" />
+                           </children>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Classifica Libri">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableViewClassifica" layoutX="130.0" layoutY="92.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
+                          <columns>
+                            <TableColumn fx:id="titoloColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Titolo" />
+                            <TableColumn fx:id="autoreColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Autore" />
+                              <TableColumn fx:id="genereColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Genere" />
+                              <TableColumn fx:id="posizioneColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Posizione" />
+                              <TableColumn fx:id="settimanePosColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Settimane in pos." />
+                          </columns>
+                        </TableView>
+                        <HBox alignment="CENTER_LEFT" layoutY="-36.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+                           <children>
+                              <ComboBox fx:id="genereComboBoxClassifica" prefWidth="150.0" />
+                              <Button fx:id="searchButtonClassifica" mnemonicParsing="false" text="Search" />
+                           </children>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="209.0" layoutY="250.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
+                           <children>
+                              <Button fx:id="updateAdminButton" mnemonicParsing="false" text="Aggiorna classifica manualmente" />
+                           </children>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
           <Tab text="LibroCard">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

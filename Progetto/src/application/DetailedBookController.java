@@ -79,7 +79,7 @@ public class DetailedBookController implements Initializable{
 	public void setBackPage(String name) {
 		this.backPage=name;
 		
-		if(name.compareTo("DetailedOrdineScene.fxml")==0) {
+		if((name.equals("DetailedOrdineScene.fxml")) ||  (name.equals("ResponsabileScene.fxml"))){
 			this.purchaseButton.setVisible(false);
 			this.basketButton.setVisible(false);
 			
@@ -96,7 +96,8 @@ public class DetailedBookController implements Initializable{
 	
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
     {
-		if(this.backPage.compareTo("DetailedOrdineScene.fxml")!=0) SqliteConnection.savingOnLogOut(userLogged); //saving on logOut if i'm not an admin
+		if((this.backPage.compareTo("DetailedOrdineScene.fxml")!=0) && (this.backPage.compareTo("ResponsabileScene.fxml")!=0))
+			SqliteConnection.savingOnLogOut(userLogged); //saving on logOut if i'm not an admin
 		
 		controller.setUserLogged(null); //at this point no user is logged
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
@@ -128,8 +129,8 @@ public class DetailedBookController implements Initializable{
         	this.lato="";
         	this.idOrdine="";
         }
-        
-        controller.setUserLogged(userLogged);
+        if(!this.backPage.equals("ResponsabileScene.fxml"))
+        	controller.setUserLogged(userLogged);
         
         window.setScene(tableViewScene);
         window.show();

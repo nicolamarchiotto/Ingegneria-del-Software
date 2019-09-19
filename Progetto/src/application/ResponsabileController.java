@@ -48,11 +48,40 @@ public class ResponsabileController implements Initializable{
 	
 	@FXML private Button addToLibraryButton;
 	@FXML private Button signOutButton;
+	
+	
+	
+	/*
+	 * stuff for the catalogoviewPart
+	 */
+	
+	@FXML private TableView<Libro> tableViewCatalogo;
+	@FXML private TableColumn<Libro, String> titoloColumnCatalogo;
+	@FXML private TableColumn<Libro, String> autoreColumnCatalogo;
+	@FXML private TableColumn<Libro, Integer> prezzoColumnCatalogo;
+	@FXML private TableColumn<Libro, String> genereColumnCatalogo;
+	
+	@FXML private Button SeeDetailesButtonCatalogo;
 	@FXML private Button removeFromLibraryButton;
-	@FXML private Button updateAdminButton;
 	
-	@FXML private Label errorLabel;
+	@FXML private TextField searchTextFieldCatalogo;
+	@FXML private Button searchButtonCatalogo;
+	@FXML private Button resetButtonCatalogo;
 	
+	
+	/*
+	 * stuff for the classifica part
+	 */
+	
+	@FXML private TableView<Libro> tableViewClassifica;
+	@FXML private TableColumn<Libro, String> titoloColumnClassifica;
+	@FXML private TableColumn<Libro, String> autoreColumnClassifica;
+	@FXML private TableColumn<Libro, String> genereColumnClassifica;
+	@FXML private TableColumn<Libro, Integer> posizioneColumnClassifica;
+	@FXML private TableColumn<Libro, Integer> settimanePosColumnClassifica;
+	
+	@FXML private ComboBox<String> genereComboBoxClassifica;
+	@FXML private Button searchButtonClassifica;
 	
 	/*
 	 * stuff for the libroCard section
@@ -68,6 +97,8 @@ public class ResponsabileController implements Initializable{
 	@FXML private TableColumn<User, String> cognomeUserColumn;
 	@FXML private TableColumn<User, Integer> saldoPuntiColumn;
 	
+	@FXML private Button updateAdminButton;
+	
 	/*
 	 * stuff for the order section 
 	 */
@@ -80,8 +111,21 @@ public class ResponsabileController implements Initializable{
 	
 	@FXML private Button seeDetailesButton;
 	
-	//FIXME
+	
 	LoginController controller=new LoginController();
+	
+	public void SignOutButtonPushed(ActionEvent event) throws IOException
+    {
+        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();      
+    }
+	
+	/*
+	 * functions stuff for the add book part
+	 */
 	
 	public void addToLibraryButtonPushed(ActionEvent event) throws IOException{
 		
@@ -89,12 +133,12 @@ public class ResponsabileController implements Initializable{
 			//	String genere, double prezzo, String brevedescrizione, int punti)
 
 		if(!emptyTextField()) {
-			errorLabel.setText("Tutti i campi devono essere compilati");
+			AlertBox.display("Error", "Tutti i campi devono essere compilati");
 			return;
 		}
 		
 		if(genere.getValue() == null) {
-			errorLabel.setText("Devi selezionare un genere");
+			AlertBox.display("Error", "Devi selezionare un genere");
 			return;
 		}
 
@@ -140,7 +184,6 @@ public class ResponsabileController implements Initializable{
 		annoPubblicazione.setText("");
 		prezzo.setText("");
 		breveDescrizione.setText("");
-		errorLabel.setText("");
 	}
 
 
@@ -201,16 +244,102 @@ public class ResponsabileController implements Initializable{
 		return result+s.substring(indexIniz, s.length());
 	}
 	
-	public void SignOutButtonPushed(ActionEvent event) throws IOException
+	/*
+	 * functions for the catalogoView part
+	 */
+	
+	public void searchButtonCatalogoPushed(ActionEvent event) throws IOException{
+		
+		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
+		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
+		
+		
+		if(this.searchTextFieldCatalogo.getText() == null || this.searchTextFieldCatalogo.getText().trim().isEmpty()) {
+			AlertBox.display("Errore", "Insert something in the search textfield");
+			return;
+		}
+		else {
+			ArrayList<Libro> libriCompatibili= new ArrayList<Libro>();
+			String inserimento=this.searchTextFieldCatalogo.getText();
+			
+			for(Libro l:libri) {
+				if(l.getTitolo().toLowerCase().contains(inserimento.toLowerCase())) {
+					libriCompatibili.add(l);
+				}
+			}
+			
+			if(libriCompatibili.isEmpty()) {
+				AlertBox.display("Error", "Nothing was found");
+				return;
+			}
+			
+			this.tableViewCatalogo.setItems(FXCollections.observableArrayList(libriCompatibili));
+		}	
+	}
+	
+	public void resetButtonPushed() {
+		this.tableViewCatalogo.setItems(this.getLibriCatalogo("Tutti"));
+	}
+	
+	private ObservableList<Libro> getLibriCatalogo(String genere) {
+		
+		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
+		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
+		
+		if(genere!="Tutti") {
+			for(int i=libri.size();i>0;i--) {
+				if(libri.get(i-1).getGenere().compareTo(genere)!=0)
+					libri.remove(i-1);
+			}
+		}
+		return libri;
+	}
+	
+	public void SeeDetailesButtonCatalogoPushed(ActionEvent event) throws IOException
     {
-        Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
-        Scene tableViewScene = new Scene(tableViewParent);
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(getClass().getResource("DetailedBookScene.fxml"));
+		Parent TableViewParent=loader.load();
+		
+		Scene tableViewScene = new Scene(TableViewParent);  
+		
+		DetailedBookController controller=loader.getController();
+		
+		//controllo se è stato selezionato qualcosa
+		if(tableViewCatalogo.getSelectionModel().getSelectedItem() == null) {
+			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
+			return;
+		}
+		else controller.setBookData(tableViewCatalogo.getSelectionModel().getSelectedItem());
+				
+		controller.setBackPage("ResponsabileScene.fxml");
+		
+		
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
         window.show();      
     }
 	
-	//functions for the libroCard section
+	//rende non più disponibile il libro
+	public void RemoveFromLibraryButtonPushed(ActionEvent event) throws IOException{
+		Libro l=this.tableViewCatalogo.getSelectionModel().getSelectedItem();
+		if(l==null) {
+			AlertBox.display("Errore", "Non è stato selezionato alcun librp da rimuovere");
+			return;
+		}
+					
+		SqliteConnection.deleteLibro(l);
+		AlertBox.display("Success", "Libro eliminato");
+		this.tableViewCatalogo.setItems(this.getLibriCatalogo("Tutti"));
+	}
+	
+	
+	
+	/*
+	 * functions for the libroCard section
+	 */
+	
+	
 	private ObservableList<User> getUser() {
 
 		List<User> userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
@@ -228,7 +357,9 @@ public class ResponsabileController implements Initializable{
 	}
 	
 	
-	//functions for the orders section
+	/*
+	 *functions for the orders section 
+	 */
 	
 	private ObservableList<Ordine> getOrdini() {
 		
@@ -267,14 +398,6 @@ public class ResponsabileController implements Initializable{
         window.show();      
     }
 	
-	//rende non più disponibile il libro
-	public void RemoveFromLibraryButtonPushed(ActionEvent event) throws IOException{
-		Libro l=new Libro(titolo.getText(), toACapoMode(autori.getText(), '-'), casaEditrice.getText(), Integer.valueOf(annoPubblicazione.getText()),
-				genere.getValue().toString(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(),(int)Math.round(Double.valueOf(prezzo.getText())));
-		
-		SqliteConnection.deleteLibro(l);
-	}
-	
 	public void UpdateAdminButtonPushed(ActionEvent event) throws IOException{
 		Classifica.updateClassifica(false); //aggiornamento effettuato come responsabile
 	}
@@ -286,9 +409,19 @@ public class ResponsabileController implements Initializable{
 		
 		//stuff for the genere choiceBox
 		
-		errorLabel.setText("");
-		
 		genere.getItems().addAll("Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		
+		//code for the catalogo section
+		
+		//set up the columns in the table
+		titoloColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
+		autoreColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
+		prezzoColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("prezzo"));
+		genereColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("genere"));
+				
+		//setItems must have an ObservableList as parameter, ObservableList almost like ArrayList	
+				
+		tableViewCatalogo.setItems(getLibriCatalogo("Tutti"));	
 		 
 		
 		//code for the libroCard Section

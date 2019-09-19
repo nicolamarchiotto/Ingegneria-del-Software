@@ -132,7 +132,7 @@ public class HomeController implements Initializable{
 		
 		
 		if(this.searchTextFieldCatalogo.getText() == null || this.searchTextFieldCatalogo.getText().trim().isEmpty()) {
-			AlertBox.display("Erroe", "Insert something in the search textfield");
+			AlertBox.display("Errore", "Insert something in the search textfield");
 			return;
 		}
 		else {
@@ -193,6 +193,7 @@ public class HomeController implements Initializable{
 	public void SeeDetailesButtonCatalogoPushed(ActionEvent event) throws IOException
     {
 		controller.setUserLogged(userLogged);
+		
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(getClass().getResource("DetailedBookScene.fxml"));
 		Parent TableViewParent=loader.load();
