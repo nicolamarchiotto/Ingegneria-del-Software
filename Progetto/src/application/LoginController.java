@@ -181,7 +181,7 @@ public class LoginController implements Initializable{
 		return userNotFound;	
 	}
 	
-	private ObservableList<Libro> getLibriCatalogoFromDB() {
+	public ObservableList<Libro> getLibriCatalogoFromDB() {
 		
 		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
 		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
@@ -235,29 +235,8 @@ public class LoginController implements Initializable{
 	}
 	
 	public ArrayList<HashMap<List<Libro>, List<Integer>>> getVettoreMappeClassificaFromLoginController(){
+		
 		return this.vettoreMappe;
-	}
-	
-	private ObservableList<Libro> getLibriClassifica(String genere) {
-		
-		ComboBox genereComboBoxClassifica=new ComboBox();
-		int indexComboBox=genereComboBoxClassifica.getItems().indexOf(genere);
-		
-		HashMap<List<Libro>, List<Integer>> mappa=this.vettoreMappe.get(indexComboBox);
-		
-		if(mappa == null) return null; //nessun libro di questo genere
-		
-		
-		List<Libro> classifica=Classifica.getBooksFromMap(mappa);
-		List<Integer> settimane=Classifica.getWeeksFromMap(mappa);
-		
-		
-		for(Libro l:classifica) {
-			l.setPosizioneLocale(classifica.indexOf(l)+1);
-			l.setSettimaneLocale(settimane.get(classifica.indexOf(l)));
-		}
-		
-		return FXCollections.observableArrayList(classifica);
 	}
 	
 

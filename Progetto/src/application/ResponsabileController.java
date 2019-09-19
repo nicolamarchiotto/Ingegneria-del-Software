@@ -34,6 +34,9 @@ public class ResponsabileController implements Initializable{
 	LoginController loginController = new LoginController();
 	
 	User respLogged=loginController.getUserLogged();
+	
+	private ObservableList<Libro> libriGlobal = FXCollections.observableArrayList();
+	private ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe=new ArrayList<HashMap<List<Libro>, List<Integer>>>();
 
 	@FXML private Label WellcomeLabel;
 	
@@ -82,21 +85,6 @@ public class ResponsabileController implements Initializable{
 	
 	@FXML private ComboBox<String> genereComboBoxClassifica;
 	@FXML private Button searchButtonClassifica;
-	
-	//private List<Libro> listaCatalogoLocale=new ArrayList<Libro>();
-	
-	private ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe= new ArrayList<HashMap<List<Libro>, List<Integer>>>();
-	
-	
-	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
-	private HashMap<List<Libro>, List<Integer>> classificaNovita = null;
-	private HashMap<List<Libro>, List<Integer>> classificaNarrativa = null;
-	private HashMap<List<Libro>, List<Integer>> classificaStoria = null;
-	private HashMap<List<Libro>, List<Integer>> classificaRomanzo = null;
-	private HashMap<List<Libro>, List<Integer>> classificaFantascienza = null;
-	private HashMap<List<Libro>, List<Integer>> classificaRagazzi = null;
-	private HashMap<List<Libro>, List<Integer>> classificaPoliziesco = null;
-	private HashMap<List<Libro>, List<Integer>> classificaAltro = null;
 	
 	/*
 	 * stuff for the libroCard section
@@ -171,6 +159,7 @@ public class ResponsabileController implements Initializable{
 					System.out.println("Stampa libro\n"+l.toString()+" Genere "+l.getGenere());
 					
 					AlertBox.display("Book added", l.getTitolo()+" was added to the library");
+					this.libriGlobal.add(l);
 					setTextToEmpty();
 				}
 				else {
@@ -183,6 +172,8 @@ public class ResponsabileController implements Initializable{
 				}
 				
 			}
+			
+			this.tableViewCatalogo.setItems(libriGlobal);
 		}
 		catch(NumberFormatException e) {
 			AlertBox.display("Error","Anno di pubblicazione e prezzo\ndevono essere campi numerici");
@@ -265,10 +256,6 @@ public class ResponsabileController implements Initializable{
 	
 	public void searchButtonCatalogoPushed(ActionEvent event) throws IOException{
 		
-		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
-		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
-		
-		
 		if(this.searchTextFieldCatalogo.getText() == null || this.searchTextFieldCatalogo.getText().trim().isEmpty()) {
 			AlertBox.display("Errore", "Insert something in the search textfield");
 			return;
@@ -277,7 +264,7 @@ public class ResponsabileController implements Initializable{
 			ArrayList<Libro> libriCompatibili= new ArrayList<Libro>();
 			String inserimento=this.searchTextFieldCatalogo.getText();
 			
-			for(Libro l:libri) {
+			for(Libro l:this.libriGlobal) {
 				if(l.getTitolo().toLowerCase().contains(inserimento.toLowerCase())) {
 					libriCompatibili.add(l);
 				}
@@ -293,22 +280,9 @@ public class ResponsabileController implements Initializable{
 	}
 	
 	public void resetButtonPushed() {
-		this.tableViewCatalogo.setItems(this.getLibriCatalogo("Tutti"));
+		this.tableViewCatalogo.setItems(this.libriGlobal);
 	}
 	
-	private ObservableList<Libro> getLibriCatalogo(String genere) {
-		
-		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
-		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
-		
-		if(genere!="Tutti") {
-			for(int i=libri.size();i>0;i--) {
-				if(libri.get(i-1).getGenere().compareTo(genere)!=0)
-					libri.remove(i-1);
-			}
-		}
-		return libri;
-	}
 	
 	public void SeeDetailesButtonCatalogoPushed(ActionEvent event) throws IOException
     {
@@ -347,7 +321,7 @@ public class ResponsabileController implements Initializable{
 		
 		AlertBox.display("Success", "Libro eliminato");
 		
-		this.tableViewCatalogo.setItems(this.getLibriCatalogo("Tutti"));
+		this.tableViewCatalogo.setItems(this.libriGlobal);
 	}
 	
 	/*
@@ -389,52 +363,13 @@ public class ResponsabileController implements Initializable{
 		return FXCollections.observableArrayList(classifica);
 	}
 	
-	private void getClassifica(boolean cond) {
-		
-		if(classificaGenerale == null || cond==true) 
-			this.classificaGenerale = Classifica.getClassifica(null);
-		
-		if(classificaNovita == null || cond==true) 
-			this.classificaNovita = Classifica.getClassifica("novità");
-		
-		if(classificaNarrativa == null || cond==true) 
-			this.classificaNarrativa = Classifica.getClassifica("Narrativa");
-		
-		if(classificaStoria == null || cond==true) 
-			this.classificaStoria = Classifica.getClassifica("Storia");
-			
-		if(classificaRomanzo == null || cond==true) 
-			this.classificaRomanzo = Classifica.getClassifica("Romanzo");
-			
-		if(classificaFantascienza == null || cond==true) 
-			this.classificaFantascienza = Classifica.getClassifica("Fantascienza");
 	
-		if(classificaRagazzi == null || cond==true) 
-			this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
-			
-		if(classificaPoliziesco == null || cond==true) 
-			this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
-
-		if(classificaAltro == null || cond==true) 
-			this.classificaAltro = Classifica.getClassifica("Altro");
-		
-		this.vettoreMappe=new ArrayList<HashMap<List<Libro>, List<Integer>>>();
-		
-		vettoreMappe.add(this.classificaGenerale);
-		vettoreMappe.add(this.classificaRomanzo);
-		vettoreMappe.add(this.classificaNarrativa);
-		vettoreMappe.add(this.classificaRagazzi);
-		vettoreMappe.add(this.classificaFantascienza);
-		vettoreMappe.add(this.classificaPoliziesco);
-		vettoreMappe.add(this.classificaStoria);
-		vettoreMappe.add(this.classificaAltro);
-	}
 	
 	public void UpdateAdminButtonPushed(ActionEvent event) throws IOException{
 		System.out.println("\n\n--------STO AGGIORNANDO LA CLASSIFICA DA RESPONSABILE--------\n\n");
 		Classifica.updateClassifica(false); //aggiornamento effettuato come responsabile
-		this.getClassifica(true);
-		this.visualizeAllClassifiche();
+		this.vettoreMappe=this.loginController.getVettoreMappeClassificaFromLoginController();
+		//this.visualizeAllClassifiche();
 		this.tableViewClassifica.setItems(this.getLibriClassifica("Tutti"));
 	}
 	
@@ -459,7 +394,6 @@ public class ResponsabileController implements Initializable{
 		
 		return user;
 	}
-	
 	
 	
 	
@@ -509,6 +443,9 @@ public class ResponsabileController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		WellcomeLabel.setText("Wellcome responsabile " +respLogged.getNome());
 		
+		this.libriGlobal=loginController.getBookListGlobalFromLoginController();
+		this.vettoreMappe=loginController.getVettoreMappeClassificaFromLoginController();
+		
 		//stuff for the genere choiceBox
 		
 		genere.getItems().addAll("Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
@@ -525,20 +462,9 @@ public class ResponsabileController implements Initializable{
 		prezzoColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("prezzo"));
 		genereColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("genere"));
 				
-		tableViewCatalogo.setItems(getLibriCatalogo("Tutti"));	
+		tableViewCatalogo.setItems(this.libriGlobal);	
 		 
 		//code for the classifica section
-		
-		this.getClassifica(false);
-		
-		this.vettoreMappe.add(this.classificaGenerale);
-		this.vettoreMappe.add(this.classificaRomanzo);
-		this.vettoreMappe.add(this.classificaNarrativa);
-		this.vettoreMappe.add(this.classificaRagazzi);
-		this.vettoreMappe.add(this.classificaFantascienza);
-		this.vettoreMappe.add(this.classificaPoliziesco);
-		this.vettoreMappe.add(this.classificaStoria);
-		this.vettoreMappe.add(this.classificaAltro);
 		
 
 		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
@@ -575,7 +501,7 @@ public class ResponsabileController implements Initializable{
 		tableViewOrders.setItems(getOrdini());
 	}
 	
-	private void visualizeAllClassifiche() {
+	/*private void visualizeAllClassifiche() {
 		List<Libro> libri = Classifica.getBooksFromMap(this.classificaGenerale);
 		List<Integer> weeks = Classifica.getWeeksFromMap(this.classificaGenerale);
 			
@@ -674,7 +600,7 @@ public class ResponsabileController implements Initializable{
 				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
 			}
 		System.out.println("\n\n");
-	}
+	}*/
 	
 	
 

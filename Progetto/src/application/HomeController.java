@@ -65,17 +65,7 @@ public class HomeController implements Initializable{
 	@FXML private Button searchButtonClassifica;
 	
 	
-	private ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe;
-	
-	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
-	private HashMap<List<Libro>, List<Integer>> classificaNovita = null;
-	private HashMap<List<Libro>, List<Integer>> classificaNarrativa = null;
-	private HashMap<List<Libro>, List<Integer>> classificaStoria = null;
-	private HashMap<List<Libro>, List<Integer>> classificaRomanzo = null;
-	private HashMap<List<Libro>, List<Integer>> classificaFantascienza = null;
-	private HashMap<List<Libro>, List<Integer>> classificaRagazzi = null;
-	private HashMap<List<Libro>, List<Integer>> classificaPoliziesco = null;
-	private HashMap<List<Libro>, List<Integer>> classificaAltro = null;
+	private ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe=new ArrayList<HashMap<List<Libro>, List<Integer>>>();
 	
 	
 	LoginController controller=new LoginController();
@@ -210,15 +200,16 @@ public class HomeController implements Initializable{
 		
 		String selectedGenere=genereComboBoxClassifica.getValue().toString();
 		
-		this.tableViewClassifica.setItems(getLibriClassifica(selectedGenere));
+		int indexComboBox=genereComboBoxClassifica.getItems().indexOf(selectedGenere);
+		
+		this.tableViewClassifica.setItems(getLibriClassifica(indexComboBox));
 		
 	}
 	
-	private ObservableList<Libro> getLibriClassifica(String genere) {
+	private ObservableList<Libro> getLibriClassifica(int posizioneGenere) {
 		
-		int indexComboBox=genereComboBoxClassifica.getItems().indexOf(genere);
 		
-		HashMap<List<Libro>, List<Integer>> mappa=this.vettoreMappe.get(indexComboBox);
+		HashMap<List<Libro>, List<Integer>> mappa=this.vettoreMappe.get(posizioneGenere);
 		
 		if(mappa == null) return null; //nessun libro di questo genere
 		
@@ -316,18 +307,10 @@ public class HomeController implements Initializable{
 		/*
 		 * stuff for the classifica tab
 		 */
-		this.getClassifica();
 		
-		this.vettoreMappe = new ArrayList<HashMap<List<Libro>, List<Integer>>>();
+		this.vettoreMappe = lc.getVettoreMappeClassificaFromLoginController();
 		
-		this.vettoreMappe.add(this.classificaGenerale);
-		this.vettoreMappe.add(this.classificaRomanzo);
-		this.vettoreMappe.add(this.classificaNarrativa);
-		this.vettoreMappe.add(this.classificaRagazzi);
-		this.vettoreMappe.add(this.classificaFantascienza);
-		this.vettoreMappe.add(this.classificaPoliziesco);
-		this.vettoreMappe.add(this.classificaStoria);
-		this.vettoreMappe.add(this.classificaAltro);
+		
 		
 		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
 		
@@ -338,41 +321,14 @@ public class HomeController implements Initializable{
 		settimanePosColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("settimaneLocale"));
 		
 		 
-		this.tableViewClassifica.setItems(this.getLibriClassifica("Tutti"));
-		
-		 
-		//this.updateClassifica();
-		
-		
-		
-		
-		this.visualizeAllClassifiche();
+		this.tableViewClassifica.setItems(this.getLibriClassifica(0));
 	}
 	
 	private void updateClassifica() {
 		Classifica.updateClassifica(true);
 	}
 	
-	private void getClassifica() {
-		if(classificaGenerale == null) this.classificaGenerale = Classifica.getClassifica(null);
-		
-		if(classificaNovita == null) this.classificaNovita = Classifica.getClassifica("novità");
-		
-		if(classificaNarrativa == null) this.classificaNarrativa = Classifica.getClassifica("Narrativa");
-		
-		if(classificaStoria == null) this.classificaStoria = Classifica.getClassifica("Storia");
-			
-		if(classificaRomanzo == null) this.classificaRomanzo = Classifica.getClassifica("Romanzo");
-			
-		if(classificaFantascienza == null) this.classificaFantascienza = Classifica.getClassifica("Fantascienza");
-	
-		if(classificaRagazzi == null) this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
-			
-		if(classificaPoliziesco == null) this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
-
-		if(classificaAltro == null) this.classificaAltro = Classifica.getClassifica("Altro");
-	}
-	
+	/*
 	private void visualizeAllClassifiche() {
 		List<Libro> libri = Classifica.getBooksFromMap(this.classificaGenerale);
 		List<Integer> weeks = Classifica.getWeeksFromMap(this.classificaGenerale);
@@ -472,6 +428,6 @@ public class HomeController implements Initializable{
 				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
 			}
 		System.out.println("\n\n");
-	}
+	}*/
 
 }
