@@ -34,6 +34,9 @@ public class HomeController implements Initializable{
 	@FXML private Button BasketButton;
 	
 	//stuff for the catalogo tab
+	
+	private ObservableList<Libro> libriGlobal = FXCollections.observableArrayList();
+	
 	@FXML private TableView<Libro> tableViewCatalogo;
 	@FXML private TableColumn<Libro, String> titoloColumnCatalogo;
 	@FXML private TableColumn<Libro, String> autoreColumnCatalogo;
@@ -117,18 +120,8 @@ public class HomeController implements Initializable{
 	
 	
 	public void searchButtonCatalogoPushed(ActionEvent event) throws IOException{
-		/*
-		if(genereComboBoxCatalogo.getValue() == null) {
-			AlertBox.display("Error", "Devi selezionare un genere per effettuare una ricerca");
-			return;
-		}
-		String selectedGenere=genereComboBoxCatalogo.getValue().toString();
 		
-		tableViewCatalogo.setItems(getLibriCatalogo(selectedGenere));
-		*/
-		
-		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
-		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
+		ObservableList<Libro> libriCompatibili = FXCollections.observableArrayList();
 		
 		
 		if(this.searchTextFieldCatalogo.getText() == null || this.searchTextFieldCatalogo.getText().trim().isEmpty()) {
@@ -136,10 +129,9 @@ public class HomeController implements Initializable{
 			return;
 		}
 		else {
-			ArrayList<Libro> libriCompatibili= new ArrayList<Libro>();
 			String inserimento=this.searchTextFieldCatalogo.getText();
 			
-			for(Libro l:libri) {
+			for(Libro l:this.libriGlobal) {
 				if(l.getTitolo().toLowerCase().contains(inserimento.toLowerCase())) {
 					libriCompatibili.add(l);
 				}
@@ -150,26 +142,12 @@ public class HomeController implements Initializable{
 				return;
 			}
 			
-			this.tableViewCatalogo.setItems(FXCollections.observableArrayList(libriCompatibili));
+			this.tableViewCatalogo.setItems(libriCompatibili);
 		}	
 	}
 	
 	public void resetButtonPushed() {
-		this.tableViewCatalogo.setItems(this.getLibriCatalogo("Tutti"));
-	}
-	
-	private ObservableList<Libro> getLibriCatalogo(String genere) {
-		
-		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
-		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
-		
-		if(genere!="Tutti") {
-			for(int i=libri.size();i>0;i--) {
-				if(libri.get(i-1).getGenere().compareTo(genere)!=0)
-					libri.remove(i-1);
-			}
-		}
-		return libri;
+		this.tableViewCatalogo.setItems(this.libriGlobal);
 	}
 	
 	public void addToBasketButtonCatalogoPushed() {
@@ -312,6 +290,8 @@ public class HomeController implements Initializable{
 		LoginController lc = new LoginController(); 
 		userLogged = lc.getUserLogged();
 		
+		this.libriGlobal=lc.getBookListGlobalFromLoginController();
+		
 		WellcomeLabel.setText("Welcome " +userLogged.getNome()+", good Shopping");
 		
 		/*
@@ -326,7 +306,7 @@ public class HomeController implements Initializable{
 		
 		//setItems must have an ObservableList as parameter, ObservableList almost like ArrayList	
 		
-		tableViewCatalogo.setItems(getLibriCatalogo("Tutti"));
+		tableViewCatalogo.setItems(this.libriGlobal);
 		
 		
 		if(this.userLogged.getEmail().equals("#####"))

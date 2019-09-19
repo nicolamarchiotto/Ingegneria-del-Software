@@ -2,12 +2,15 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,9 +37,9 @@ public class LoginController implements Initializable{
 	
 	@FXML private Label ErrorLabel;
 	
+	private static ObservableList<Libro> libriGlobal = FXCollections.observableArrayList();
 	
-	
-	private ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe;
+	private static ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe = new ArrayList<HashMap<List<Libro>, List<Integer>>>();
 	
 	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
 	private HashMap<List<Libro>, List<Integer>> classificaNovita = null;
@@ -60,6 +63,20 @@ public class LoginController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		this.libriGlobal=this.getLibriCatalogoFromDB();
+		
+		
+		this.vettoreMappe.add(this.classificaGenerale);
+		this.vettoreMappe.add(this.classificaRomanzo);
+		this.vettoreMappe.add(this.classificaNarrativa);
+		this.vettoreMappe.add(this.classificaRagazzi);
+		this.vettoreMappe.add(this.classificaFantascienza);
+		this.vettoreMappe.add(this.classificaPoliziesco);
+		this.vettoreMappe.add(this.classificaStoria);
+		this.vettoreMappe.add(this.classificaAltro);
+		
+		this.getClassifica(false);
+		
 		this.ErrorLabel.setText("");
 		
 		//aggiungo i vari user salvati nel DB
@@ -160,6 +177,43 @@ public class LoginController implements Initializable{
 		}
 		return userNotFound;	
 	}
+	
+	private ObservableList<Libro> getLibriCatalogoFromDB() {
+		
+		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
+		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
+		
+		return libri;
+	}
+	
+	public ObservableList<Libro> getBookListGlobalFromLoginController() {
+		return this.libriGlobal;
+	}
+	
+	private void getClassifica(boolean cond) {
+		if(classificaGenerale == null || cond==true) this.classificaGenerale = Classifica.getClassifica(null);
+		
+		if(classificaNovita == null || cond==true) this.classificaNovita = Classifica.getClassifica("novità");
+		
+		if(classificaNarrativa == null || cond==true) this.classificaNarrativa = Classifica.getClassifica("Narrativa");
+		
+		if(classificaStoria == null || cond==true) this.classificaStoria = Classifica.getClassifica("Storia");
+			
+		if(classificaRomanzo == null || cond==true) this.classificaRomanzo = Classifica.getClassifica("Romanzo");
+			
+		if(classificaFantascienza == null || cond==true) this.classificaFantascienza = Classifica.getClassifica("Fantascienza");
+	
+		if(classificaRagazzi == null || cond==true) this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
+			
+		if(classificaPoliziesco == null || cond==true) this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
+
+		if(classificaAltro == null || cond==true) this.classificaAltro = Classifica.getClassifica("Altro");
+	}
+	
+	public ArrayList<HashMap<List<Libro>, List<Integer>>> getVettoreMappeClassificaFromLoginController(){
+		return this.vettoreMappe;
+	}
+	
 
 
 	//TODO
