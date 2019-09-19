@@ -66,7 +66,6 @@ public class Classifica {
 			else if(genere.equals("novità")) {//classifica delle novità
 				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByNovelty(1, updateSettimanale));
 				
-				System.out.println("Prova " + bookList);
 				List<Integer> weeksInSamePosition = new ArrayList<Integer>();
 				if(bookList != null && !bookList.isEmpty()) {
 					for(int i = 0; i < bookList.size(); i++) {
@@ -106,14 +105,6 @@ public class Classifica {
 				}
 				
 				Classifica.updatePosizioniClassifica(bookList, weeksInSamePosition, false, updateSettimanale);
-			}
-
-			if(bookList != null) {
-				System.out.println("Eh ");
-				for(Libro book : bookList) {
-					System.out.print(book.getTitolo() + " ");
-				}
-				System.out.println();
 			}
 		}
 
@@ -195,7 +186,7 @@ public class Classifica {
 				
 				try {
 					
-					System.out.println("*****CONNESSO PER RICEVERE TUTTI I GENERI*****");
+					//System.out.println("*****CONNESSO PER RICEVERE TUTTI I GENERI*****");
 						
 					stmt = connect.createStatement();
 					ResultSet rs = stmt.executeQuery(sql);
@@ -216,7 +207,7 @@ public class Classifica {
 				
 			try {
 					
-				System.out.println("*****CONNESSO PER RICEVERE IL GENERE " + genere + "*****");
+				//System.out.println("*****CONNESSO PER RICEVERE IL GENERE " + genere + "*****");
 					
 				stmt = connect.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
@@ -253,7 +244,7 @@ public class Classifica {
 				
 			try {
 					
-				System.out.println("*****CONNESSO PER RICEVERE LE NOVITA'*****");
+				//System.out.println("*****CONNESSO PER RICEVERE LE NOVITA'*****");
 				stmt = SqliteConnection.dbConnector().createStatement();
 				stmt.executeUpdate(sql);
 				ResultSet rs = stmt.executeQuery(sql);

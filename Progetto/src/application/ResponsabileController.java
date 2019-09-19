@@ -353,7 +353,6 @@ public class ResponsabileController implements Initializable{
 		List<Libro> classifica=Classifica.getBooksFromMap(mappa);
 		List<Integer> settimane=Classifica.getWeeksFromMap(mappa);
 		
-		System.out.println(classifica);
 		
 		
 		for(Libro l:classifica) {
@@ -500,6 +499,8 @@ public class ResponsabileController implements Initializable{
 		dataAcquistoColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("data"));
 		statoColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("stato"));
 		
+
+		System.out.println("-----FETCHING ORDERS FOR " + this.controller.getUserLogged() + "-----\n\n");
 		tableViewOrders.setItems(getOrdini());
 	}
 	

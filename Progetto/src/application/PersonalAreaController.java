@@ -27,6 +27,8 @@ import javafx.stage.Stage;
 
 public class PersonalAreaController implements Initializable{
 
+	private boolean isDeletingAccount = false;
+
 	@FXML private TabPane tabPane;
 	@FXML private Tab personalDataTab;
 	@FXML private Tab addressTab;
@@ -330,9 +332,16 @@ public class PersonalAreaController implements Initializable{
 	}
 	
 	public void deleteAccountButtonPushed(ActionEvent event) throws IOException{
-		SqliteConnection.deleteUser(this.userLogged);
-		this.controller.setUserLogged(null);
-		this.SignOutButtonPushed(event);
+		AlertBox.confirmAccountDelete(this);
+
+		if(this.isDeletingAccount) {
+			SqliteConnection.deleteUser(this.userLogged);
+			this.controller.setUserLogged(null);
+			this.SignOutButtonPushed(event);
+		}
 	}
 	
+	public void deletingAccount() {
+		this.isDeletingAccount = true;
+	}
 }

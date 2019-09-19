@@ -485,7 +485,7 @@ public class SqliteConnection {
 			
 		try {
 			
-			System.out.println("*****CONNESSO PER RICEVERE DA " + tableName + "*****");
+			//System.out.println("*****CONNESSO PER RICEVERE DA " + tableName + "*****");
 			
 			stmt = SqliteConnection.dbConnector().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -678,7 +678,6 @@ public class SqliteConnection {
 		if(booksFromDB == null) return null;
 		try {
 			while(booksFromDB.next()) {
-				System.out.println(booksFromDB.getString("titolo"));
 				bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), 
 						booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
 						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), 
@@ -688,7 +687,7 @@ public class SqliteConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(bookList.isEmpty() + "   " + bookList);
+		//System.out.println(bookList.isEmpty() + "   " + bookList);
 		if(bookList.isEmpty()) return null;
 		else return bookList;
 	}
@@ -779,7 +778,6 @@ public class SqliteConnection {
 			}
 			else { //prendo tutti gli ordini
 				List<User> userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
-				System.out.println("Prendo tutti gli ordini del DB");
 				ResultSet ordersFromDB = SqliteConnection.getFieldOrdine();
 				
 				while(ordersFromDB.next()) {

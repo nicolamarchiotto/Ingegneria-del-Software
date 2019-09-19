@@ -32,6 +32,6 @@ public class Main extends Application {
 			
 		launch(args); //starting the application
 		
-		prova.interrupt(); //terminatin thread
+		prova.interrupt(); //terminating thread
 	}
 }

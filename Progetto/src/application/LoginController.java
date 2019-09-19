@@ -67,7 +67,7 @@ public class LoginController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.libriGlobal=this.getLibriCatalogoFromDB();
-		
+
 		
 		this.vettoreMappe.add(this.classificaGenerale);
 		this.vettoreMappe.add(this.classificaRomanzo);
@@ -79,6 +79,7 @@ public class LoginController implements Initializable{
 		this.vettoreMappe.add(this.classificaAltro);
 		
 		this.getClassifica(false);
+		
 		
 		this.ErrorLabel.setText("");
 		
