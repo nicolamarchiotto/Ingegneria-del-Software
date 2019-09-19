@@ -384,29 +384,29 @@ public class ResponsabileController implements Initializable{
 		return FXCollections.observableArrayList(classifica);
 	}
 	
-	private void getClassifica() {
-		if(classificaGenerale == null) this.classificaGenerale = Classifica.getClassifica(null);
+	private void getClassifica(boolean cond) {
+		if(classificaGenerale == null || cond==true) this.classificaGenerale = Classifica.getClassifica(null);
 		
-		if(classificaNovita == null) this.classificaNovita = Classifica.getClassifica("novità");
+		if(classificaNovita == null || cond==true) this.classificaNovita = Classifica.getClassifica("novità");
 		
-		if(classificaNarrativa == null) this.classificaNarrativa = Classifica.getClassifica("Narrativa");
+		if(classificaNarrativa == null || cond==true) this.classificaNarrativa = Classifica.getClassifica("Narrativa");
 		
-		if(classificaStoria == null) this.classificaStoria = Classifica.getClassifica("Storia");
+		if(classificaStoria == null || cond==true) this.classificaStoria = Classifica.getClassifica("Storia");
 			
-		if(classificaRomanzo == null) this.classificaRomanzo = Classifica.getClassifica("Romanzo");
+		if(classificaRomanzo == null || cond==true) this.classificaRomanzo = Classifica.getClassifica("Romanzo");
 			
-		if(classificaFantascienza == null) this.classificaFantascienza = Classifica.getClassifica("Fantascienza");
+		if(classificaFantascienza == null || cond==true) this.classificaFantascienza = Classifica.getClassifica("Fantascienza");
 	
-		if(classificaRagazzi == null) this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
+		if(classificaRagazzi == null || cond==true) this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
 			
-		if(classificaPoliziesco == null) this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
+		if(classificaPoliziesco == null || cond==true) this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
 
-		if(classificaAltro == null) this.classificaAltro = Classifica.getClassifica("Altro");
+		if(classificaAltro == null || cond==true) this.classificaAltro = Classifica.getClassifica("Altro");
 	}
 	
 	public void UpdateAdminButtonPushed(ActionEvent event) throws IOException{
 		Classifica.updateClassifica(false); //aggiornamento effettuato come responsabile
-		this.getClassifica();
+		this.getClassifica(true);
 		this.tableViewClassifica.setItems(this.getLibriClassifica("Tutti"));
 	}
 	
@@ -501,7 +501,7 @@ public class ResponsabileController implements Initializable{
 		 
 		//code for the classifica section
 		
-		this.getClassifica();
+		this.getClassifica(false);
 		
 		this.vettoreMappe = new ArrayList<HashMap<List<Libro>, List<Integer>>>();
 		
