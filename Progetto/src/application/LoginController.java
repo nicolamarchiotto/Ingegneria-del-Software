@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,6 +35,18 @@ public class LoginController implements Initializable{
 	@FXML private Label ErrorLabel;
 	
 	
+	
+	private ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe;
+	
+	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
+	private HashMap<List<Libro>, List<Integer>> classificaNovita = null;
+	private HashMap<List<Libro>, List<Integer>> classificaNarrativa = null;
+	private HashMap<List<Libro>, List<Integer>> classificaStoria = null;
+	private HashMap<List<Libro>, List<Integer>> classificaRomanzo = null;
+	private HashMap<List<Libro>, List<Integer>> classificaFantascienza = null;
+	private HashMap<List<Libro>, List<Integer>> classificaRagazzi = null;
+	private HashMap<List<Libro>, List<Integer>> classificaPoliziesco = null;
+	private HashMap<List<Libro>, List<Integer>> classificaAltro = null;
 	
 	
 	
