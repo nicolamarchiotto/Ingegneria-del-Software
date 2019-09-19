@@ -74,15 +74,22 @@ public class SignUpController implements Initializable{
 			sup=false;
 		
 		//controllini su cap, telefono, email, password
-		if(Cap.getText().length() != 5) 
+		if(Cap.getText().length() != 5) {
 			AlertBox.display("Error", "Il CAP deve essere un valore numerico di 5 cifre");
 			sup=false;
-		if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) 
+		}
+		else if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) {
 			AlertBox.display("Error", "Inserire un numero di telefono valido");
-		if(Email.getText().length() < 6)
+			sup=false;
+		}
+		else if(Email.getText().length() < 6) {
 			AlertBox.display("error", "Email must be at least 6 characters long");
-		if(Password.getText().length() < 6)
+			sup=false;
+		}
+		else if(Password.getText().length() < 6) {
 			AlertBox.display("error", "Password must be at least 6 characters long");
+			sup=false;
+		}
 		
 		return sup;
 	}
@@ -109,6 +116,7 @@ public class SignUpController implements Initializable{
 		
 		LoginController controller = loader.getController();
 		
+		
 		if(sup.verifyId(UserList)) {
 				
 			//Aggiunge a DB
@@ -122,7 +130,6 @@ public class SignUpController implements Initializable{
 	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        
 	        window.setOnCloseRequest(pressingTheX -> { //salvo i cambiamenti alla pressione di [X]
-		 		System.out.println("later bitches");
 		 		SqliteConnection.savingOnLogOut(controller.getUserLogged()); 
 		 	});
 	        
