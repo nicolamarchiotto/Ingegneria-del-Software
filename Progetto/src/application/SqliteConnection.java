@@ -17,7 +17,7 @@ public class SqliteConnection {
 	public static Connection dbConnector() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\nicol\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
+			Connection connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\utente\\git\\Progetto-Ingegneria-Software-2019\\Progetto\\userDB.db");
 			return connect;
 		}
 		catch(Exception e) {
@@ -699,12 +699,22 @@ public class SqliteConnection {
 		
 		if(bookList == null || bookList.isEmpty()) return null;
 		
+		List<Libro> booksToRemove = null;
+		
 		for(Libro singleBook : bookList) {
 			if(singleBook.getDisponibilita() == 0) {
-				bookList.remove(singleBook);
+				if(booksToRemove == null) {
+					booksToRemove = new ArrayList<Libro>();
+				}
+				booksToRemove.add(singleBook);
 			}
 		}
 		
+		if(booksToRemove == null) return bookList;
+		
+		for(Libro singleBook : booksToRemove) {
+			bookList.remove(singleBook);
+		}
 		return bookList;
 	}
 	
