@@ -33,7 +33,7 @@ public class Classifica {
 			List<Libro> bookList = null;
 			
 			if(genere == null) { //classifica globale
-				ResultSet gettingPreviousGlobalPositions = Classifica.selectByGenre(null, "update");
+				ResultSet gettingPreviousGlobalPositions = Classifica.selectByGenre(null, "update", updateSettimanale);
 				List<Integer> previousGlobalPosition = new ArrayList<Integer>(); 
 				List<Integer> weeksInSamePositionGlobal = new ArrayList<Integer>();
 				
@@ -49,7 +49,7 @@ public class Classifica {
 				}
 				
 
-				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(null, "update"));
+				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(null, "update", updateSettimanale));
 				if(bookList == null) return;
 				
 				
@@ -64,7 +64,9 @@ public class Classifica {
 				Classifica.updatePosizioniClassifica(bookList, weeksInSamePositionGlobal, true, updateSettimanale);
 			}
 			else if(genere.equals("novità")) {//classifica delle novità
-				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByNovelty(1));
+				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByNovelty(1, updateSettimanale));
+				
+				System.out.println("Prova " + bookList);
 				List<Integer> weeksInSamePosition = new ArrayList<Integer>();
 				if(bookList != null && !bookList.isEmpty()) {
 					for(int i = 0; i < bookList.size(); i++) {
@@ -75,7 +77,7 @@ public class Classifica {
 				
 			}
 			else {//classifica per genere
-				ResultSet gettingPreviousPositions = Classifica.selectByGenre(genere, "update");
+				ResultSet gettingPreviousPositions = Classifica.selectByGenre(genere, "update", updateSettimanale);
 				List<Integer> previousPosition = new ArrayList<Integer>(); 
 				List<Integer> weeksInSamePosition = new ArrayList<Integer>();
 				
@@ -90,7 +92,7 @@ public class Classifica {
 					e.printStackTrace();
 				}
 				
-				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(genere, "update"));
+				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(genere, "update", updateSettimanale));
 				
 				
 				if(bookList == null) return;
@@ -118,7 +120,7 @@ public class Classifica {
 		//metodo per ricevere la classifica richiesta
 		public static HashMap<List<Libro>, List<Integer>> getClassifica(String genere){
 			if(genere == null) { //classifica globale
-				ResultSet gettingPreviousGlobalPositions = Classifica.selectByGenre(null, "get");
+				ResultSet gettingPreviousGlobalPositions = Classifica.selectByGenre(null, "get", true);
 				List<Integer> weeksInSamePositionGlobal = new ArrayList<Integer>();
 				
 
@@ -131,7 +133,7 @@ public class Classifica {
 					e.printStackTrace();
 				}
 
-				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(null, "get"));
+				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(null, "get", true));
 				
 				
 				if(bookList == null) return null;
@@ -141,7 +143,7 @@ public class Classifica {
 				return classifica; 
 			}
 			else if(genere.equals("novità")) {//classifica delle novità
-				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByNovelty(0));
+				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByNovelty(0, true));
 				if(bookList == null || bookList.isEmpty())
 					return null;
 				
@@ -156,7 +158,7 @@ public class Classifica {
 				return classifica;
 			}
 			else {//classifica per genere
-				ResultSet gettingPreviousPositions = Classifica.selectByGenre(genere, "get");
+				ResultSet gettingPreviousPositions = Classifica.selectByGenre(genere, "get", true);
 				List<Integer> weeksInSamePosition = new ArrayList<Integer>();
 
 				if(gettingPreviousPositions == null) return null;
@@ -169,7 +171,7 @@ public class Classifica {
 				}
 				
 
-				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(genere, "get"));
+				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(genere, "get", true));
 				
 				if(bookList == null) return null;
 				
@@ -180,11 +182,12 @@ public class Classifica {
 		}
 		
 		//metodo per ricevere i libri di un certo genere
-		public static ResultSet selectByGenre(String genere, String getOrUpdate) {
+		public static ResultSet selectByGenre(String genere, String getOrUpdate, boolean updateSettimanale) {
 			Connection connect = SqliteConnection.dbConnector();
 			String ordering = getOrUpdate.equals("get") ? "copieVenduteSettimanaPrecedente" : "copieVenduteTotali";
 			if(genere == null) { //selezione per classifica generale
-				String sql = "SELECT * FROM BookList\nWHERE disponibilita = 1 AND copieVenduteSettimanaPrecedente != -1";
+				String sql = "SELECT * FROM BookList\nWHERE disponibilita = 1";
+				if(updateSettimanale) sql += " AND copieVenduteSettimanaPrecedente != -1";
 				sql += "\nORDER BY " + ordering + " DESC;";
 				
 				
@@ -227,13 +230,18 @@ public class Classifica {
 		}
 		
 		//metodo per ricevere i libri novità (libri in 3 possibili stati: 1 -> novita totale, quando faccio update lo fisso a 0 -> novita settimanale, ovvero la novita che mi arriva facendo le get post update, nel successivo update gli 0 diventano -1 -> non più novità
-		public static ResultSet selectByNovelty(int updatingOrViewing) {
-			String sql = "SELECT * FROM BookList\nWHERE (novita = " + updatingOrViewing + " AND disponibilita = 1 OR novita = 2 AND disponibilita = 1) AND copieVenduteSettimanaPrecedente != -1";
+		public static ResultSet selectByNovelty(int updatingOrViewing, boolean updateSettimanale) {
+			String sql = "SELECT * FROM BookList\nWHERE (novita = " + updatingOrViewing + " AND disponibilita = 1 OR novita = 2 AND disponibilita = 1)";
+			
+			if(updateSettimanale) sql += " AND copieVenduteSettimanaPrecedente != -1";
+			
 			if(updatingOrViewing == 1) {
 				sql += "\nORDER BY copieVenduteTotali DESC;";
-				sql += "\nUPDATE BookList SET\n";
-				sql += "novita = -1\n";
-				sql += "WHERE novita = 0;";
+				if(updateSettimanale) {
+					sql += "\nUPDATE BookList SET\n";
+					sql += "novita = -1\n";
+					sql += "WHERE novita = 0;";
+				}
 			}
 			else {
 				sql += "\nORDER BY copieVenduteSettimanaPrecedente DESC;";
@@ -246,7 +254,7 @@ public class Classifica {
 			try {
 					
 				System.out.println("*****CONNESSO PER RICEVERE LE NOVITA'*****");
-					
+				System.out.println("what\n" + sql);
 				stmt = SqliteConnection.dbConnector().createStatement();
 				stmt.executeUpdate(sql);
 				ResultSet rs = stmt.executeQuery(sql);
