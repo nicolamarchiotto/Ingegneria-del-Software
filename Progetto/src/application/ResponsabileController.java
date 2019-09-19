@@ -430,6 +430,7 @@ public class ResponsabileController implements Initializable{
 	}
 	
 	public void UpdateAdminButtonPushed(ActionEvent event) throws IOException{
+		System.out.println("\n\n--------STO AGGIORNANDO LA CLASSIFICA DA RESPONSABILE--------\n\n");
 		Classifica.updateClassifica(false); //aggiornamento effettuato come responsabile
 		this.getClassifica(true);
 		this.visualizeAllClassifiche();
