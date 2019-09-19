@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
@@ -37,8 +38,9 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="560.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
                            <children>
-                              <ComboBox fx:id="genereComboBoxCatalogo" prefHeight="25.0" prefWidth="172.0" promptText="Cerca per genere" />
-                              <Button fx:id="searchButtonCatalogo" mnemonicParsing="false" onAction="#searchButtonCatalogoPushed" text="Search" />
+                              <TextField fx:id="searchTextFieldCatalogo" promptText="Search by title" />
+                              <Button fx:id="searchButtonCatalogo" maxWidth="65.0" minWidth="65.0" mnemonicParsing="false" onAction="#searchButtonCatalogoPushed" prefWidth="65.0" text="Search" />
+                              <Button fx:id="resetButtonCatalogo" maxWidth="65.0" minWidth="65.0" mnemonicParsing="false" onAction="#resetButtonPushed" prefWidth="65.0" text="Reset" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />

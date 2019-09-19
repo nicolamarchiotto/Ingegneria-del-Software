@@ -22,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -42,8 +43,9 @@ public class HomeController implements Initializable{
 	@FXML private Button SeeDetailesButtonCatalogo;
 	@FXML private Button AddToBasketButtonCatalogo;
 	
-	@FXML private ComboBox<String> genereComboBoxCatalogo;
+	@FXML private TextField searchTextFieldCatalogo;
 	@FXML private Button searchButtonCatalogo;
+	@FXML private Button resetButtonCatalogo;
 	
 	//stuff for the classifica tab
 	@FXML private TableView<Libro> tableViewClassifica;
@@ -115,6 +117,7 @@ public class HomeController implements Initializable{
 	
 	
 	public void searchButtonCatalogoPushed(ActionEvent event) throws IOException{
+		/*
 		if(genereComboBoxCatalogo.getValue() == null) {
 			AlertBox.display("Error", "Devi selezionare un genere per effettuare una ricerca");
 			return;
@@ -122,6 +125,37 @@ public class HomeController implements Initializable{
 		String selectedGenere=genereComboBoxCatalogo.getValue().toString();
 		
 		tableViewCatalogo.setItems(getLibriCatalogo(selectedGenere));
+		*/
+		
+		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
+		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
+		
+		
+		if(this.searchTextFieldCatalogo.getText() == null || this.searchTextFieldCatalogo.getText().trim().isEmpty()) {
+			AlertBox.display("Erroe", "Insert something in the search textfield");
+			return;
+		}
+		else {
+			ArrayList<Libro> libriCompatibili= new ArrayList<Libro>();
+			String inserimento=this.searchTextFieldCatalogo.getText();
+			
+			for(Libro l:libri) {
+				if(l.getTitolo().toLowerCase().contains(inserimento.toLowerCase())) {
+					libriCompatibili.add(l);
+				}
+			}
+			
+			if(libriCompatibili.isEmpty()) {
+				AlertBox.display("Error", "Nothing was found");
+				return;
+			}
+			
+			this.tableViewCatalogo.setItems(FXCollections.observableArrayList(libriCompatibili));
+		}	
+	}
+	
+	public void resetButtonPushed() {
+		this.tableViewCatalogo.setItems(this.getLibriCatalogo("Tutti"));
 	}
 	
 	private ObservableList<Libro> getLibriCatalogo(String genere) {
@@ -293,7 +327,6 @@ public class HomeController implements Initializable{
 		
 		tableViewCatalogo.setItems(getLibriCatalogo("Tutti"));
 		
-		genereComboBoxCatalogo.getItems().addAll("Tutti","Romanzo", "Novità", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
 		
 		if(this.userLogged.getEmail().equals("#####"))
 			this.PersonalAreaButton.setText("Check Orders");
