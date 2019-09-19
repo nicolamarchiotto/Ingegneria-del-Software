@@ -196,6 +196,7 @@ public class Classifica {
 						
 					stmt = connect.createStatement();
 					ResultSet rs = stmt.executeQuery(sql);
+					if(rs.isClosed()) return null;
 					return rs;
 				}
 				catch(SQLException e) {
@@ -271,7 +272,7 @@ public class Classifica {
 					sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE quindi non c'è update del campo isbn
 					sql += "settimaneStessaPosizioneGlobale = " + weeksInSamePosition.get(iterator) + ",\n";
 					sql += "precedentePosizioneClassificaGlobale = " + ++iterator + ",\n";
-					sql += "copieVenduteSettimanaPrecedente = " + book.getCopieVendute() + ",\n"; //campo a cui accederà getClassifica(), campo dunque sul quale salvare il valore finale della settimana scorsa
+					sql += "copieVenduteSettimanaPrecedente = " + book.getCopieVendute() + (updateSettimanale ? ",\n" : "\n"); //campo a cui accederà getClassifica(), campo dunque sul quale salvare il valore finale della settimana scorsa
 					if(updateSettimanale) sql += "copieVenduteTotali = 0\n"; //updateSettimanale quindi resetto il conteggio per la settimana successiva
 					sql += "WHERE isbn = '" + book.getIsbn() + "';";
 				}
