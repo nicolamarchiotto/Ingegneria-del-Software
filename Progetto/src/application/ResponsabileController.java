@@ -426,7 +426,6 @@ public class ResponsabileController implements Initializable{
 		vettoreMappe.add(this.classificaPoliziesco);
 		vettoreMappe.add(this.classificaStoria);
 		vettoreMappe.add(this.classificaAltro);
-		
 	}
 	
 	public void UpdateAdminButtonPushed(ActionEvent event) throws IOException{

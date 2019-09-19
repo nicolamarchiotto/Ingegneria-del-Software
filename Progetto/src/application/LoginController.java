@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -40,6 +41,8 @@ public class LoginController implements Initializable{
 	private static ObservableList<Libro> libriGlobal = FXCollections.observableArrayList();
 	
 	private static ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe = new ArrayList<HashMap<List<Libro>, List<Integer>>>();
+	
+	private static String[] vettoreGenere= {"Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro"};
 	
 	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
 	private HashMap<List<Libro>, List<Integer>> classificaNovita = null;
@@ -191,27 +194,70 @@ public class LoginController implements Initializable{
 	}
 	
 	private void getClassifica(boolean cond) {
-		if(classificaGenerale == null || cond==true) this.classificaGenerale = Classifica.getClassifica(null);
 		
-		if(classificaNovita == null || cond==true) this.classificaNovita = Classifica.getClassifica("novità");
+		if(classificaGenerale == null || cond==true) 
+			this.classificaGenerale = Classifica.getClassifica(null);
 		
-		if(classificaNarrativa == null || cond==true) this.classificaNarrativa = Classifica.getClassifica("Narrativa");
+		if(classificaNovita == null || cond==true) 
+			this.classificaNovita = Classifica.getClassifica("novità");
 		
-		if(classificaStoria == null || cond==true) this.classificaStoria = Classifica.getClassifica("Storia");
+		if(classificaNarrativa == null || cond==true) 
+			this.classificaNarrativa = Classifica.getClassifica("Narrativa");
+		
+		if(classificaStoria == null || cond==true) 
+			this.classificaStoria = Classifica.getClassifica("Storia");
 			
-		if(classificaRomanzo == null || cond==true) this.classificaRomanzo = Classifica.getClassifica("Romanzo");
+		if(classificaRomanzo == null || cond==true) 
+			this.classificaRomanzo = Classifica.getClassifica("Romanzo");
 			
-		if(classificaFantascienza == null || cond==true) this.classificaFantascienza = Classifica.getClassifica("Fantascienza");
+		if(classificaFantascienza == null || cond==true) 
+			this.classificaFantascienza = Classifica.getClassifica("Fantascienza");
 	
-		if(classificaRagazzi == null || cond==true) this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
+		if(classificaRagazzi == null || cond==true) 
+			this.classificaRagazzi = Classifica.getClassifica("Ragazzi");
 			
-		if(classificaPoliziesco == null || cond==true) this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
+		if(classificaPoliziesco == null || cond==true) 
+			this.classificaPoliziesco = Classifica.getClassifica("Poliziesco");
 
-		if(classificaAltro == null || cond==true) this.classificaAltro = Classifica.getClassifica("Altro");
+		if(classificaAltro == null || cond==true) 
+			this.classificaAltro = Classifica.getClassifica("Altro");
+		
+		this.vettoreMappe=new ArrayList<HashMap<List<Libro>, List<Integer>>>();
+		
+		vettoreMappe.add(this.classificaGenerale);
+		vettoreMappe.add(this.classificaRomanzo);
+		vettoreMappe.add(this.classificaNarrativa);
+		vettoreMappe.add(this.classificaRagazzi);
+		vettoreMappe.add(this.classificaFantascienza);
+		vettoreMappe.add(this.classificaPoliziesco);
+		vettoreMappe.add(this.classificaStoria);
+		vettoreMappe.add(this.classificaAltro);
 	}
 	
 	public ArrayList<HashMap<List<Libro>, List<Integer>>> getVettoreMappeClassificaFromLoginController(){
 		return this.vettoreMappe;
+	}
+	
+	private ObservableList<Libro> getLibriClassifica(String genere) {
+		
+		ComboBox genereComboBoxClassifica=new ComboBox();
+		int indexComboBox=genereComboBoxClassifica.getItems().indexOf(genere);
+		
+		HashMap<List<Libro>, List<Integer>> mappa=this.vettoreMappe.get(indexComboBox);
+		
+		if(mappa == null) return null; //nessun libro di questo genere
+		
+		
+		List<Libro> classifica=Classifica.getBooksFromMap(mappa);
+		List<Integer> settimane=Classifica.getWeeksFromMap(mappa);
+		
+		
+		for(Libro l:classifica) {
+			l.setPosizioneLocale(classifica.indexOf(l)+1);
+			l.setSettimaneLocale(settimane.get(classifica.indexOf(l)));
+		}
+		
+		return FXCollections.observableArrayList(classifica);
 	}
 	
 
