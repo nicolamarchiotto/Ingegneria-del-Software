@@ -343,7 +343,10 @@ public class ResponsabileController implements Initializable{
 		}
 					
 		SqliteConnection.deleteLibro(l);
+		
 		AlertBox.display("Success", "Libro eliminato");
+		
+		
 		this.tableViewCatalogo.setItems(this.getLibriCatalogo("Tutti"));
 	}
 	
