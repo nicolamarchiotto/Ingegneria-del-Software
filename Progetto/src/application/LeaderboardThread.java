@@ -20,7 +20,8 @@ class LeaderboardUpdateThread extends Thread{
 		if(this.timePassed >= 10) {
 			System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 			Classifica.updateClassifica(true);
-			this.updateDBtime(this.getDBtime().plusMinutes(this.timePassed / 10 * 10));
+			this.timeFromDB = this.timeFromDB.plusMinutes(this.timePassed / 10 * 10);
+			this.updateDBtime(this.timeFromDB);
 			this.timePassed = this.timePassed % 10;
 		}
 	}
@@ -30,8 +31,11 @@ class LeaderboardUpdateThread extends Thread{
 		while(blinker == (Thread)this) {
 			try {
 				sleep(WEEK - this.timePassed * 60000); 
+				this.timePassed = 0;
 				System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 				Classifica.updateClassifica(true);
+				this.timeFromDB = this.timeFromDB.plusMinutes(10);
+				this.updateDBtime(this.timeFromDB);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
