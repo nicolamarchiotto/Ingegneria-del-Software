@@ -45,6 +45,7 @@ class LeaderboardUpdateThread extends Thread{
 		blinker = null;
 	}
 	
+	//prendo la data di riferimento dal database
 	private LocalDateTime getDBtime() {
 		Statement stmt = null;
 		
@@ -70,6 +71,7 @@ class LeaderboardUpdateThread extends Thread{
 		return null;
 	}
 	
+	//aggiorno la data di riferimento del database
 	private LocalDateTime updateDBtime(LocalDateTime date) {
 		Statement stmt = null;
 		
