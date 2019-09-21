@@ -1,0 +1,298 @@
+@startuml
+
+title __PROGETTO's Class Diagram__\n
+
+  namespace application {
+    class application.AlertBox {
+    }
+  }
+  
+
+  namespace application {
+    class application.AlertBox {
+    }
+  }
+  
+
+  namespace application {
+    class application.BasketController {
+    }
+  }
+  
+
+  namespace application {
+    class application.BasketController {
+    }
+  }
+  
+
+  namespace application {
+    class application.Classifica {
+    }
+  }
+  
+
+  namespace application {
+    class application.Classifica {
+    }
+  }
+  
+
+  namespace application {
+    class application.DetailedBookController {
+    }
+  }
+  
+
+  namespace application {
+    class application.DetailedBookController {
+    }
+  }
+  
+
+  namespace application {
+    class application.DetailedOrdineController {
+    }
+  }
+  
+
+  namespace application {
+    class application.DetailedOrdineController {
+    }
+  }
+  
+
+  namespace application {
+    class application.HomeController {
+    }
+  }
+  
+
+  namespace application {
+    class application.HomeController {
+    }
+  }
+  
+
+  namespace application {
+    class application.Indirizzo {
+    }
+  }
+  
+
+  namespace application {
+    class application.Indirizzo {
+    }
+  }
+  
+
+  namespace application {
+    class application.LeaderboardUpdateThread {
+    }
+  }
+  
+
+  namespace application {
+    class application.LeaderboardUpdateThread {
+    }
+  }
+  
+
+  namespace application {
+    class application.Libro {
+    }
+  }
+  
+
+  namespace application {
+    class application.Libro {
+    }
+  }
+  
+
+  namespace application {
+    class application.LibroCard {
+    }
+  }
+  
+
+  namespace application {
+    class application.LibroCard {
+    }
+  }
+  
+
+  namespace application {
+    class application.LoginController {
+    }
+  }
+  
+
+  namespace application {
+    class application.LoginController {
+    }
+  }
+  
+
+  namespace application {
+    class application.Main {
+    }
+  }
+  
+
+  namespace application {
+    class application.Main {
+    }
+  }
+  
+
+  namespace application {
+    class application.Ordine {
+    }
+  }
+  
+
+  namespace application {
+    class application.Ordine {
+    }
+  }
+  
+
+  namespace application {
+    class application.PaymentController {
+    }
+  }
+  
+
+  namespace application {
+    class application.PaymentController {
+    }
+  }
+  
+
+  namespace application {
+    class application.PersonalAreaController {
+    }
+  }
+  
+
+  namespace application {
+    class application.PersonalAreaController {
+    }
+  }
+  
+
+  namespace application {
+    class application.ResponsabileController {
+    }
+  }
+  
+
+  namespace application {
+    class application.ResponsabileController {
+    }
+  }
+  
+
+  namespace application {
+    class application.SignUpController {
+    }
+  }
+  
+
+  namespace application {
+    class application.SignUpController {
+    }
+  }
+  
+
+  namespace application {
+    class application.SqliteConnection {
+    }
+  }
+  
+
+  namespace application {
+    class application.SqliteConnection {
+    }
+  }
+  
+
+  namespace application {
+    class application.User {
+    }
+  }
+  
+
+  namespace application {
+    class application.User {
+    }
+  }
+  
+
+  application.BasketController .up.|> javafx.fxml.Initializable
+  application.BasketController o-- application.LoginController : controller
+  application.BasketController o-- application.User : userLogged
+  application.BasketController .up.|> javafx.fxml.Initializable
+  application.BasketController o-- application.LoginController : controller
+  application.BasketController o-- application.User : userLogged
+  application.DetailedBookController .up.|> javafx.fxml.Initializable
+  application.DetailedBookController o-- application.LoginController : controller
+  application.DetailedBookController o-- application.Libro : selectedLibro
+  application.DetailedBookController o-- application.User : userLogged
+  application.DetailedBookController .up.|> javafx.fxml.Initializable
+  application.DetailedBookController o-- application.LoginController : controller
+  application.DetailedBookController o-- application.Libro : selectedLibro
+  application.DetailedBookController o-- application.User : userLogged
+  application.DetailedOrdineController .up.|> javafx.fxml.Initializable
+  application.DetailedOrdineController o-- application.Ordine : localOrder
+  application.DetailedOrdineController .up.|> javafx.fxml.Initializable
+  application.DetailedOrdineController o-- application.Ordine : localOrder
+  application.HomeController .up.|> javafx.fxml.Initializable
+  application.HomeController o-- application.LoginController : controller
+  application.HomeController o-- application.User : userLogged
+  application.HomeController .up.|> javafx.fxml.Initializable
+  application.HomeController o-- application.LoginController : controller
+  application.HomeController o-- application.User : userLogged
+  application.Libro .up.|> java.lang.Comparable
+  application.Libro .up.|> java.lang.Comparable<java.lang.Object>
+  application.LoginController .up.|> javafx.fxml.Initializable
+  application.LoginController .up.|> javafx.fxml.Initializable
+  application.Main -up-|> javafx.application.Application
+  application.Main -up-|> javafx.application.Application
+  application.PaymentController .up.|> javafx.fxml.Initializable
+  application.PaymentController o-- application.LoginController : controller
+  application.PaymentController o-- application.User : userLogged
+  application.PaymentController .up.|> javafx.fxml.Initializable
+  application.PaymentController o-- application.LoginController : controller
+  application.PaymentController o-- application.User : userLogged
+  application.PersonalAreaController .up.|> javafx.fxml.Initializable
+  application.PersonalAreaController o-- application.LoginController : controller
+  application.PersonalAreaController o-- application.User : userLogged
+  application.PersonalAreaController .up.|> javafx.fxml.Initializable
+  application.PersonalAreaController o-- application.LoginController : controller
+  application.PersonalAreaController o-- application.User : userLogged
+  application.ResponsabileController .up.|> javafx.fxml.Initializable
+  application.ResponsabileController o-- application.LoginController : controller
+  application.ResponsabileController o-- application.LoginController : loginController
+  application.ResponsabileController o-- application.User : respLogged
+  application.ResponsabileController .up.|> javafx.fxml.Initializable
+  application.ResponsabileController o-- application.LoginController : controller
+  application.ResponsabileController o-- application.LoginController : loginController
+  application.ResponsabileController o-- application.User : respLogged
+  application.SignUpController .up.|> javafx.fxml.Initializable
+  application.SignUpController .up.|> javafx.fxml.Initializable
+  application.User .up.|> java.lang.Comparable
+  application.User o-- application.LibroCard : librocard
+  application.User .up.|> java.lang.Comparable<java.lang.Object>
+  application.User o-- application.LibroCard : librocard
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

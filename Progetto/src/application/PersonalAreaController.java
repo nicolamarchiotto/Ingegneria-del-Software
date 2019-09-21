@@ -132,7 +132,7 @@ public class PersonalAreaController implements Initializable{
 			indirizziList=getIndirizzi();
 			tableView.setItems(indirizziList);
 			
-			tableViewOrder.setItems(FXCollections.observableArrayList(SqliteConnection.getOrderList(userLogged)));
+			tableViewOrder.setItems(FXCollections.observableArrayList(DBOrder.getOrderList(userLogged)));
 		}
 		
 	}
@@ -182,7 +182,7 @@ public class PersonalAreaController implements Initializable{
 				
 				
 				this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList); //per aggiornare la situa
-				SqliteConnection.updateUser(this.userLogged);
+				DBUser.updateUser(this.userLogged);
 				
 				AlertBox.display("Success", "Your data have been upadted");
 				//this.tableView.setItems(indirizziList);
@@ -317,7 +317,7 @@ public class PersonalAreaController implements Initializable{
 			return;
 		}
 		
-		Ordine ordineTrovato=SqliteConnection.getOrderByID(this.searchTextField.getText());
+		Ordine ordineTrovato=DBOrder.getOrderByID(this.searchTextField.getText());
 		if(ordineTrovato==null) {
 			AlertBox.display("Error", "Nessun ordine corrisponde a tale identificativo");
 			return;
@@ -335,7 +335,7 @@ public class PersonalAreaController implements Initializable{
 		AlertBox.confirmAccountDelete(this);
 
 		if(this.isDeletingAccount) {
-			SqliteConnection.deleteUser(this.userLogged);
+			DBUser.deleteUser(this.userLogged);
 			this.controller.setUserLogged(null);
 			this.SignOutButtonPushed(event);
 		}

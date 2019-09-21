@@ -66,25 +66,25 @@ public class LoginController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		this.libriGlobal=this.getLibriCatalogoFromDB();
+		LoginController.libriGlobal=this.getLibriCatalogoFromDB();
 
 		this.getClassifica(false);
 		
-		this.vettoreMappe.add(this.classificaGenerale);
-		this.vettoreMappe.add(this.classificaRomanzo);
-		this.vettoreMappe.add(this.classificaNarrativa);
-		this.vettoreMappe.add(this.classificaRagazzi);
-		this.vettoreMappe.add(this.classificaFantascienza);
-		this.vettoreMappe.add(this.classificaPoliziesco);
-		this.vettoreMappe.add(this.classificaStoria);
-		this.vettoreMappe.add(this.classificaAltro);
+		LoginController.vettoreMappe.add(this.classificaGenerale);
+		LoginController.vettoreMappe.add(this.classificaRomanzo);
+		LoginController.vettoreMappe.add(this.classificaNarrativa);
+		LoginController.vettoreMappe.add(this.classificaRagazzi);
+		LoginController.vettoreMappe.add(this.classificaFantascienza);
+		LoginController.vettoreMappe.add(this.classificaPoliziesco);
+		LoginController.vettoreMappe.add(this.classificaStoria);
+		LoginController.vettoreMappe.add(this.classificaAltro);
 		
 		
 		
 		this.ErrorLabel.setText("");
 		
 		//aggiungo i vari user salvati nel DB
-		this.userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
+		this.userList = DBUser.getUserList(DBUser.getFieldUser());
 		
 		System.out.println("Users possibili: \n" + this.userList);
 	}
@@ -136,7 +136,7 @@ public class LoginController implements Initializable{
 			    window = (Stage)((Node)event.getSource()).getScene().getWindow();
 			    
 			 	window.setOnCloseRequest(pressingTheX -> { //salvo i cambiamenti alla pressione di [X]
-			 		if(!this.userLogged.getEmail().equals("#####") && this.userLogged != null) {
+			 		if(!LoginController.userLogged.getEmail().equals("#####") && LoginController.userLogged != null) {
 			 			System.out.println("Closing up.. I am " + userLogged.getEmail());
 				 		SqliteConnection.savingOnLogOut(userLogged); 
 			 		}
@@ -159,7 +159,7 @@ public class LoginController implements Initializable{
 	
 	public void EnterAsGuestButtonPushed(ActionEvent event) throws IOException
     {
-		this.userLogged=new User("Guest", "Guest", "", "", "", "", "#####", "#####");
+		LoginController.userLogged=new User("Guest", "Guest", "", "", "", "", "#####", "#####");
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("HomeScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -184,14 +184,14 @@ public class LoginController implements Initializable{
 	
 	public ObservableList<Libro> getLibriCatalogoFromDB() {
 		
-		ResultSet booksFromDB = SqliteConnection.getFieldLibro();
-		ObservableList<Libro> libri = FXCollections.observableArrayList(SqliteConnection.getAvailableBooks(booksFromDB));
+		ResultSet booksFromDB = DBBook.getFieldLibro();
+		ObservableList<Libro> libri = FXCollections.observableArrayList(DBBook.getAvailableBooks(booksFromDB));
 		
 		return libri;
 	}
 	
 	public ObservableList<Libro> getBookListGlobalFromLoginController() {
-		return this.libriGlobal;
+		return LoginController.libriGlobal;
 	}
 	
 	public void getClassifica(boolean cond) {
@@ -223,7 +223,7 @@ public class LoginController implements Initializable{
 		if(classificaAltro == null || cond==true) 
 			this.classificaAltro = Classifica.getClassifica("Altro");
 		
-		this.vettoreMappe=new ArrayList<HashMap<List<Libro>, List<Integer>>>();
+		LoginController.vettoreMappe=new ArrayList<HashMap<List<Libro>, List<Integer>>>();
 		
 		vettoreMappe.add(this.classificaGenerale);
 		vettoreMappe.add(this.classificaRomanzo);
@@ -239,15 +239,8 @@ public class LoginController implements Initializable{
 	
 	public ArrayList<HashMap<List<Libro>, List<Integer>>> getVettoreMappeClassificaFromLoginController(){
 		
-		return this.vettoreMappe;
+		return LoginController.vettoreMappe;
 	}
-	
-
-
-	//TODO
-	
-	//sarebbe possibile creare un utente di supporto nel DB solo per capire chi è loggato?
-	//mettere tutti i metodi relativi al db in un unico file, anche userlogged
 	
 	public void setUserLogged(User other) {
 		//cercare user u nella lista db e settarlo alla variabile useLogged

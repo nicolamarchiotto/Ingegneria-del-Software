@@ -40,8 +40,8 @@ public class SignUpController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		SignUpErrorLabel.setText("");
-		ResultSet usersFromDB = SqliteConnection.getFieldUser();
-		UserList=SqliteConnection.getUserList(usersFromDB);
+		ResultSet usersFromDB = DBUser.getFieldUser();
+		UserList=DBUser.getUserList(usersFromDB);
 	}
 	
 	public void GoBackButtonPushed(ActionEvent event) throws IOException
@@ -121,7 +121,7 @@ public class SignUpController implements Initializable{
 				
 			//Aggiunge a DB
 			controller.addToUserList(sup);
-			SqliteConnection.insertUser(sup);
+			DBUser.insertUser(sup);
 			controller.setUserLogged(sup);
 			
 

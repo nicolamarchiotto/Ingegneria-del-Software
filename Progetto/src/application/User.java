@@ -86,7 +86,7 @@ public class User implements Comparable<Object>{
 	}
 	
 	public void setListaOrdini(){
-	 	this.ordini=SqliteConnection.getOrderList(this);
+	 	this.ordini=DBOrder.getOrderList(this);
 	 }
 	
 	public void addOrder(Ordine order) {

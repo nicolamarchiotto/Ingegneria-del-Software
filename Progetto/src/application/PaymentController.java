@@ -161,7 +161,7 @@ public class PaymentController implements Initializable{
 				String paymentType = selectedRadioButton.getText();
 				
 				//salvo i cambiamenti effettuati ai libri
-				SqliteConnection.updateLibro(userLogged.getCarrello());
+				DBBook.updateLibro(userLogged.getCarrello());
 				
 				//creo la stringa utile a sapere quante copie ho ordinato per ogni libro
 				String copiePerOgniSingoloLibro = this.bookCopiesArrayToString();
@@ -169,7 +169,7 @@ public class PaymentController implements Initializable{
 				
 				Ordine ordLoc=new Ordine(this.userLogged.getEmail(),paymentType,
 						indirizzoSpedizione, this.userLogged.getCarrello(), copiePerOgniSingoloLibro);
-				SqliteConnection.insertOrder(ordLoc);
+				DBOrder.insertOrder(ordLoc);
 				
 				
 				//SE UTENTE NON REGISTRATO				
@@ -192,7 +192,6 @@ public class PaymentController implements Initializable{
 				try {
 					goToHomePage(event);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

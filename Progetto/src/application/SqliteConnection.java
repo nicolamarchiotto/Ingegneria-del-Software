@@ -101,7 +101,8 @@ public class SqliteConnection {
 						sql += user.getLibroCard().getDataEmissione().getDayOfMonth() + ",\n";
 						sql += user.getLibroCard().getDataEmissione().getMonthValue() + ",\n";
 						sql += user.getLibroCard().getDataEmissione().getYear() + ",\n";
-						sql += user.getLibroCard().getDataEmissione().getHour() + ");\n\n";
+						sql += user.getLibroCard().getDataEmissione().getHour() + ",\n";
+						sql += user.getLibroCard().getDataEmissione().getMinute() + ");\n\n";
 					}		
 					sql += "INSERT INTO UserList VALUES";
 					sql += "('" + user.getEmail() + "',\n'";
@@ -147,7 +148,8 @@ public class SqliteConnection {
 					sql += order.getData().getDayOfMonth() + ",\n";
 					sql += order.getData().getMonthValue() + ",\n";
 					sql += order.getData().getYear() + ",\n";
-					sql += order.getData().getHour() + ");\n\n";
+					sql += order.getData().getHour() + ",\n";
+					sql += order.getData().getMinute() + ");\n\n";
 					
 					sql += "INSERT INTO OrderList VALUES\n";
 					sql += "('" + order.getIdOrdine() + "',\n'";
@@ -249,7 +251,8 @@ public class SqliteConnection {
 					sql += "giorno = " + user.getLibroCard().getDataEmissione().getDayOfMonth() + ",\n";
 					sql += "mese = " + user.getLibroCard().getDataEmissione().getMonthValue() + ",\n";
 					sql += "anno = " + user.getLibroCard().getDataEmissione().getYear() + ",\n";
-					sql += "ora = " + user.getLibroCard().getDataEmissione().getHour() + "\n";
+					sql += "ora = " + user.getLibroCard().getDataEmissione().getHour() + ",\n";
+					sql += "minuto = " + user.getLibroCard().getDataEmissione().getMinute() + "\n";
 					sql += "WHERE id = '" + user.getLibroCard().getId() + "';\n\n";
 					
 					//aggiorno infine lo User
@@ -297,13 +300,15 @@ public class SqliteConnection {
 					sql += order.getData().getDayOfMonth() + ",\n";
 					sql += order.getData().getMonthValue() + ",\n";
 					sql += order.getData().getYear() + ",\n";
-					sql += order.getData().getHour() + ")\n";
+					sql += order.getData().getHour() + ",\n";
+					sql += order.getData().getMinute() + ")\n";
 					sql += "ON CONFLICT(id) DO "; //in caso di conflitto aggiorno l'entry nella tabella
 					sql += "UPDATE SET ";
 					sql += "giorno = " + order.getData().getDayOfMonth() + ",\n";
 					sql += "mese = " + order.getData().getMonthValue() + ",\n";
 					sql += "anno = " + order.getData().getYear() + ",\n";
-					sql += "ora = " + order.getData().getHour() + "\n";
+					sql += "ora = " + order.getData().getHour() + ",\n";
+					sql += "minuto = " + order.getData().getMinute() + "\n";
 					sql += "WHERE id = '" + order.getIdOrdine() + "';\n\n";
 					
 					sql += "INSERT INTO OrderList VALUES\n";
@@ -394,17 +399,17 @@ public class SqliteConnection {
 			
 			//NB dato che cancello l'utente dal DB, tutti i suoi ordini diventano senza padrone ("UserLess"),
 			//dunque gli ordini all'interno del DB vanno aggiornati
-			List<Ordine> orderList = SqliteConnection.getOrderList(user);
+			List<Ordine> orderList = DBOrder.getOrderList(user);
 			
 			
 			//rendo tutti gli ordini userLess
 			for(Ordine singleOrder : orderList) {
-				SqliteConnection.deleteOrdine(singleOrder); //cancello l'entry nel DB (inutile fare solo UPDATE dato che cambio l'id)
+				DBOrder.deleteOrdine(singleOrder); //cancello l'entry nel DB (inutile fare solo UPDATE dato che cambio l'id)
 				singleOrder.becomeUserLess();
 			}
 			
 			//inserisco l'ordine aggiornato
-			SqliteConnection.insertOrder(orderList);
+			DBOrder.insertOrder(orderList);
 			
 			
 		}
@@ -465,8 +470,6 @@ public class SqliteConnection {
 	}
 	
 	
-	
-	
 	//metodo per ricevere tutti i campi di tutte le colonne di una SINGOLA TABELLA
 	public static ResultSet getEverythingFromTableDB(String tableName) {
 		String sql = "SELECT * FROM " + tableName;
@@ -509,337 +512,24 @@ public class SqliteConnection {
 		return isbnString.substring(0, isbnString.length() - 1); //con il -1 tolgo l'ultimo #
 	}
 	
-	
-	//metodo per prendere una stringa di isbn separati tra loro da # e ritornare i libri equivalenti presenti all'interno del DB
-	public static List<Libro> isbnStringToBookList(String isbnString, String bookCopiesString){
-		List<Libro> bookList = new ArrayList<Libro>();
-		String isbnArray[] = isbnString.split("#");
-		
-		String bookCopiesArray[] = bookCopiesString.split("#");
-		
-		if(isbnArray.length != bookCopiesArray.length) {
-			AlertBox.display("ERROR", "Oops that's embarassing, this shouldn't pop up..");
-			return null;
-		}
-		
-		if(isbnArray.length != 0) {
-			String sql = "";
-			int i = 0; //iteratore su bookCopiesArray
-			for(String isbn : isbnArray) {
-				sql = "SELECT * FROM BookList\n WHERE BookList.isbn = " + isbn;
-				
-				Statement stmt = null;
-				try {
-					
-					//System.out.println("*****CONNESSO PER TRASFORMARE L'ISBN IN BookList*****");
-					
-					stmt = SqliteConnection.dbConnector().createStatement();
-					ResultSet booksFromDB = stmt.executeQuery(sql);
-					bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), 
-							booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"), 
-							booksFromDB.getString("isbn"), booksFromDB.getString("genere"), 
-							booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), 
-							Integer.parseInt(bookCopiesArray[i++]), booksFromDB.getInt("copieVenduteTotali"), 
-							booksFromDB.getInt("puntiCarta"), booksFromDB.getInt("disponibilita")));
-				}
-				catch(SQLException e) {
-					System.out.println(e.getMessage());
-				}
-				finally {
-					if(stmt != null)
-						try {
-							stmt.close();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-				}
-			}
-			return bookList;
-		}
-		return null; //caso in cui non ci sia nessun isbn
-	}
-	
+
 	
 	//metodo per fare update in fase di logOut
 	public static void savingOnLogOut(User user) {
 		if(user != null && user.getLibroCard() != null && !user.getEmail().equals("#####")) { //not admin, not guest and logged in
 			if(user.getOrdini() != null && user.getOrdini().size() != 0) { //at least one order to save
-				SqliteConnection.updateOrdine(user.getOrdini());
+				DBOrder.updateOrdine(user.getOrdini());
 				System.out.println("\nUser's orders SAVED");
 			}
-			SqliteConnection.updateUser(user);
+			DBUser.updateUser(user);
 			System.out.println("\nUser SAVED");
 			System.out.println("\n------" + user.getEmail() + " SUCCESFULLY LOGGED OUT------\n");	
 		}
 	}
 	
-	
-	//-----------------------//	
-	//------METODI USER------//
-	//-----------------------//
 
-	//inserisci User
-	public static SQLException insertUser(List<User> objectList) {
-		return SqliteConnection.insertIntoDB("UserList", objectList);
-	}
-
-	//inserisci singolo User
-	public static SQLException insertUser(User user) {
-		List<User> userList = new ArrayList<User>();
-		userList.add(user);
-		return SqliteConnection.insertUser(userList);
-	}
 	
-
-	//aggiorna insieme di User
-	public static void updateUser(List<User> objectList) {
-		SqliteConnection.updateDB("UserList", objectList);
-	}
-	
-	//aggiorna singolo User
-	public static void updateUser(User user) {
-		List<User> userList = new ArrayList<User>();
-		userList.add(user);
-		SqliteConnection.updateUser(userList);
-	}
-	
-	//cancella singolo User
-	public static void deleteUser(User user) {
-		SqliteConnection.deleteFromDB("UserList", user);
-	}
-	
-	//prendi tutta la tabella User
-	public static ResultSet getFieldUser() {
-		return SqliteConnection.getEverythingFromTableDB("UserList");
-	}
-	
-	//metodo per ritornare una lista di User data una ResultSet della tabella User
-	public static List<User> getUserList(ResultSet usersFromDB){
-		List<User> userList = new ArrayList<User>();
-		try {
-			while(usersFromDB.next()) {
-				userList.add(new User(usersFromDB.getString("nome"), usersFromDB.getString("cognome"), 
-						usersFromDB.getString("indirizzo"), usersFromDB.getString("cap"), 
-						usersFromDB.getString("citta"), usersFromDB.getString("telefono"), 
-						usersFromDB.getString("email"), usersFromDB.getString("password"),
-						usersFromDB.getString("libroCard"), usersFromDB.getInt("punti"), 
-						usersFromDB.getInt("giorno"), usersFromDB.getInt("mese"), 
-						usersFromDB.getInt("anno"), usersFromDB.getInt("ora")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return userList;
-	}
-	
-	
-	//------------------------//
-	//------METODI LIBRO------//
-	//------------------------//
-	
-	//inserisci insieme di Libro
-	public static SQLException insertLibro(List<Libro> objectList) {
-		return SqliteConnection.insertIntoDB("BookList", objectList);
-	}
-	
-	//inserisci singolo Libro
-	public static SQLException insertLibro(Libro book) {
-		List<Libro> bookList = new ArrayList<Libro>();
-		bookList.add(book);
-		return SqliteConnection.insertLibro(bookList);
-	}
-
-	//aggiorna insieme di Libro
-	public static void updateLibro(List<Libro> objectList) {
-		SqliteConnection.updateDB("BookList", objectList);
-	}
-	
-	//aggiorna singolo Libro
-	public static void updateLibro(Libro book) {
-		List<Libro> bookList = new ArrayList<Libro>();
-		bookList.add(book);
-		SqliteConnection.updateLibro(bookList);
-	}
-	
-	//cancella singolo Libro
-	public static void deleteLibro(Libro book) {
-		SqliteConnection.deleteFromDB("BookList", book);
-	}
-	
-	//prendi tutta la tabella Libro
-	public static ResultSet getFieldLibro() {
-		return SqliteConnection.getEverythingFromTableDB("BookList");
-	}
-	
-	//metodo per ritornare una lista di libri dato un ResultSet
-	public static List<Libro> getBookList(ResultSet booksFromDB){
-		List<Libro> bookList = new ArrayList<Libro>();
-		if(booksFromDB == null) return null;
-		try {
-			while(booksFromDB.next()) {
-				bookList.add(new Libro(booksFromDB.getString("titolo"), booksFromDB.getString("autore"), 
-						booksFromDB.getString("casaEditrice"), booksFromDB.getInt("annoPubblicazione"),
-						booksFromDB.getString("isbn"), booksFromDB.getString("genere"), 
-						booksFromDB.getDouble("prezzo"), booksFromDB.getString("breveDescrizione"), 0,
-						booksFromDB.getInt("copieVenduteTotali"), booksFromDB.getInt("puntiCarta"), booksFromDB.getInt("disponibilita")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		//System.out.println(bookList.isEmpty() + "   " + bookList);
-		if(bookList.isEmpty()) return null;
-		else return bookList;
-	}
-	
-	//metodo per ritornare una lista di libri DISPONIBILI
-	public static List<Libro> getAvailableBooks(ResultSet booksFromDB){
-		List<Libro> bookList = SqliteConnection.getBookList(booksFromDB);
-		
-		if(bookList == null || bookList.isEmpty()) return null;
-		
-		List<Libro> booksToRemove = null;
-		
-		for(Libro singleBook : bookList) {
-			if(singleBook.getDisponibilita() == 0) {
-				if(booksToRemove == null) {
-					booksToRemove = new ArrayList<Libro>();
-				}
-				booksToRemove.add(singleBook);
-			}
-		}
-		
-		if(booksToRemove == null) return bookList;
-		
-		for(Libro singleBook : booksToRemove) {
-			bookList.remove(singleBook);
-		}
-		return bookList;
-	}
-	
-	
-	
-	
-	//-------------------------//
-	//------METODI ORDINE------//
-	//-------------------------//
-	
-	//inserisci Ordine
-	public static SQLException insertOrder(List<Ordine> objectList) {
-		return SqliteConnection.insertIntoDB("OrderList", objectList);
-	}
-	
-	//inserisci singolo Ordine
-	public static SQLException insertOrder(Ordine order) {
-		List<Ordine> orderList = new ArrayList<Ordine>();
-		orderList.add(order);
-		return SqliteConnection.insertOrder(orderList);
-	}
-	
-	//aggiorna insieme di Ordine
-	public static void updateOrdine(List<Ordine> objectList) {
-		SqliteConnection.updateDB("OrderList", objectList);
-	}
-		
-	//aggiorna singolo Ordine
-	public static void updateOrdine(Ordine order) {
-		List<Ordine> orderList = new ArrayList<Ordine>();
-		orderList.add(order);
-		SqliteConnection.updateOrdine(orderList);
-	}
-	
-	//cancella singolo Ordine
-	public static void deleteOrdine(Ordine order) {
-		SqliteConnection.deleteFromDB("OrderList", order);
-	}
-	
-	//prendi tutta la tabella Ordine
-	public static ResultSet getFieldOrdine() {
-		return SqliteConnection.getEverythingFromTableDB("OrderList");
-	}
-	
-	
-	//metodo per ritornare una lista di ordini dato un ResultSet. Se viene dato uno User ritorno la lista di ordini relativa allo User dato.
-	public static List<Ordine> getOrderList(User user){
-		List<Ordine> orderList = new ArrayList<Ordine>();
-		
-		try {
-			if(user != null) { //prendo gli ordini dello user definito
-				
-				ResultSet ordersFromDB = SqliteConnection.getFieldOrdine();
-				while(ordersFromDB.next()) {
-					if(ordersFromDB.getString("user").equals(user.getEmail()))
-						orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
-								ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
-								SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
-								ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-								ordersFromDB.getInt("saldoPuntiOrdine"), user.getEmail(), ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri")));				
-				}
-			}
-			else { //prendo tutti gli ordini
-				List<User> userList = SqliteConnection.getUserList(SqliteConnection.getFieldUser());
-				ResultSet ordersFromDB = SqliteConnection.getFieldOrdine();
-				
-				while(ordersFromDB.next()) {
-					for(User singleUser : userList) {
-						if(singleUser.getEmail().equals(ordersFromDB.getString("user"))) {
-							orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
-									ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
-									SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
-									ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-									ordersFromDB.getInt("saldoPuntiOrdine"), singleUser.getEmail(), ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri")));
-							break;
-						}
-					}
-					if(ordersFromDB.getString("user").equals("#####")) { //utente non registrato
-						orderList.add(new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
-								ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
-								SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
-								ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-								ordersFromDB.getInt("saldoPuntiOrdine"), "#####", ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri")));
-					}
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-		return orderList;
-	}
-	
-	//metodo per ritornare tutti gli ordini (uso in zona Responsabile)
-	public static List<Ordine> getOrderList(){
-		return SqliteConnection.getOrderList(null);
-	}
-	
-	//metodo per ritornare un ordine dato il suo id (uso per utente non registrato)
-	public static Ordine getOrderByID(String id) {
-		ResultSet ordersFromDB = SqliteConnection.getFieldOrdine();
-		try {
-			while(ordersFromDB.next()) {
-				if(ordersFromDB.getString("id").equals(id)) {
-					return new Ordine(ordersFromDB.getString("id"), ordersFromDB.getInt("giorno"), 
-							ordersFromDB.getInt("mese"), ordersFromDB.getInt("anno"), ordersFromDB.getInt("ora"), 
-							SqliteConnection.isbnStringToBookList(ordersFromDB.getString("libriOrdine"), ordersFromDB.getString("stringaCopieLibri")), 
-							ordersFromDB.getDouble("totalCost"), ordersFromDB.getString("paymentType"), 
-							ordersFromDB.getInt("saldoPuntiOrdine"), ordersFromDB.getString("user"), ordersFromDB.getString("indirizzoSpedizione"), ordersFromDB.getString("stringaCopieLibri"));	
-				}
-			}
-			return null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	//metodo per ritornare lo user di un certo ordine dato l'id dello user contenuto nell'ordine
-	public static User getUserForOrdine(String userId) {
-		LoginController controller=new LoginController();
-		List<User> userList = controller.getUserList();
-		for(User singleUser : userList)
-			if(userId.equals(singleUser.getEmail()))
-				return singleUser;
-		return null;
-	}
 }
+	
+
 

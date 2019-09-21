@@ -121,7 +121,7 @@ public class DetailedBookController implements Initializable{
         	
         	DetailedOrdineController detailedOrdController=loader.getController();
         	
-        	Ordine ord=SqliteConnection.getOrderByID(idOrdine);
+        	Ordine ord=DBOrder.getOrderByID(idOrdine);
       
         	detailedOrdController.setOrderFromTableView(ord);
         	detailedOrdController.setLato(this.lato);

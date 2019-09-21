@@ -49,7 +49,7 @@ public class Classifica {
 				}
 				
 
-				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(null, "update", updateSettimanale));
+				bookList = DBBook.getAvailableBooks(Classifica.selectByGenre(null, "update", updateSettimanale));
 				if(bookList == null) return;
 				
 				
@@ -64,7 +64,7 @@ public class Classifica {
 				Classifica.updatePosizioniClassifica(bookList, weeksInSamePositionGlobal, true, updateSettimanale);
 			}
 			else if(genere.equals("novità")) {//classifica delle novità
-				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByNovelty(1, updateSettimanale));
+				bookList = DBBook.getAvailableBooks(Classifica.selectByNovelty(1, updateSettimanale));
 				
 				List<Integer> weeksInSamePosition = new ArrayList<Integer>();
 				if(bookList != null && !bookList.isEmpty()) {
@@ -91,7 +91,7 @@ public class Classifica {
 					e.printStackTrace();
 				}
 				
-				bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(genere, "update", updateSettimanale));
+				bookList = DBBook.getAvailableBooks(Classifica.selectByGenre(genere, "update", updateSettimanale));
 				
 				
 				if(bookList == null) return;
@@ -124,7 +124,7 @@ public class Classifica {
 					e.printStackTrace();
 				}
 
-				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(null, "get", true));
+				List<Libro> bookList = DBBook.getAvailableBooks(Classifica.selectByGenre(null, "get", true));
 				
 				
 				if(bookList == null) return null;
@@ -134,7 +134,7 @@ public class Classifica {
 				return classifica; 
 			}
 			else if(genere.equals("novità")) {//classifica delle novità
-				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByNovelty(0, true));
+				List<Libro> bookList = DBBook.getAvailableBooks(Classifica.selectByNovelty(0, true));
 				if(bookList == null || bookList.isEmpty())
 					return null;
 				
@@ -162,7 +162,7 @@ public class Classifica {
 				}
 				
 
-				List<Libro> bookList = SqliteConnection.getAvailableBooks(Classifica.selectByGenre(genere, "get", true));
+				List<Libro> bookList = DBBook.getAvailableBooks(Classifica.selectByGenre(genere, "get", true));
 				
 				if(bookList == null) return null;
 				
@@ -337,7 +337,7 @@ public class Classifica {
 		//metodo per randomizzare le copie vendute, inizializzare le novità
 		public static void randomize() {
 			Connection connect = SqliteConnection.dbConnector();
-			List<Libro> bookList = SqliteConnection.getAvailableBooks(SqliteConnection.getFieldLibro());
+			List<Libro> bookList = DBBook.getAvailableBooks(DBBook.getFieldLibro());
 			
 			Random r = new Random();
 			
