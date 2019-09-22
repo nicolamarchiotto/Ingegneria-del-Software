@@ -164,10 +164,7 @@ public class DetailedBookController implements Initializable{
 		else
 			this.userLogged.removeLibroFromCarrello(this.selectedLibro);
 		
-		/*
-		 * prova carrello to string
-		 */
-		System.out.println("\nstampa carrello user\n" +this.userLogged.carrelloToString());
+		System.out.println("\nPrinting basket for user: \n" + this.userLogged + "\n->" + this.userLogged.carrelloToString());
 	}
   
 	public void BasketButtonPushed(ActionEvent event) throws IOException
