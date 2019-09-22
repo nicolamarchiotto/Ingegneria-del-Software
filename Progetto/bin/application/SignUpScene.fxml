@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -26,11 +27,14 @@
             <TextField fx:id="Password" maxHeight="25.0" maxWidth="200.0" prefHeight="10.0" prefWidth="100.0" promptText="Password" />
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" layoutY="350.0" prefHeight="50.0" prefWidth="580.0" spacing="20.0">
+      <HBox alignment="CENTER_RIGHT" layoutY="350.0" prefHeight="50.0" prefWidth="600.0" spacing="5.0">
          <children>
-            <Button fx:id="GoBackButton" mnemonicParsing="false" onAction="#GoBackButtonPushed" text="Go Back" />
-            <Button fx:id="ConfirmButton" mnemonicParsing="false" onAction="#ConfirmButtonPushed" text="Confirm" />
+            <Button fx:id="GoBackButton" maxHeight="25.0" maxWidth="90.0" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" onAction="#GoBackButtonPushed" prefHeight="25.0" prefWidth="90.0" text="Go Back" />
+            <Button fx:id="ConfirmButton" maxHeight="25.0" maxWidth="90.0" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" onAction="#ConfirmButtonPushed" prefHeight="25.0" prefWidth="90.0" text="Confirm" />
          </children>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
       </HBox>
       <Label layoutX="218.0" layoutY="23.0" text="Enter your personal data">
          <font>

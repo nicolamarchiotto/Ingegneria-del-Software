@@ -38,10 +38,13 @@
                               <TextArea fx:id="breveDescrizione" maxWidth="250.0" prefHeight="161.0" prefWidth="250.0" promptText="Short description" />
                            </children>
                         </VBox>
-                        <HBox alignment="CENTER_RIGHT" layoutX="200.0" layoutY="250.0" minHeight="50.0" prefHeight="51.0" prefWidth="579.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="280.0">
+                        <HBox alignment="CENTER_RIGHT" layoutX="200.0" layoutY="250.0" minHeight="50.0" prefHeight="51.0" prefWidth="579.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
                            <children>
                               <Button fx:id="addToLibraryButton" mnemonicParsing="false" onAction="#addToLibraryButtonPushed" text="Add book to library" />
                            </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
                         </HBox>
                         <Label layoutX="24.0" layoutY="14.0" prefHeight="17.0" prefWidth="196.0" text="Enter your book data">
                            <font>
@@ -67,8 +70,8 @@
                         <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="-36.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
                            <children>
                               <TextField fx:id="searchTextFieldCatalogo" promptText="Search by title" />
-                              <Button fx:id="searchButtonCatalogo" mnemonicParsing="false" onAction="#searchButtonCatalogoPushed" text="Search" />
-                              <Button fx:id="resetButtonCatalogo" mnemonicParsing="false" onAction="#resetButtonPushed" text="Reset" />
+                              <Button fx:id="searchButtonCatalogo" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" mnemonicParsing="false" onAction="#searchButtonCatalogoPushed" prefHeight="25.0" prefWidth="70.0" text="Search" />
+                              <Button fx:id="resetButtonCatalogo" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" mnemonicParsing="false" onAction="#resetButtonPushed" prefHeight="25.0" prefWidth="70.0" text="Reset" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
@@ -79,8 +82,8 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" layoutY="231.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
                            <children>
-                              <Button fx:id="removeFromLibraryButton" mnemonicParsing="false" onAction="#RemoveFromLibraryButtonPushed" text="Remove from library" />
-                              <Button fx:id="SeeDetailesButtonCatalogo" mnemonicParsing="false" onAction="#SeeDetailesButtonCatalogoPushed" text="See detailes" />
+                              <Button fx:id="removeFromLibraryButton" maxHeight="25.0" maxWidth="130.0" minHeight="25.0" minWidth="130.0" mnemonicParsing="false" onAction="#RemoveFromLibraryButtonPushed" prefHeight="25.0" prefWidth="130.0" text="Remove from library" />
+                              <Button fx:id="SeeDetailesButtonCatalogo" maxHeight="25.0" maxWidth="130.0" minHeight="25.0" minWidth="130.0" mnemonicParsing="false" onAction="#SeeDetailesButtonCatalogoPushed" prefHeight="25.0" prefWidth="130.0" text="See detailes" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
@@ -106,7 +109,7 @@
                         <HBox alignment="CENTER_LEFT" layoutY="-36.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
                            <children>
                               <ComboBox fx:id="genereComboBoxClassifica" prefWidth="150.0" promptText="Search by genre" />
-                              <Button fx:id="searchButtonClassifica" mnemonicParsing="false" onAction="#searchButtonClassificaPushed" text="Search" />
+                              <Button fx:id="searchButtonClassifica" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" mnemonicParsing="false" onAction="#searchButtonClassificaPushed" prefHeight="25.0" prefWidth="70.0" text="Search" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
@@ -155,7 +158,7 @@
                         </TableView>
                         <HBox alignment="CENTER_RIGHT" layoutX="166.0" layoutY="267.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="280.0">
                            <children>
-                              <Button fx:id="seeDetailesButton" mnemonicParsing="false" onAction="#SeeDetailesButtonPushed" text="See Detailes" />
+                              <Button fx:id="seeDetailesButton" maxHeight="25.0" maxWidth="130.0" minHeight="25.0" minWidth="130.0" mnemonicParsing="false" onAction="#SeeDetailesButtonPushed" prefHeight="25.0" prefWidth="130.0" text="See Detailes" />
                            </children>
                         </HBox>
                      </children>
@@ -164,15 +167,18 @@
             </Tab>
         </tabs>
       </TabPane>
-      <HBox alignment="CENTER_LEFT" layoutX="-12.0" layoutY="-27.0" prefHeight="44.0" prefWidth="590.0" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER_LEFT" layoutY="-27.0" prefHeight="40.0" prefWidth="600.0" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="WellcomeLabel" prefHeight="35.0" prefWidth="516.0" text="Label">
+            <Label fx:id="WellcomeLabel" prefHeight="35.0" prefWidth="519.0" text="Label">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#SignOutButtonPushed" text="Sign Out" />
+            <Button fx:id="signOutButton" maxHeight="25.0" maxWidth="90.0" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" onAction="#SignOutButtonPushed" prefHeight="25.0" prefWidth="90.0" text="Sign Out" />
          </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
       </HBox>
    </children>
 </AnchorPane>
