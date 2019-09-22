@@ -19,7 +19,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -42,7 +41,6 @@ public class LoginController implements Initializable{
 	
 	private static ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe = new ArrayList<HashMap<List<Libro>, List<Integer>>>();
 	
-	private static String[] vettoreGenere= {"Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro"};
 	
 	private HashMap<List<Libro>, List<Integer>> classificaGenerale = null;
 	private HashMap<List<Libro>, List<Integer>> classificaNovita = null;
@@ -249,7 +247,6 @@ public class LoginController implements Initializable{
 		for(User u: l) {
 			if(u.compareTo(other)==0) {
 				userLogged=u;
-				//userLogged.setListaOrdini();
 				return;
 			}
 		}
@@ -267,15 +264,5 @@ public class LoginController implements Initializable{
 	//deve ritornare lista dal DB
 	public List<User> getUserList() {
 		return userList;
-	}
-	
-	/*
-	 * Aggiunge libro a carrello in userLogged, quando si farà signOut si dovrà
-	 * andare a sovrascrivere quello globale con quello locale
-	 * per eventuali cambiamenti/ordini effettuati
-	 */
-	
-	public void addLibroToCarrelloAUserLoggedLocal(Libro l) {
-		LoginController.userLogged.addLibroToCarrello(l);
 	}
 }

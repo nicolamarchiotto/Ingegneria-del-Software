@@ -2,7 +2,6 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,15 +27,16 @@ import javafx.stage.Stage;
 
 public class HomeController implements Initializable{
 
+	//upper part of the scene
 	@FXML private Button SignOutButton;
 	@FXML private Button PersonalAreaButton;
 	@FXML private Label WellcomeLabel;
 	@FXML private Button BasketButton;
 	
-	//stuff for the catalogo tab
-	
+	//all the AVAILABLE books
 	private ObservableList<Libro> libriGlobal = FXCollections.observableArrayList();
 	
+	//catalogo tab components
 	@FXML private TableView<Libro> tableViewCatalogo;
 	@FXML private TableColumn<Libro, String> titoloColumnCatalogo;
 	@FXML private TableColumn<Libro, String> autoreColumnCatalogo;
@@ -322,9 +322,5 @@ public class HomeController implements Initializable{
 		
 		 
 		this.tableViewClassifica.setItems(this.getLibriClassifica(0));
-	}
-	
-	private void updateClassifica() {
-		Classifica.updateClassifica(true);
 	}
 }

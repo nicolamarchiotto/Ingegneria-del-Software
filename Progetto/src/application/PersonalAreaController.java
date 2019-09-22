@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.plaf.SeparatorUI;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

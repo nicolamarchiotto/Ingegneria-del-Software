@@ -1,8 +1,6 @@
 package application;
 
 
-import java.io.IOException;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
