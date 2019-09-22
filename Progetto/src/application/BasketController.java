@@ -54,8 +54,6 @@ public class BasketController implements Initializable{
 		this.sp.setContent(anchorPane);
 		creaGridPane();
 		
-
-		System.out.println("\nStampa arraylisyt: ");
 		for(int i=0;i<this.carrelloUser.size();i++) {
 			System.out.println("Titolo: "+this.carrelloUser.get(i).getTitolo()+" LabelId: "+this.labelArray.get(i).getId()+" ComboBox: "+this.comboboxArray.get(i).getId());
 		}
@@ -89,7 +87,7 @@ public class BasketController implements Initializable{
 	private void creaGridPane() {
 		
 		GridPane gridPaneLocal=new GridPane();
-		Label carrelloVuotoLabel=new Label("Il tuo carrello è vuoto, torna alla home");
+		Label carrelloVuotoLabel=new Label("Your basket is empty, go back to Home");
 		carrelloVuotoLabel.setStyle("-fx-font-weight: bold");
 	
 		carrelloVuotoLabel.setLayoutX(50);
@@ -115,8 +113,8 @@ public class BasketController implements Initializable{
 	    
 	     
 		
-	    gridPaneLocal.add(new Label("Titolo"), 0, 0);
-	    gridPaneLocal.add(new Label("Q.tà"), 1, 0);
+	    gridPaneLocal.add(new Label("Title"), 0, 0);
+	    gridPaneLocal.add(new Label("Q.ty"), 1, 0);
 	    gridPaneLocal.getRowConstraints().add(row);
 		
 		
@@ -162,12 +160,10 @@ public class BasketController implements Initializable{
 
 	private void removeLibroFromCarrello(String id) throws IOException {
 		int number=Character.getNumericValue(id.charAt(id.length()-1));
-		System.out.println("Numero del Bottone: " + number);
 		this.carrelloUser.remove(number);
 		this.comboboxArray.remove(number);
 		this.labelArray.remove(number);
 		this.numbersOfGridRows--;
-		System.out.println("Stampa carrello:\n"+this.userLogged.carrelloToString());
 		this.anchorPane.getChildren().remove(gridPane);
 		creaGridPane();
 		

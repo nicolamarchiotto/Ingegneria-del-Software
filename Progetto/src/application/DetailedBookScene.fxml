@@ -45,7 +45,7 @@
                   <RowConstraints minHeight="80.0" prefHeight="50.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Autore" GridPane.rowIndex="1">
+                  <Label text="Author" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
@@ -53,7 +53,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Casa Editrice" GridPane.rowIndex="2">
+                  <Label text="Publishing house" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
@@ -61,7 +61,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Anno di Pubblicazione" GridPane.rowIndex="3">
+                  <Label text="Year of pubblication" GridPane.rowIndex="3">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
@@ -69,7 +69,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Genere" GridPane.rowIndex="5">
+                  <Label text="Genre" GridPane.rowIndex="5">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
@@ -85,7 +85,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Prezzo" GridPane.rowIndex="6">
+                  <Label text="Price" GridPane.rowIndex="6">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
@@ -93,7 +93,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Breve Descrizione" GridPane.rowIndex="7">
+                  <Label text="Short description" GridPane.rowIndex="7">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
@@ -133,7 +133,7 @@
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></Label>
-                  <Label text="Titolo">
+                  <Label text="Title">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
