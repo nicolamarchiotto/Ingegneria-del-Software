@@ -22,7 +22,6 @@
             </Label>
             <TextField fx:id="emailPasswordField" promptText="id" />
             <PasswordField fx:id="pwPasswordField" promptText="password" />
-            <Label fx:id="ErrorLabel" styleClass="white" text="Label" />
          </children>
       </VBox>
       <HBox alignment="TOP_CENTER" layoutX="110.0" layoutY="240.0" prefHeight="47.0" prefWidth="380.0" spacing="30.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0">

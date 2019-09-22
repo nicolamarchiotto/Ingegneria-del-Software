@@ -124,7 +124,7 @@
                               <HBox alignment="CENTER" prefHeight="45.0" prefWidth="600.0" spacing="7.5">
                                  <children>
                                     <TextField fx:id="viaAdded" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" promptText="Street" />
-                                    <TextField fx:id="cittaAdded" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" promptText="Citta" text="City" />
+                                    <TextField fx:id="cittaAdded" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" promptText="City" />
                                     <TextField fx:id="capAdded" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" promptText="CAP" />
                                  </children>
                               </HBox>

@@ -19,7 +19,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -35,7 +34,6 @@ public class LoginController implements Initializable{
 	@FXML private TextField emailPasswordField;
 	@FXML private PasswordField pwPasswordField;
 	
-	@FXML private Label ErrorLabel;
 	
 	private static ObservableList<Libro> libriGlobal = FXCollections.observableArrayList();
 	
@@ -77,9 +75,6 @@ public class LoginController implements Initializable{
 		LoginController.vettoreMappe.add(this.classificaStoria);
 		LoginController.vettoreMappe.add(this.classificaAltro);
 		
-		
-		
-		this.ErrorLabel.setText("");
 		
 		//aggiungo i vari user salvati nel DB
 		this.userList = DBUser.getUserList(DBUser.getFieldUser());
@@ -151,7 +146,7 @@ public class LoginController implements Initializable{
 		    window.show();
 		}		
 		else {		
-			ErrorLabel.setText("id e/o pw errati");
+			AlertBox.display("Error", "Id and/or pw wrong");
 		}	
 	}
 	

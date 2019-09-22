@@ -37,10 +37,5 @@
             <Font name="Arial Bold Italic" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="SignUpErrorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="106.0" layoutY="317.0" prefHeight="16.0" prefWidth="368.0" text="label">
-         <font>
-            <Font name="Arial Italic" size="14.0" />
-         </font>
-      </Label>
    </children>
 </Pane>
