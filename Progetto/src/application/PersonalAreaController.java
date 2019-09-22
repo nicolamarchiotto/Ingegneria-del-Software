@@ -219,16 +219,16 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		
 		if(this.cap.getText().length() != 5) {//il cap deve essere esattamente di 5 cifre
-			AlertBox.display("Error", "Il CAP deve essere un valore numerico di 5 cifre");
+			AlertBox.display("Error", "Cap must be numeric and composed by five numbers");
 			return false;		}
 		else if(this.telNumber.getText().length() > 11 || this.telNumber.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
-			AlertBox.display("Error", "Inserire un numero di telefono valido");
+			AlertBox.display("Error", "Insert a valid telephone number");
 			return false;		}
 		else if(this.email.getText().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
-			AlertBox.display("error", "Email deve essere lunga almeno 6 caratteri");
+			AlertBox.display("error", "Email must be at least 6 characters long");
 			return false;		}
 		else if(this.pw.getText().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
-			AlertBox.display("error", "Password deve essere lunga almeno 6 caratteri");
+			AlertBox.display("error", "Password must be at least 6 characters long");
 			return false;		}
 		
 		return true;
@@ -247,10 +247,10 @@ public class PersonalAreaController implements Initializable{
 	
 	public void removeAddressButtonPushed() {
 		if(tableView.getSelectionModel().getSelectedItem() == null) {
-			AlertBox.display("ERROR", "Non è stato selezionato nessun indirizzo");
+			AlertBox.display("ERROR", "No address selected");
 			return;
 		}else if(tableView.getSelectionModel().getSelectedIndex()==0) {
-			AlertBox.display("ERROR", "Non puoi eliminare il tuo indirizzo di residenza");
+			AlertBox.display("ERROR", "You can't remove your address of residence");
 			return;
 		}else {
 			Indirizzo indirizzo=tableView.getSelectionModel().getSelectedItem();
@@ -263,6 +263,11 @@ public class PersonalAreaController implements Initializable{
 	public void addAddressButtonPushed() {
 		try{
 			if(checkAddressInput()) {
+				if(this.capAdded.getText().length() != 5) {
+					AlertBox.display("Error", "CAP must be 5 number long");
+					return;
+				}
+					
 				this.indirizziList.add(new Indirizzo(this.viaAdded.getText(), this.cittaAdded.getText(), this.capAdded.getText()));
 				this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
 				this.tableView.setItems(this.indirizziList); 
@@ -286,7 +291,7 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		if(this.cittaAdded.getText() == null || this.cittaAdded.getText().trim().isEmpty())
 			return false;
-		if(this.capAdded.getText() == null || this.capAdded.getText().trim().isEmpty() || this.capAdded.getText().length() != 5)
+		if(this.capAdded.getText() == null || this.capAdded.getText().trim().isEmpty())
 			return false;
 		if(!(Long.valueOf(this.capAdded.getText()) instanceof Long))
 			return false;
