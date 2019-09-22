@@ -73,22 +73,39 @@ public class SignUpController implements Initializable{
 		if(Password.getText() == null || Password.getText().trim().isEmpty())
 			sup=false;
 		
-		//controllini su cap, telefono, email, password
-		if(Cap.getText().length() != 5) {
+		
+		if(Cap.getText().length() != 5) {//il cap deve essere esattamente di 5 cifre
 			AlertBox.display("Error", "Il CAP deve essere un valore numerico di 5 cifre");
 			sup=false;
 		}
-		else if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) {
+		else if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
 			AlertBox.display("Error", "Inserire un numero di telefono valido");
 			sup=false;
 		}
-		else if(Email.getText().length() < 6) {
-			AlertBox.display("error", "Email must be at least 6 characters long");
+		else if(Email.getText().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
+			AlertBox.display("error", "Email deve essere lunga almeno 6 caratteri");
 			sup=false;
 		}
-		else if(Password.getText().length() < 6) {
-			AlertBox.display("error", "Password must be at least 6 characters long");
+		else if(Password.getText().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
+			AlertBox.display("error", "Password deve essere lunga almeno 6 caratteri");
 			sup=false;
+		}
+		else {
+			try {//testo se la stringa presa dal cap è effettivamente un numero o meno
+				Integer.parseInt(Cap.getText());
+			}
+			catch(NumberFormatException e){
+				AlertBox.display("Error", "Inserire un CAP valido, completamente numerico");
+				sup=false;
+			}
+			
+			try {//testo se la stringa presa dal numero di telefono è effettivamente un numero o meno
+				Integer.parseInt(TelNum.getText());
+			}
+			catch(NumberFormatException e){
+				AlertBox.display("Error", "Inserire un numero di telefono valido, completamente numerico");
+				sup=false;
+			}
 		}
 		
 		return sup;

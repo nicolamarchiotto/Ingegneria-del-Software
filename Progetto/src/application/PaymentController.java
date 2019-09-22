@@ -54,7 +54,7 @@ public class PaymentController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		this.userLogged=controller.getUserLogged();
-		this.totalCostLabel.setText("Parziale carrello: "+this.userLogged.getTotalCostFromCarrello());
+		this.totalCostLabel.setText("Parziale carrello: "+String.format("%.2f",this.userLogged.getTotalCostFromCarrello()));
 		paymentToggleGroup=new ToggleGroup();
 		this.paypalRadioButton.setToggleGroup(paymentToggleGroup);
 		this.creditCardRadioButton.setToggleGroup(paymentToggleGroup);

@@ -219,6 +219,19 @@ public class PersonalAreaController implements Initializable{
 		if(!((Long.valueOf(this.cap.getText())instanceof Long) && (Long.valueOf(this.telNumber.getText())instanceof Long)))
 			return false;
 		
+		if(this.cap.getText().length() != 5) {//il cap deve essere esattamente di 5 cifre
+			AlertBox.display("Error", "Il CAP deve essere un valore numerico di 5 cifre");
+			return false;		}
+		else if(this.telNumber.getText().length() > 11 || this.telNumber.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
+			AlertBox.display("Error", "Inserire un numero di telefono valido");
+			return false;		}
+		else if(this.email.getText().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
+			AlertBox.display("error", "Email deve essere lunga almeno 6 caratteri");
+			return false;		}
+		else if(this.pw.getText().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
+			AlertBox.display("error", "Password deve essere lunga almeno 6 caratteri");
+			return false;		}
+		
 		return true;
 	}
 	
@@ -243,6 +256,7 @@ public class PersonalAreaController implements Initializable{
 		}else {
 			Indirizzo indirizzo=tableView.getSelectionModel().getSelectedItem();
 			this.indirizziList.remove(indirizzo);
+			this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
 			this.tableView.setItems(this.indirizziList);
 		}
 	}
@@ -251,7 +265,8 @@ public class PersonalAreaController implements Initializable{
 		try{
 			if(checkAddressInput()) {
 				this.indirizziList.add(new Indirizzo(this.viaAdded.getText(), this.cittaAdded.getText(), this.capAdded.getText()));
-				this.tableView.setItems(this.indirizziList);
+				this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
+				this.tableView.setItems(this.indirizziList); 
 				this.viaAdded.setText("");
 				this.cittaAdded.setText("");
 				this.capAdded.setText("");
@@ -272,7 +287,7 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		if(this.cittaAdded.getText() == null || this.cittaAdded.getText().trim().isEmpty())
 			return false;
-		if(this.capAdded.getText() == null || this.capAdded.getText().trim().isEmpty())
+		if(this.capAdded.getText() == null || this.capAdded.getText().trim().isEmpty() || this.capAdded.getText().length() != 5)
 			return false;
 		if(!(Long.valueOf(this.capAdded.getText()) instanceof Long))
 			return false;

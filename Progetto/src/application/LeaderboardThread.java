@@ -30,7 +30,10 @@ class LeaderboardUpdateThread extends Thread{
 		blinker = (Thread)this;
 		while(blinker == (Thread)this) {
 			try {
-				sleep(WEEK - this.timePassed * 60000); 
+				sleep(WEEK - this.timePassed * 60000);
+				
+				if(blinker != (Thread)this) break; //last iteration must not update
+				
 				this.timePassed = 0;
 				System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 				Classifica.updateClassifica(true);
