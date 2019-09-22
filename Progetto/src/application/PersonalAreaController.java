@@ -266,7 +266,7 @@ public class PersonalAreaController implements Initializable{
 			if(checkAddressInput()) {
 				this.indirizziList.add(new Indirizzo(this.viaAdded.getText(), this.cittaAdded.getText(), this.capAdded.getText()));
 				this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
-				this.tableView.setItems(this.indirizziList);
+				this.tableView.setItems(this.indirizziList); 
 				this.viaAdded.setText("");
 				this.cittaAdded.setText("");
 				this.capAdded.setText("");
