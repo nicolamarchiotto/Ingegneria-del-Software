@@ -256,6 +256,7 @@ public class PersonalAreaController implements Initializable{
 		}else {
 			Indirizzo indirizzo=tableView.getSelectionModel().getSelectedItem();
 			this.indirizziList.remove(indirizzo);
+			this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
 			this.tableView.setItems(this.indirizziList);
 		}
 	}
@@ -264,6 +265,7 @@ public class PersonalAreaController implements Initializable{
 		try{
 			if(checkAddressInput()) {
 				this.indirizziList.add(new Indirizzo(this.viaAdded.getText(), this.cittaAdded.getText(), this.capAdded.getText()));
+				this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
 				this.tableView.setItems(this.indirizziList);
 				this.viaAdded.setText("");
 				this.cittaAdded.setText("");
@@ -285,7 +287,7 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		if(this.cittaAdded.getText() == null || this.cittaAdded.getText().trim().isEmpty())
 			return false;
-		if(this.capAdded.getText() == null || this.capAdded.getText().trim().isEmpty())
+		if(this.capAdded.getText() == null || this.capAdded.getText().trim().isEmpty() || this.capAdded.getText().length() != 5)
 			return false;
 		if(!(Long.valueOf(this.capAdded.getText()) instanceof Long))
 			return false;
