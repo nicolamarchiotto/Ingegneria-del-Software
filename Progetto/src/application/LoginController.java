@@ -187,6 +187,8 @@ public class LoginController implements Initializable{
 		return LoginController.libriGlobal;
 	}
 	
+	//metodo che permette di copiare in locale le varie classifiche, impostando cond a true si forza l'andare a prendere
+	//la copia delle classifiche dal DB anche se in locale sono già state copiate una volta (può servire nel caso sia avvenuto un aggiornamento)
 	public void getClassifica(boolean cond) {
 		
 		if(classificaGenerale == null || cond==true) 

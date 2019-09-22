@@ -127,10 +127,6 @@ public class ResponsabileController implements Initializable{
 	 */
 
 	public void addToLibraryButtonPushed(ActionEvent event) throws IOException{
-
-		//public Libro(String titolo, String autori, String casaeditrice, int annopubblicazione,
-		//	String genere, double prezzo, String brevedescrizione, int punti)
-
 		if(!emptyTextField()) {
 			AlertBox.display("Error", "All field must be filled");
 			return;

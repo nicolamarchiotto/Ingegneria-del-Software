@@ -8,21 +8,25 @@ import java.time.temporal.ChronoUnit;
 
 class LeaderboardUpdateThread extends Thread{  
 	
+	private static final int WEEKASMINUTES = 30;
 	private Thread blinker;
-	private final long WEEK = 600000; //attendo 10 minuti
+	private final long WEEK = 600000; //attendo WEEKASMINUTES minuti
 	private long timePassed = 0;
 	private LocalDateTime timeFromDB = null;
 	
 	public LeaderboardUpdateThread() {
+		
+		Classifica.updateClassifica(true); //aggiornamento classifica forzato e necessario fino a quando usiamo randomizzazione
+		
 		this.timeFromDB = this.getDBtime();
 		this.timePassed = ChronoUnit.MINUTES.between(this.timeFromDB, LocalDateTime.now());
-		System.out.println(this.timePassed);
-		if(this.timePassed >= 10) {
+		System.out.println("Difference between time DB and now (more or equal to " + WEEKASMINUTES + " is needed): " + this.timePassed);
+		if(this.timePassed >= WEEKASMINUTES) {
 			System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 			Classifica.updateClassifica(true);
-			this.timeFromDB = this.timeFromDB.plusMinutes(this.timePassed / 10 * 10);
+			this.timeFromDB = this.timeFromDB.plusMinutes(this.timePassed / WEEKASMINUTES * WEEKASMINUTES);
 			this.updateDBtime(this.timeFromDB);
-			this.timePassed = this.timePassed % 10;
+			this.timePassed = this.timePassed % WEEKASMINUTES;
 		}
 	}
 	
