@@ -37,7 +37,7 @@ public class PaymentController implements Initializable{
 	@FXML private PasswordField pwPaymentPwField;
 	
 	@FXML private Label totalCostLabel;
-	@FXML private ComboBox indirizziComboBox;
+	@FXML private ComboBox<String> indirizziComboBox;
 	@FXML private TextField viaTextField;
 	@FXML private TextField cittaTextField;
 	@FXML private TextField capTextField;
