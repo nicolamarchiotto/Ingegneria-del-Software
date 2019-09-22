@@ -219,6 +219,19 @@ public class PersonalAreaController implements Initializable{
 		if(!((Long.valueOf(this.cap.getText())instanceof Long) && (Long.valueOf(this.telNumber.getText())instanceof Long)))
 			return false;
 		
+		if(this.cap.getText().length() != 5) {//il cap deve essere esattamente di 5 cifre
+			AlertBox.display("Error", "Il CAP deve essere un valore numerico di 5 cifre");
+			return false;		}
+		else if(this.telNumber.getText().length() > 11 || this.telNumber.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
+			AlertBox.display("Error", "Inserire un numero di telefono valido");
+			return false;		}
+		else if(this.email.getText().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
+			AlertBox.display("error", "Email deve essere lunga almeno 6 caratteri");
+			return false;		}
+		else if(this.pw.getText().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
+			AlertBox.display("error", "Password deve essere lunga almeno 6 caratteri");
+			return false;		}
+		
 		return true;
 	}
 	
