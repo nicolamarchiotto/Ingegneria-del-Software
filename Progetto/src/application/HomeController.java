@@ -143,15 +143,15 @@ public class HomeController implements Initializable{
 	public void addToBasketButtonCatalogoPushed() {
 		Libro selectedLibro=this.tableViewCatalogo.getSelectionModel().getSelectedItem();
 		if(selectedLibro==null) {
-			AlertBox.display("Error", "Nessun libro selezionato");
+			AlertBox.display("Error", "No book selected");
 			return;
 		}
 		else if(this.userLogged.getCarrello().contains(selectedLibro)) {
-			AlertBox.display("Error", "Libro già presente nel tuo carrello\nPer rimuoverlo vai alla sezione carrello");
+			AlertBox.display("Error", "Book already in your basket\nTo remove it go to the basket section");
 			return;
 		}
 		else {
-			AlertBox.display("Hurray", "Libro aggiunto al tuo carrello");
+			AlertBox.display("Hurray", "Book added to your basket");
 			this.userLogged.addLibroToCarrello(selectedLibro);
 			return;
 		}
@@ -172,7 +172,7 @@ public class HomeController implements Initializable{
 		
 		//controllo se è stato selezionato qualcosa
 		if(tableViewCatalogo.getSelectionModel().getSelectedItem() == null) {
-			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
+			AlertBox.display("Error", "No book selected");
 			return;
 		}
 		else controller.setBookData(tableViewCatalogo.getSelectionModel().getSelectedItem());
@@ -194,7 +194,7 @@ public class HomeController implements Initializable{
 	
 	public void searchButtonClassificaPushed(ActionEvent event) throws IOException{
 		if(genereComboBoxClassifica.getValue() == null) {
-			AlertBox.display("Error", "Devi selezionare un genere per effettuare una ricerca");
+			AlertBox.display("Error", "Select a genre to search");
 			return;
 		}
 		
@@ -229,15 +229,15 @@ public class HomeController implements Initializable{
 	public void addToBasketButtonClassificaPushed() {
 		Libro selectedLibro=this.tableViewClassifica.getSelectionModel().getSelectedItem();
 		if(selectedLibro==null) {
-			AlertBox.display("Error", "Nessun libro selezionato");
+			AlertBox.display("Error", "No book selected");
 			return;
 		}
 		else if(this.userLogged.getCarrello().contains(selectedLibro)) {
-			AlertBox.display("Error", "Libro già presente nel tuo carrello\nPer rimuoverlo vai alla sezione carrello");
+			AlertBox.display("Error", "Book already in your basket\nTo remove it go to the basket section");
 			return;
 		}
 		else {
-			AlertBox.display("Hurray", "Libro aggiunto al tuo carrello");
+			AlertBox.display("Hurray", "Book added to your basket");
 			this.userLogged.addLibroToCarrello(selectedLibro);
 			return;
 		}
@@ -257,7 +257,7 @@ public class HomeController implements Initializable{
 		
 		//controllo se è stato selezionato qualcosa
 		if(tableViewClassifica.getSelectionModel().getSelectedItem() == null) {
-			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
+			AlertBox.display("Error", "No book selected");
 			return;
 		}
 		else controller.setBookData(tableViewClassifica.getSelectionModel().getSelectedItem());
@@ -327,107 +327,4 @@ public class HomeController implements Initializable{
 	private void updateClassifica() {
 		Classifica.updateClassifica(true);
 	}
-	
-	/*
-	private void visualizeAllClassifiche() {
-		List<Libro> libri = Classifica.getBooksFromMap(this.classificaGenerale);
-		List<Integer> weeks = Classifica.getWeeksFromMap(this.classificaGenerale);
-			
-		System.out.println("\nCLASSIFICA GENERALE\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaNovita);
-		weeks = Classifica.getWeeksFromMap(this.classificaNovita);
-		
-		System.out.println("\nCLASSIFICA NOVITA\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaNarrativa);
-		weeks = Classifica.getWeeksFromMap(this.classificaNarrativa);
-		
-		System.out.println("\nCLASSIFICA NARRATIVA\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaStoria);
-		weeks = Classifica.getWeeksFromMap(this.classificaStoria);
-		
-		System.out.println("\nCLASSIFICA STORIA\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaRomanzo);
-		weeks = Classifica.getWeeksFromMap(this.classificaRomanzo);
-		
-		System.out.println("\nCLASSIFICA ROMANZO\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaFantascienza);
-		weeks = Classifica.getWeeksFromMap(this.classificaFantascienza);
-		
-		System.out.println("\nCLASSIFICA FANTASCIENZA\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaRagazzi);
-		weeks = Classifica.getWeeksFromMap(this.classificaRagazzi);
-		
-		System.out.println("\nCLASSIFICA RAGAZZI\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaPoliziesco);
-		weeks = Classifica.getWeeksFromMap(this.classificaPoliziesco);
-		
-		System.out.println("\nCLASSIFICA POLIZIESCO\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaAltro);
-		weeks = Classifica.getWeeksFromMap(this.classificaAltro);
-		
-		System.out.println("\nCLASSIFICA ALTRO\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-	}*/
-
 }

@@ -20,7 +20,7 @@
    <children>
       <TabPane fx:id="tabPane" layoutX="40.0" layoutY="111.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
         <tabs>
-          <Tab fx:id="personalDataTab" text="I tuoi dati">
+          <Tab fx:id="personalDataTab" text="Your data">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -114,7 +114,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="addressTab" text="Gestisci i tuoi indirizzi">
+            <Tab fx:id="addressTab" text="Your addresses">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -123,8 +123,8 @@
                               <Button fx:id="removeAddressButton" mnemonicParsing="false" onAction="#removeAddressButtonPushed" text="Remove Address" />
                               <HBox alignment="CENTER" prefHeight="45.0" prefWidth="600.0" spacing="7.5">
                                  <children>
-                                    <TextField fx:id="viaAdded" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" promptText="Via" />
-                                    <TextField fx:id="cittaAdded" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" promptText="Citta" />
+                                    <TextField fx:id="viaAdded" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" promptText="Street" />
+                                    <TextField fx:id="cittaAdded" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" promptText="Citta" text="City" />
                                     <TextField fx:id="capAdded" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" promptText="CAP" />
                                  </children>
                               </HBox>
@@ -136,8 +136,8 @@
                         </VBox>
                         <TableView fx:id="tableView" layoutX="61.0" layoutY="22.0" maxWidth="540.0" minWidth="540.0" prefHeight="176.0" prefWidth="540.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
                           <columns>
-                            <TableColumn fx:id="viaColumn" maxWidth="180.0" minWidth="180.0" prefWidth="180.0" text="Via" />
-                            <TableColumn fx:id="cittaColumn" maxWidth="180.0" minWidth="180.0" prefWidth="180.0" text="Città" />
+                            <TableColumn fx:id="viaColumn" maxWidth="180.0" minWidth="180.0" prefWidth="180.0" text="Street" />
+                            <TableColumn fx:id="cittaColumn" maxWidth="180.0" minWidth="180.0" prefWidth="180.0" text="City" />
                               <TableColumn fx:id="capColumn" maxWidth="180.0" minWidth="180.0" prefWidth="180.0" text="CAP" />
                           </columns>
                         </TableView>
@@ -145,22 +145,22 @@
                   </AnchorPane>
               </content>
             </Tab>
-          <Tab fx:id="orderTab" text="I tuoi ordini">
+          <Tab fx:id="orderTab" text="Your orders">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <TableView fx:id="tableViewOrder" layoutX="20.0" layoutY="61.0" prefHeight="200.0" prefWidth="424.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                           <columns>
-                            <TableColumn fx:id="idOrdineColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Id Ordine" />
-                            <TableColumn fx:id="dataAcquistoColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Data Acquisto" />
-                              <TableColumn fx:id="statoColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Stato" />
-                              <TableColumn fx:id="saldoOrdColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Saldo Ordine" />
+                            <TableColumn fx:id="idOrdineColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Order Id" />
+                            <TableColumn fx:id="dataAcquistoColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Purchase Date" />
+                              <TableColumn fx:id="statoColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Shipping status" />
+                              <TableColumn fx:id="saldoOrdColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Total cost" />
                           </columns>
                         </TableView>
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="260.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TextField fx:id="searchTextField" promptText="Inserisci id ordine" />
-                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchButtonPushed" text="Cerca tramite id ordine" />
+                              <TextField fx:id="searchTextField" promptText="Insert Order Id" />
+                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchButtonPushed" text="Search by Order Id" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />

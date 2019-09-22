@@ -54,7 +54,6 @@ public class PaymentController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		this.userLogged=controller.getUserLogged();
-		System.out.println(this.userLogged.carrelloToString());
 		this.totalCostLabel.setText("Parziale carrello: "+this.userLogged.getTotalCostFromCarrello());
 		paymentToggleGroup=new ToggleGroup();
 		this.paypalRadioButton.setToggleGroup(paymentToggleGroup);
@@ -259,7 +258,7 @@ public class PaymentController implements Initializable{
 				examinedBooks.add(singleBook);
 				allCopiesInOneString += singleBook.getCopieVenduteNelSingoloOrdine() + "#";
 			}
-			System.out.println("\nReading: " + singleBook.getTitolo() + " and allcopies are " + allCopiesInOneString);
+			System.out.println("\nReading: " + singleBook.getTitolo() + " and all copies are " + allCopiesInOneString);
 		}
 		
 		return allCopiesInOneString.substring(0, allCopiesInOneString.length() - 1);

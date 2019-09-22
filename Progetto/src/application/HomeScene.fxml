@@ -32,7 +32,7 @@
       </HBox>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
         <tabs>
-          <Tab text="Catalogo Libri">
+          <Tab text="Book List">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -48,10 +48,10 @@
                         </HBox>
                         <TableView fx:id="tableViewCatalogo" layoutX="14.0" layoutY="61.0" minWidth="560.0" prefHeight="210.0" prefWidth="560.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
                           <columns>
-                            <TableColumn fx:id="titoloColumnCatalogo" minWidth="140.0" prefWidth="0.0" text="Titolo" />
-                            <TableColumn fx:id="autoreColumnCatalogo" minWidth="140.0" prefWidth="0.0" text="Autore" />
-                              <TableColumn fx:id="prezzoColumnCatalogo" minWidth="140.0" prefWidth="0.0" text="Prezzo" />
-                              <TableColumn fx:id="genereColumnCatalogo" minWidth="140.0" prefWidth="0.0" text="Genere" />
+                            <TableColumn fx:id="titoloColumnCatalogo" minWidth="140.0" prefWidth="0.0" text="Title" />
+                            <TableColumn fx:id="autoreColumnCatalogo" minWidth="140.0" prefWidth="0.0" text="Author" />
+                              <TableColumn fx:id="prezzoColumnCatalogo" minWidth="140.0" prefWidth="0.0" text="Price" />
+                              <TableColumn fx:id="genereColumnCatalogo" minWidth="140.0" prefWidth="0.0" text="Genre" />
                           </columns>
                         </TableView>
                         <HBox alignment="CENTER_RIGHT" prefHeight="41.0" prefWidth="253.0" spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
@@ -67,17 +67,17 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Classifiche di vendita">
+          <Tab text="Leaderboards">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <TableView fx:id="tableViewClassifica" minWidth="560.0" prefHeight="210.0" prefWidth="560.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                            <columns>
-                              <TableColumn fx:id="titoloColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Titolo" />
-                              <TableColumn fx:id="autoreColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Autore" />
-                              <TableColumn fx:id="genereColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Genere" />
-                              <TableColumn fx:id="posizioneColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Posizione" />
-                              <TableColumn fx:id="settimanePosColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Settimane in pos." />
+                              <TableColumn fx:id="titoloColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Title" />
+                              <TableColumn fx:id="autoreColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Author" />
+                              <TableColumn fx:id="genereColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Genre" />
+                              <TableColumn fx:id="posizioneColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Position" />
+                              <TableColumn fx:id="settimanePosColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Week in position" />
                            </columns>
                         </TableView>
                         <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="41.0" prefWidth="253.0" spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -91,7 +91,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="560.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
                            <children>
-                              <ComboBox fx:id="genereComboBoxClassifica" prefHeight="25.0" prefWidth="172.0" promptText="Cerca per genere" />
+                              <ComboBox fx:id="genereComboBoxClassifica" prefHeight="25.0" prefWidth="172.0" promptText="Search by genre" />
                               <Button fx:id="searchButtonClassifica" mnemonicParsing="false" onAction="#searchButtonClassificaPushed" text="Search" />
                            </children>
                            <padding>
