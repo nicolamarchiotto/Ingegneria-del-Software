@@ -84,7 +84,7 @@ public class PaymentController implements Initializable{
 	
 	public void indirizziComboBoxChanged() {
 		String s=this.indirizziComboBox.getValue().toString();
-		if(s.compareTo("---Inserisci un indirizzo---")==0) {
+		if(s.compareTo("---Select an address---")==0) {
 			for(TextField t: this.vetTextField) {
 				t.setText("");
 			}

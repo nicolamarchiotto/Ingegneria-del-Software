@@ -97,7 +97,7 @@ public class DetailedOrdineController implements Initializable{
 
 		//controllo se è stato selezionato qualcosa
 		if(tableView.getSelectionModel().getSelectedItem() == null) {
-			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
+			AlertBox.display("Error", "No book selected");
 			return;
 		}
 		else controller.setBookData(tableView.getSelectionModel().getSelectedItem());

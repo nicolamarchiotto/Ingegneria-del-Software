@@ -19,23 +19,23 @@
    <children>
       <TabPane layoutX="75.0" layoutY="50.0" prefHeight="350.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="104.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
         <tabs>
-          <Tab text="Inserimento Libri">
+          <Tab text="Add book to library">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="240.0" prefWidth="300.0" spacing="20.0" AnchorPane.bottomAnchor="50.0" AnchorPane.topAnchor="30.0">
                            <children>
-                              <TextField fx:id="titolo" maxWidth="250.0" prefHeight="25.0" prefWidth="100.0" promptText="Titolo" />
-                              <TextField fx:id="autori" maxWidth="250.0" promptText="Autore/i separati da -" />
-                              <TextField fx:id="casaEditrice" maxWidth="250.0" promptText="Casa editrice" />
-                              <TextField fx:id="annoPubblicazione" maxWidth="250.0" promptText="Anno di pubblicazione" />
-                              <TextField fx:id="prezzo" maxWidth="250.0" promptText="Prezzo, esempio formato: 15.50" />
+                              <TextField fx:id="titolo" maxWidth="250.0" prefHeight="25.0" prefWidth="100.0" promptText="Title" />
+                              <TextField fx:id="autori" maxWidth="250.0" promptText="Authors, divided by -" />
+                              <TextField fx:id="casaEditrice" maxWidth="250.0" promptText="Publishing house" />
+                              <TextField fx:id="annoPubblicazione" maxWidth="250.0" promptText="Year of pubblication" />
+                              <TextField fx:id="prezzo" maxWidth="250.0" promptText="Price, ex. of format 15.50" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" layoutX="300.0" prefHeight="300.0" prefWidth="300.0" spacing="20.0" AnchorPane.bottomAnchor="50.0" AnchorPane.topAnchor="30.0">
                            <children>
-                              <ComboBox fx:id="genere" prefWidth="250.0" promptText="Genere" />
-                              <TextArea fx:id="breveDescrizione" maxWidth="250.0" prefHeight="161.0" prefWidth="250.0" promptText="Breve descrizione" />
+                              <ComboBox fx:id="genere" prefWidth="250.0" promptText="Genre" />
+                              <TextArea fx:id="breveDescrizione" maxWidth="250.0" prefHeight="161.0" prefWidth="250.0" promptText="Short description" />
                            </children>
                         </VBox>
                         <HBox alignment="CENTER_RIGHT" layoutX="200.0" layoutY="250.0" minHeight="50.0" prefHeight="51.0" prefWidth="579.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="280.0">
@@ -52,16 +52,16 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Catalogo Libri">
+            <Tab text="Book list">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <TableView fx:id="tableViewCatalogo" layoutX="20.0" layoutY="51.0" prefHeight="230.0" prefWidth="560.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
                           <columns>
-                            <TableColumn fx:id="titoloColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Titolo" />
-                            <TableColumn fx:id="autoreColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Autore" />
-                              <TableColumn fx:id="prezzoColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Prezzo" />
-                              <TableColumn fx:id="genereColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Genere" />
+                            <TableColumn fx:id="titoloColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Title" />
+                            <TableColumn fx:id="autoreColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Author" />
+                              <TableColumn fx:id="prezzoColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Price" />
+                              <TableColumn fx:id="genereColumnCatalogo" minWidth="140.0" prefWidth="140.0" text="Genre" />
                           </columns>
                         </TableView>
                         <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="-36.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
@@ -90,17 +90,17 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Classifica Libri">
+            <Tab text="Leaderboards">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <TableView fx:id="tableViewClassifica" layoutX="130.0" layoutY="92.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
                           <columns>
-                            <TableColumn fx:id="titoloColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Titolo" />
-                            <TableColumn fx:id="autoreColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Autore" />
-                              <TableColumn fx:id="genereColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Genere" />
-                              <TableColumn fx:id="posizioneColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Posizione" />
-                              <TableColumn fx:id="settimanePosColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Settimane in pos." />
+                            <TableColumn fx:id="titoloColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Title" />
+                            <TableColumn fx:id="autoreColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Author" />
+                              <TableColumn fx:id="genereColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Genre" />
+                              <TableColumn fx:id="posizioneColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Position" />
+                              <TableColumn fx:id="settimanePosColumnClassifica" minWidth="112.0" prefWidth="112.0" text="Weeks in position" />
                           </columns>
                         </TableView>
                         <HBox alignment="CENTER_LEFT" layoutY="-36.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
@@ -114,7 +114,7 @@
                         </HBox>
                         <HBox alignment="CENTER" layoutX="209.0" layoutY="250.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
                            <children>
-                              <Button fx:id="updateAdminButton" mnemonicParsing="false" onAction="#UpdateAdminButtonPushed" text="Aggiorna classifica manualmente" />
+                              <Button fx:id="updateAdminButton" mnemonicParsing="false" onAction="#UpdateAdminButtonPushed" text="Update leaderboards as administrator" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
@@ -132,25 +132,25 @@
                           <columns>
                             <TableColumn fx:id="idLibroCardColumn" prefWidth="112.0" text="Id LibroCard" />
                             <TableColumn fx:id="idUserColumn" prefWidth="112.0" text="Id User" />
-                              <TableColumn fx:id="cognomeUserColumn" prefWidth="112.0" text="Cognome" />
-                              <TableColumn fx:id="nomeUserColumn" prefWidth="112.0" text="Nome" />
-                              <TableColumn fx:id="saldoPuntiColumn" prefWidth="112.0" text="Saldo Punti" />
+                              <TableColumn fx:id="cognomeUserColumn" prefWidth="112.0" text="Surname" />
+                              <TableColumn fx:id="nomeUserColumn" prefWidth="112.0" text="Name" />
+                              <TableColumn fx:id="saldoPuntiColumn" prefWidth="112.0" text="Total points" />
                           </columns>
                         </TableView>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Ordini">
+            <Tab text="Orders">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="391.0" prefWidth="571.0">
                      <children>
                         <TableView fx:id="tableViewOrders" layoutX="22.0" layoutY="15.0" prefHeight="250.0" prefWidth="560.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0">
                           <columns>
-                            <TableColumn fx:id="codiceOrdineColumn" minWidth="140.0" prefWidth="110.0" text="Codice ordine" />
-                            <TableColumn fx:id="idAcquirenteColumn" minWidth="140.0" prefWidth="110.0" text="Id acquirente" />
-                              <TableColumn fx:id="dataAcquistoColumn" minWidth="140.0" prefWidth="110.0" text="Data di acquisto" />
-                              <TableColumn fx:id="statoColumn" minWidth="140.0" prefWidth="110.0" text="Stato" />
+                            <TableColumn fx:id="codiceOrdineColumn" minWidth="140.0" prefWidth="110.0" text="Order Id" />
+                            <TableColumn fx:id="idAcquirenteColumn" minWidth="140.0" prefWidth="110.0" text="Id buyer" />
+                              <TableColumn fx:id="dataAcquistoColumn" minWidth="140.0" prefWidth="110.0" text="Purchase date" />
+                              <TableColumn fx:id="statoColumn" minWidth="140.0" prefWidth="110.0" text="Order status" />
                           </columns>
                         </TableView>
                         <HBox alignment="CENTER_RIGHT" layoutX="166.0" layoutY="267.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="280.0">

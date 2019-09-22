@@ -24,8 +24,6 @@ public class SignUpController implements Initializable{
 	@FXML private Button GoBackButton; 	
 	@FXML private Button ConfirmButton;
 	
-	@FXML private Label SignUpErrorLabel;
-	
 	@FXML private TextField Name;
 	@FXML private TextField Surname;
 	@FXML private TextField Address;
@@ -39,7 +37,6 @@ public class SignUpController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		SignUpErrorLabel.setText("");
 		ResultSet usersFromDB = DBUser.getFieldUser();
 		UserList=DBUser.getUserList(usersFromDB);
 	}
@@ -75,19 +72,19 @@ public class SignUpController implements Initializable{
 		
 		
 		if(Cap.getText().length() != 5) {//il cap deve essere esattamente di 5 cifre
-			AlertBox.display("Error", "Il CAP deve essere un valore numerico di 5 cifre");
+			AlertBox.display("Error", "CAP must be numeric and composed by five numbers");
 			sup=false;
 		}
 		else if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
-			AlertBox.display("Error", "Inserire un numero di telefono valido");
+			AlertBox.display("Error", "Insert a valid telephone number");
 			sup=false;
 		}
 		else if(Email.getText().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
-			AlertBox.display("error", "Email deve essere lunga almeno 6 caratteri");
+			AlertBox.display("Error", "Email must be at least 6 characters long");
 			sup=false;
 		}
 		else if(Password.getText().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
-			AlertBox.display("error", "Password deve essere lunga almeno 6 caratteri");
+			AlertBox.display("Error", "Password must be at least 6 characters long");
 			sup=false;
 		}
 		else {
@@ -95,7 +92,7 @@ public class SignUpController implements Initializable{
 				Integer.parseInt(Cap.getText());
 			}
 			catch(NumberFormatException e){
-				AlertBox.display("Error", "Inserire un CAP valido, completamente numerico");
+				AlertBox.display("Error", "Insert a valid numeric CAP");
 				sup=false;
 			}
 			
@@ -103,7 +100,7 @@ public class SignUpController implements Initializable{
 				Integer.parseInt(TelNum.getText());
 			}
 			catch(NumberFormatException e){
-				AlertBox.display("Error", "Inserire un numero di telefono valido, completamente numerico");
+				AlertBox.display("Error", "Insert a valid numeric telephone number");
 				sup=false;
 			}
 		}
@@ -114,7 +111,7 @@ public class SignUpController implements Initializable{
 	public void  ConfirmButtonPushed(ActionEvent event) throws IOException{
 		
 		if(!vefifyTextField()) {
-			SignUpErrorLabel.setText("Tutti i campi devono essere compilati");
+			AlertBox.display("Error","All field must be filled");
 			return;
 		}
 		
@@ -152,10 +149,9 @@ public class SignUpController implements Initializable{
 	        
 	        window.setScene(tableViewScene);
 	        window.show();
-			SignUpErrorLabel.setText("id valido");
 		}
 		else {
-			AlertBox.display("Error", "Spiacenti la email che hai inserito è già stata utilizzata");	
+			AlertBox.display("Error", "We are sorry, your email has already been taken");	
 		}
 	}
 }

@@ -133,12 +133,12 @@ public class ResponsabileController implements Initializable{
 		//	String genere, double prezzo, String brevedescrizione, int punti)
 
 		if(!emptyTextField()) {
-			AlertBox.display("Error", "Tutti i campi devono essere compilati");
+			AlertBox.display("Error", "All field must be filled");
 			return;
 		}
 
 		if(genere.getValue() == null) {
-			AlertBox.display("Error", "Devi selezionare un genere");
+			AlertBox.display("Error", "You have to selected a genre");
 			return;
 		}
 
@@ -173,7 +173,7 @@ public class ResponsabileController implements Initializable{
 			this.tableViewCatalogo.setItems(libriGlobal);
 		}
 		catch(NumberFormatException e) {
-			AlertBox.display("Error","Anno di pubblicazione e prezzo\ndevono essere campi numerici");
+			AlertBox.display("Error","Year of pubblication and price\nmust be numeric");
 			return;
 		}
 	}
@@ -247,10 +247,12 @@ public class ResponsabileController implements Initializable{
 		return result+s.substring(indexIniz, s.length());
 	}
 
+	
 	/*
 	 * functions for the catalogoView part
 	 */
 
+	
 	public void searchButtonCatalogoPushed(ActionEvent event) throws IOException{
 
 		if(this.searchTextFieldCatalogo.getText() == null || this.searchTextFieldCatalogo.getText().trim().isEmpty()) {
@@ -293,7 +295,7 @@ public class ResponsabileController implements Initializable{
 
 		//controllo se è stato selezionato qualcosa
 		if(tableViewCatalogo.getSelectionModel().getSelectedItem() == null) {
-			AlertBox.display("ERROR", "Non è stato selezionato nessun libro");
+			AlertBox.display("Error", "No book selected");
 			return;
 		}
 		else controller.setBookData(tableViewCatalogo.getSelectionModel().getSelectedItem());
@@ -306,17 +308,17 @@ public class ResponsabileController implements Initializable{
 		window.show();
 	}
 
-	//rende non più disponibile il libro
+	//rende non pi� disponibile il libro
 	public void RemoveFromLibraryButtonPushed(ActionEvent event) throws IOException{
 		Libro l=this.tableViewCatalogo.getSelectionModel().getSelectedItem();
 		if(l==null) {
-			AlertBox.display("Errore", "Non è stato selezionato alcun librp da rimuovere");
+			AlertBox.display("Error", "No book to remove selected");
 			return;
 		}
 
 		DBBook.deleteLibro(l);
 
-		AlertBox.display("Success", "Libro eliminato");
+		AlertBox.display("Success", "Book removed");
 
 		this.libriGlobal.remove(l);
 		this.tableViewCatalogo.setItems(this.libriGlobal);
@@ -328,7 +330,7 @@ public class ResponsabileController implements Initializable{
 
 	public void searchButtonClassificaPushed(ActionEvent event) throws IOException{
 		if(genereComboBoxClassifica.getValue() == null) {
-			AlertBox.display("Error", "Devi selezionare un genere per effettuare una ricerca");
+			AlertBox.display("Error", "Select a genre to search");
 			return;
 		}
 
@@ -393,14 +395,13 @@ public class ResponsabileController implements Initializable{
 		return user;
 	}
 
-
-
+	
 	/*
 	 *functions for the orders section
 	 */
 
+	
 	private ObservableList<Ordine> getOrdini() {
-
 		ObservableList<Ordine> orders = FXCollections.observableArrayList(DBOrder.getOrderList());
 
 		return orders;
@@ -408,8 +409,6 @@ public class ResponsabileController implements Initializable{
 
 	public void SeeDetailesButtonPushed(ActionEvent event) throws IOException
 	{
-
-
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(getClass().getResource("DetailedOrdineScene.fxml"));
 		Parent TableViewParent=loader.load();
@@ -417,9 +416,9 @@ public class ResponsabileController implements Initializable{
 
 		DetailedOrdineController controller=loader.getController();
 
-		//controllo se è stato selezionato qualcosa
+		//controllo se � stato selezionato qualcosa
 		if(tableViewOrders.getSelectionModel().getSelectedItem() == null) {
-			AlertBox.display("ERROR", "Non è stato selezionato nessun ordine");
+			AlertBox.display("Error", "No order selected");
 			return;
 		}
 		else{
@@ -427,8 +426,6 @@ public class ResponsabileController implements Initializable{
 			controller.setBackPage("ResponsabileScene.fxml");
 			controller.setLato("Responsabile");
 		}
-
-
 
 		Scene tableViewScene = new Scene(TableViewParent);
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -439,7 +436,7 @@ public class ResponsabileController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		WellcomeLabel.setText("Wellcome responsabile " +respLogged.getNome());
+		WellcomeLabel.setText("Wellcome administrator " +respLogged.getNome());
 
 		this.libriGlobal=loginController.getBookListGlobalFromLoginController();
 		this.vettoreMappe=loginController.getVettoreMappeClassificaFromLoginController();
@@ -451,9 +448,6 @@ public class ResponsabileController implements Initializable{
 		//code for the catalogo section
 
 		//set up the columns in the table
-
-
-
 
 		titoloColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumnCatalogo.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
@@ -500,108 +494,4 @@ public class ResponsabileController implements Initializable{
 		System.out.println("-----FETCHING ORDERS FOR " + this.loginController.getUserLogged() + "-----\n\n");
 		tableViewOrders.setItems(getOrdini());
 	}
-	
-	/*private void visualizeAllClassifiche() {
-		List<Libro> libri = Classifica.getBooksFromMap(this.classificaGenerale);
-		List<Integer> weeks = Classifica.getWeeksFromMap(this.classificaGenerale);
-			
-		System.out.println("\nCLASSIFICA GENERALE\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaNovita);
-		weeks = Classifica.getWeeksFromMap(this.classificaNovita);
-		
-		System.out.println("\nCLASSIFICA NOVITA\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaNarrativa);
-		weeks = Classifica.getWeeksFromMap(this.classificaNarrativa);
-		
-		System.out.println("\nCLASSIFICA NARRATIVA\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaStoria);
-		weeks = Classifica.getWeeksFromMap(this.classificaStoria);
-		
-		System.out.println("\nCLASSIFICA STORIA\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaRomanzo);
-		weeks = Classifica.getWeeksFromMap(this.classificaRomanzo);
-		
-		System.out.println("\nCLASSIFICA ROMANZO\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaFantascienza);
-		weeks = Classifica.getWeeksFromMap(this.classificaFantascienza);
-		
-		System.out.println("\nCLASSIFICA FANTASCIENZA\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaRagazzi);
-		weeks = Classifica.getWeeksFromMap(this.classificaRagazzi);
-		
-		System.out.println("\nCLASSIFICA RAGAZZI\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaPoliziesco);
-		weeks = Classifica.getWeeksFromMap(this.classificaPoliziesco);
-		
-		System.out.println("\nCLASSIFICA POLIZIESCO\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-		
-		
-		libri = Classifica.getBooksFromMap(this.classificaAltro);
-		weeks = Classifica.getWeeksFromMap(this.classificaAltro);
-		
-		System.out.println("\nCLASSIFICA ALTRO\n");
-		if(libri != null)
-			for(int i = 0; i < libri.size(); i++) {
-				System.out.println(libri.get(i).getTitolo() + "   " + weeks.get(i));
-			}
-		System.out.println("\n\n");
-	}*/
-
-
-
 }

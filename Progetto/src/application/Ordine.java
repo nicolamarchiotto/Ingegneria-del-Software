@@ -70,11 +70,11 @@ public class Ordine {
 		long daysBetween = ChronoUnit.HOURS.between(data, LocalDateTime.now());
 		
 		if(daysBetween==0)
-			return "non ancora spedito";
+			return "Not yet shipped";
 		else if(daysBetween==1)
-			return "spedito";
+			return "Shipped";
 		else
-			return "consegnato";
+			return "Delivered";
 	}
 	
 	public String getIdUser() {
