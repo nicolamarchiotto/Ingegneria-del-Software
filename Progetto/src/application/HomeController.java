@@ -312,7 +312,7 @@ public class HomeController implements Initializable{
 		
 		
 		
-		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		genereComboBoxClassifica.getItems().addAll("Tutti","Novità", "Narrativa", "Storia", "Romanzo", "Fantascienza","Ragazzi", "Poliziesco", "Altro");
 		
 		titoloColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));

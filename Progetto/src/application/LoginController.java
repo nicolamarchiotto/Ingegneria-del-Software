@@ -146,7 +146,7 @@ public class LoginController implements Initializable{
 		    window.show();
 		}		
 		else {		
-			AlertBox.display("Error", "Id and/or pw wrong");
+			AlertBox.display("Error", "Id and/or password wrong");
 		}	
 	}
 	
@@ -221,12 +221,13 @@ public class LoginController implements Initializable{
 		LoginController.vettoreMappe=new ArrayList<HashMap<List<Libro>, List<Integer>>>();
 		
 		vettoreMappe.add(this.classificaGenerale);
-		vettoreMappe.add(this.classificaRomanzo);
+		vettoreMappe.add(this.classificaNovita);
 		vettoreMappe.add(this.classificaNarrativa);
-		vettoreMappe.add(this.classificaRagazzi);
-		vettoreMappe.add(this.classificaFantascienza);
-		vettoreMappe.add(this.classificaPoliziesco);
 		vettoreMappe.add(this.classificaStoria);
+		vettoreMappe.add(this.classificaRomanzo);
+		vettoreMappe.add(this.classificaFantascienza);
+		vettoreMappe.add(this.classificaRagazzi);
+		vettoreMappe.add(this.classificaPoliziesco);	
 		vettoreMappe.add(this.classificaAltro);
 	}
 	
