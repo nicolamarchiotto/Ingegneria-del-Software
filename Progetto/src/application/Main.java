@@ -16,6 +16,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,600,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.setTitle("Libreria Digitale");
 			primaryStage.show();
 		} catch(Exception e) {

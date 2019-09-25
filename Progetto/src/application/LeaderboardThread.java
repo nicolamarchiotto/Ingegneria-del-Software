@@ -27,6 +27,7 @@ class LeaderboardUpdateThread extends Thread{
 		if(this.timePassed >= WEEKASMINUTES) {
 			System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 			Classifica.updateClassifica(true);
+			//se lo dici tu mi fido, non ho capito tutta la logica sorry, riferito alla riga seguente
 			this.timeFromDB = this.timeFromDB.plusMinutes(this.timePassed / WEEKASMINUTES * WEEKASMINUTES);
 			this.updateDBtime(this.timeFromDB);
 			this.timePassed = this.timePassed % WEEKASMINUTES;
@@ -37,14 +38,13 @@ class LeaderboardUpdateThread extends Thread{
 		blinker = (Thread)this;
 		while(blinker == (Thread)this) {
 			try {
-				sleep(WEEK - this.timePassed * 60000);
-				
+				sleep(WEEK-this.timePassed * 60000);
 				if(blinker != (Thread)this) break; //last iteration must not update
 				
 				this.timePassed = 0;
 				System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 				Classifica.updateClassifica(true);
-				this.timeFromDB = this.timeFromDB.plusMinutes(10);
+				this.timeFromDB = this.timeFromDB.plusMinutes(WEEKASMINUTES);
 				this.updateDBtime(this.timeFromDB);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -90,7 +90,6 @@ class LeaderboardUpdateThread extends Thread{
 			stmt.executeUpdate("UPDATE DateList SET\ngiorno = " + date.getDayOfMonth() + ",\nmese = " + date.getMonthValue() + ",\nanno = " + date.getYear() + ",\nora = " + date.getHour() + ",\nminuto = " + date.getMinute() + "\nWHERE id = 'Week'");
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}

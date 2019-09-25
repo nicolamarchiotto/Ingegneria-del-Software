@@ -66,30 +66,29 @@ public class SignUpController implements Initializable{
 			return false;
 		if(Password.getText() == null || Password.getText().trim().isEmpty())
 			return false;
-		
 		return true;
 	}
 	
-	private boolean verifyNonEmptyTextField() {
-		if(Cap.getText().length() != 5) {//il cap deve essere esattamente di 5 cifre
+	private boolean checkRightFormat() {
+		if(Cap.getText().trim().length() != 5) {//il cap deve essere esattamente di 5 cifre
 			AlertBox.display("Error", "CAP must be numeric and composed by five numbers");
 			return false;
 		}
-		else if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
+		else if(TelNum.getText().trim().length() > 11 || TelNum.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
 			AlertBox.display("Error", "Insert a valid telephone number");
 			return false;
 		}
-		else if(Email.getText().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
+		else if(Email.getText().trim().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
 			AlertBox.display("Error", "Email must be at least 6 characters long");
 			return false;
 		}
-		else if(Password.getText().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
+		else if(Password.getText().trim().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
 			AlertBox.display("Error", "Password must be at least 6 characters long");
 			return false;
 		}
 		else {
 			try {//testo se la stringa presa dal cap è effettivamente un numero o meno
-				Integer.parseInt(Cap.getText());
+				Integer.parseInt(Cap.getText().trim());
 			}
 			catch(NumberFormatException e){
 				AlertBox.display("Error", "Insert a valid numeric CAP");
@@ -97,7 +96,7 @@ public class SignUpController implements Initializable{
 			}
 			
 			try {//testo se la stringa presa dal numero di telefono è effettivamente un numero o meno
-				Integer.parseInt(TelNum.getText());
+				Double.valueOf(TelNum.getText().trim());
 			}
 			catch(NumberFormatException e){
 				AlertBox.display("Error", "Insert a valid numeric telephone number");
@@ -113,12 +112,12 @@ public class SignUpController implements Initializable{
 			AlertBox.display("Error","All field must be filled");
 			return;
 		}
-		else if(!verifyNonEmptyTextField())
+		if(!checkRightFormat())
 			return;
 		
 	
-		User sup=new User(Name.getText(), Surname.getText(), Address.getText(), Cap.getText(), 
-				City.getText(), TelNum.getText(), Email.getText(), Password.getText());
+		User sup=new User(Name.getText().trim(), Surname.getText().trim(), Address.getText().trim(), Cap.getText().trim(), 
+				City.getText().trim(), TelNum.getText().trim(), Email.getText().trim(), Password.getText().trim());
 
 		//get UserList From DB	
 		for(User u: UserList) {

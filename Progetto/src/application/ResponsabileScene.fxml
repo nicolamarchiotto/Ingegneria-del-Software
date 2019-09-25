@@ -71,7 +71,7 @@
                            <children>
                               <TextField fx:id="searchTextFieldCatalogo" promptText="Search by title" />
                               <Button fx:id="searchButtonCatalogo" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" mnemonicParsing="false" onAction="#searchButtonCatalogoPushed" prefHeight="25.0" prefWidth="70.0" text="Search" />
-                              <Button fx:id="resetButtonCatalogo" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" mnemonicParsing="false" onAction="#resetButtonPushed" prefHeight="25.0" prefWidth="70.0" text="Reset" />
+                              <Button fx:id="resetButtonCatalogo" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" mnemonicParsing="false" onAction="#resetButtonPushed" prefHeight="25.0" prefWidth="70.0" text="Show all" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />

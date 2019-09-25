@@ -58,10 +58,14 @@ public class PaymentController implements Initializable{
 		paymentToggleGroup=new ToggleGroup();
 		this.paypalRadioButton.setToggleGroup(paymentToggleGroup);
 		this.creditCardRadioButton.setToggleGroup(paymentToggleGroup);
-		this.bankStampRadioButton.setToggleGroup(paymentToggleGroup); 
-		String sup="---Inserisci un indirizzo---";
-		indirizziComboBox.getItems().add(sup);
+		this.bankStampRadioButton.setToggleGroup(paymentToggleGroup);
+		String sup="";
+		if(this.userLogged.getEmail().equals("#####"))
+			sup="---Insert an address---";
+		else
+			sup="---Select an address---";
 		indirizziComboBox.setPromptText(sup);
+		
 		if(!this.userLogged.getEmail().equals("#####")) {
 			indirizziComboBox.getItems().addAll(this.userLogged.getIndirizziFormattati());
 		}
@@ -84,12 +88,7 @@ public class PaymentController implements Initializable{
 	
 	public void indirizziComboBoxChanged() {
 		String s=this.indirizziComboBox.getValue().toString();
-		if(s.compareTo("---Select an address---")==0) {
-			for(TextField t: this.vetTextField) {
-				t.setText("");
-			}
-			return;
-		}
+		
 		int i, cell=0;
 		int indexIniz=0;
 		
@@ -153,8 +152,12 @@ public class PaymentController implements Initializable{
 
 		try {
 			if(checkAllFields() && checkToogleGroup()) {
+				if(this.capTextField.getText().trim().length() != 5){
+					AlertBox.display("Error", "CAP must be 5 number long");
+					return;
+				}
 				
-				String indirizzoSpedizione=this.viaTextField.getText()+", "+this.cittaTextField.getText()+", "+this.capTextField.getText();
+				String indirizzoSpedizione=this.viaTextField.getText().trim()+", "+this.cittaTextField.getText().trim()+", "+this.capTextField.getText().trim();
 				
 				RadioButton selectedRadioButton = (RadioButton) paymentToggleGroup.getSelectedToggle();
 				String paymentType = selectedRadioButton.getText();
@@ -240,7 +243,7 @@ public class PaymentController implements Initializable{
 				sup=false;
 		if(this.cittaTextField.getText() == null || this.cittaTextField.getText().trim().isEmpty())
 			sup=false;
-		if(this.capTextField.getText() == null || this.capTextField.getText().trim().isEmpty() || this.capTextField.getText().length() != 5)
+		if(this.capTextField.getText() == null || this.capTextField.getText().trim().isEmpty())
 			sup=false;
 		if(!(Integer.valueOf(this.capTextField.getText()) instanceof Integer))
 			sup=false;
