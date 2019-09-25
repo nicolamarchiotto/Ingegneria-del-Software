@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class Classifica {
 	
 		//metodo per aggiornare TUTTE le classifiche
-		//vero se update settimanale,falso se respondabile
+		//vero se update settimanale,falso se responsabile
 		public static void updateClassifica(boolean updateSettimanale) {
 			updateClassifica(null, updateSettimanale);
 			updateClassifica("novità", updateSettimanale);
@@ -184,9 +184,6 @@ public class Classifica {
 				Statement stmt = null;
 				
 				try {
-					
-					//System.out.println("*****CONNESSO PER RICEVERE TUTTI I GENERI*****");
-						
 					stmt = connect.createStatement();
 					ResultSet rs = stmt.executeQuery(sql);
 					if(rs.isClosed()) return null;
@@ -204,10 +201,7 @@ public class Classifica {
 				
 			Statement stmt = null;
 				
-			try {
-					
-				//System.out.println("*****CONNESSO PER RICEVERE IL GENERE " + genere + "*****");
-					
+			try {	
 				stmt = connect.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
 				if(rs.isClosed()) return null;

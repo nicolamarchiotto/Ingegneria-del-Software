@@ -10,17 +10,20 @@ class LeaderboardUpdateThread extends Thread{
 	
 	private static final int WEEKASMINUTES = 30;
 	private Thread blinker;
-	private final long WEEK = 600000; //attendo WEEKASMINUTES minuti
+	private final long WEEK = WEEKASMINUTES * 60000; //attendo WEEKASMINUTES minuti
 	private long timePassed = 0;
 	private LocalDateTime timeFromDB = null;
 	
 	public LeaderboardUpdateThread() {
 		
-		Classifica.updateClassifica(true); //aggiornamento classifica forzato e necessario fino a quando usiamo randomizzazione
 		
 		this.timeFromDB = this.getDBtime();
 		this.timePassed = ChronoUnit.MINUTES.between(this.timeFromDB, LocalDateTime.now());
 		System.out.println("Difference between time DB and now (more or equal to " + WEEKASMINUTES + " is needed): " + this.timePassed);
+		
+
+		Classifica.updateClassifica(true); //aggiornamento classifica forzato e necessario fino a quando usiamo randomizzazione
+		
 		if(this.timePassed >= WEEKASMINUTES) {
 			System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 			Classifica.updateClassifica(true);

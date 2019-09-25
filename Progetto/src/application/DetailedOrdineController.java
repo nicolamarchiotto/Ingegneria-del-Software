@@ -126,7 +126,7 @@ public class DetailedOrdineController implements Initializable{
 	/*
 	 *initialize è sempre eseguito come primo metodo,
 	 *il settaggio delle colonne deve essere fatto dopo aver ottenuto l'oggetto Order
-	 *dalla pagina responsabile, vedi funzione setOrderFromTableView
+	 *dalla pagina responsabile
 	 */
 	
 	@Override

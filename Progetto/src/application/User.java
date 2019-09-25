@@ -161,7 +161,7 @@ public class User implements Comparable<Object>{
 	public double getTotalCostFromCarrello() {
 		double sup=0;
 		for(Libro l: this.carrello) {
-			sup+=l.getPrezzo();
+			sup+=l.getPrezzo() * l.getCopieVenduteNelSingoloOrdine();
 		}
 		return sup;
 	}

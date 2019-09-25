@@ -111,9 +111,9 @@ public class PersonalAreaController implements Initializable{
 			name.setText(this.userLogged.getNome());
 			surname.setText(this.userLogged.getCognome());
 			address.setText(this.userLogged.getIndirizzoResidenza());
-			city.setText(this.userLogged.getCittaResidenza());
-			cap.setText(this.userLogged.getCapResidenza());
-			telNumber.setText(this.userLogged.getTelefono());
+			city.setText(this.userLogged.getCittaResidenza().trim());
+			cap.setText(this.userLogged.getCapResidenza().trim());
+			telNumber.setText(this.userLogged.getTelefono().trim());
 			email.setText(this.userLogged.getEmail());
 			pw.setText(this.userLogged.getPw());
 			puntiLibroCard.setText(String.valueOf(this.userLogged.getLibroCard().getPunti()));
@@ -171,6 +171,8 @@ public class PersonalAreaController implements Initializable{
 		
 		try {
 			if(verifyField()) {
+				if(!verifyNonEmptyField()) return;
+				
 				this.userLogged.setNome(this.name.getText());
 				this.userLogged.setCognome(this.surname.getText());
 				this.userLogged.setIndirizzoResidenza(this.address.getText());
@@ -183,7 +185,7 @@ public class PersonalAreaController implements Initializable{
 				this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList); //per aggiornare la situa
 				DBUser.updateUser(this.userLogged);
 				
-				AlertBox.display("Success", "Your data have been upadted");
+				AlertBox.display("Success", "Your data have been updated");
 				//this.tableView.setItems(indirizziList);
 				
 			}
@@ -217,20 +219,26 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		if(!((Long.valueOf(this.cap.getText())instanceof Long) && (Long.valueOf(this.telNumber.getText())instanceof Long)))
 			return false;
-		
+		return true;
+	}
+	
+	private boolean verifyNonEmptyField() {
 		if(this.cap.getText().length() != 5) {//il cap deve essere esattamente di 5 cifre
 			AlertBox.display("Error", "Cap must be numeric and composed by five numbers");
-			return false;		}
+			return false;		
+		}
 		else if(this.telNumber.getText().length() > 11 || this.telNumber.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
 			AlertBox.display("Error", "Insert a valid telephone number");
-			return false;		}
+			return false;		
+		}
 		else if(this.email.getText().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
 			AlertBox.display("error", "Email must be at least 6 characters long");
-			return false;		}
+			return false;		
+		}
 		else if(this.pw.getText().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
 			AlertBox.display("error", "Password must be at least 6 characters long");
-			return false;		}
-		
+			return false;		
+		}
 		return true;
 	}
 	

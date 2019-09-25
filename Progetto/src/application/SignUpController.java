@@ -50,41 +50,42 @@ public class SignUpController implements Initializable{
     }
 	
 	private boolean vefifyTextField() {
-		boolean sup=true;
-		
 		if(Name.getText() == null || Name.getText().trim().isEmpty())
-				sup=false;
+			return false;
 		if(Surname.getText() == null || Surname.getText().trim().isEmpty())
-			sup=false;
+			return false;
 		if(Address.getText() == null || Address.getText().trim().isEmpty())
-			sup=false;
+			return false;
 		if(City.getText() == null || City.getText().trim().isEmpty())
-			sup=false;
+			return false;
 		if(Cap.getText() == null || Cap.getText().trim().isEmpty())
-			sup=false;
+			return false;
 		if(TelNum.getText() == null || TelNum.getText().trim().isEmpty())
-			sup=false;
+			return false;
 		if(Email.getText() == null || Email.getText().trim().isEmpty())
-			sup=false;
+			return false;
 		if(Password.getText() == null || Password.getText().trim().isEmpty())
-			sup=false;
+			return false;
 		
-		
+		return true;
+	}
+	
+	private boolean verifyNonEmptyTextField() {
 		if(Cap.getText().length() != 5) {//il cap deve essere esattamente di 5 cifre
 			AlertBox.display("Error", "CAP must be numeric and composed by five numbers");
-			sup=false;
+			return false;
 		}
 		else if(TelNum.getText().length() > 11 || TelNum.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
 			AlertBox.display("Error", "Insert a valid telephone number");
-			sup=false;
+			return false;
 		}
 		else if(Email.getText().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
 			AlertBox.display("Error", "Email must be at least 6 characters long");
-			sup=false;
+			return false;
 		}
 		else if(Password.getText().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
 			AlertBox.display("Error", "Password must be at least 6 characters long");
-			sup=false;
+			return false;
 		}
 		else {
 			try {//testo se la stringa presa dal cap è effettivamente un numero o meno
@@ -92,7 +93,7 @@ public class SignUpController implements Initializable{
 			}
 			catch(NumberFormatException e){
 				AlertBox.display("Error", "Insert a valid numeric CAP");
-				sup=false;
+				return false;
 			}
 			
 			try {//testo se la stringa presa dal numero di telefono è effettivamente un numero o meno
@@ -100,11 +101,10 @@ public class SignUpController implements Initializable{
 			}
 			catch(NumberFormatException e){
 				AlertBox.display("Error", "Insert a valid numeric telephone number");
-				sup=false;
+				return false;
 			}
 		}
-		
-		return sup;
+		return true;
 	}
 	
 	public void  ConfirmButtonPushed(ActionEvent event) throws IOException{
@@ -113,6 +113,8 @@ public class SignUpController implements Initializable{
 			AlertBox.display("Error","All field must be filled");
 			return;
 		}
+		else if(!verifyNonEmptyTextField())
+			return;
 		
 	
 		User sup=new User(Name.getText(), Surname.getText(), Address.getText(), Cap.getText(), 

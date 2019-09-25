@@ -187,7 +187,7 @@ public class PaymentController implements Initializable{
 					this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
 				}
 				
-				AlertBox.display("Hurray", "Your order has benn received,\nthanks for choosing us!"+idOrdine);
+				AlertBox.display("Hurray", "Your order has been received,\nthanks for choosing us!"+idOrdine);
 				try {
 					goToHomePage(event);
 				} catch (IOException e) {
@@ -195,7 +195,7 @@ public class PaymentController implements Initializable{
 				}
 			}
 			else {
-				AlertBox.display("Error", "You have forgot some fields");
+				AlertBox.display("Error", "You forgot some fields");
 				return;
 			}
 		}
