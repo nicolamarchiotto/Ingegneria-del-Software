@@ -119,7 +119,7 @@ public class HomeController implements Initializable{
 			return;
 		}
 		else {
-			String inserimento=this.searchTextFieldCatalogo.getText();
+			String inserimento=this.searchTextFieldCatalogo.getText().trim();
 			
 			for(Libro l:this.libriGlobal) {
 				if(l.getTitolo().toLowerCase().contains(inserimento.toLowerCase())) {

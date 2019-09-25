@@ -34,7 +34,7 @@
             <TableColumn fx:id="prezzoColumn" minWidth="140.0" prefWidth="0.0" text="Prezzo" />
         </columns>
       </TableView>
-      <TextArea fx:id="sumTextArea" layoutX="20.0" layoutY="292.0" prefHeight="94.0" prefWidth="560.0" />
+      <TextArea fx:id="sumTextArea" editable="false" layoutX="20.0" layoutY="292.0" prefHeight="94.0" prefWidth="560.0" />
       <Button fx:id="seeDetailesButton" layoutX="469.0" layoutY="259.0" maxHeight="25.0" maxWidth="120.0" minHeight="25.0" minWidth="120.0" mnemonicParsing="false" onAction="#SeeDetailesButtonPushed" prefHeight="25.0" prefWidth="120.0" text="See Book Detailes" AnchorPane.rightAnchor="20.0" />
    </children>
 </AnchorPane>

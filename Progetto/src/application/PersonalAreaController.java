@@ -108,14 +108,14 @@ public class PersonalAreaController implements Initializable{
 			this.searchTextField.setVisible(true);
 		}
 		else {
-			name.setText(this.userLogged.getNome());
-			surname.setText(this.userLogged.getCognome());
-			address.setText(this.userLogged.getIndirizzoResidenza());
-			city.setText(this.userLogged.getCittaResidenza());
-			cap.setText(this.userLogged.getCapResidenza());
-			telNumber.setText(this.userLogged.getTelefono());
-			email.setText(this.userLogged.getEmail());
-			pw.setText(this.userLogged.getPw());
+			name.setText(this.userLogged.getNome().trim());
+			surname.setText(this.userLogged.getCognome().trim());
+			address.setText(this.userLogged.getIndirizzoResidenza().trim());
+			city.setText(this.userLogged.getCittaResidenza().trim());
+			cap.setText(this.userLogged.getCapResidenza().trim());
+			telNumber.setText(this.userLogged.getTelefono().trim());
+			email.setText(this.userLogged.getEmail().trim());
+			pw.setText(this.userLogged.getPw().trim());
 			puntiLibroCard.setText(String.valueOf(this.userLogged.getLibroCard().getPunti()));
 			dataCreazioneAccount.setText(this.userLogged.getLibroCard().getDataEmissione().toString());
 			
@@ -171,13 +171,13 @@ public class PersonalAreaController implements Initializable{
 		
 		try {
 			if(verifyField()) {
-				this.userLogged.setNome(this.name.getText());
-				this.userLogged.setCognome(this.surname.getText());
-				this.userLogged.setIndirizzoResidenza(this.address.getText());
-				this.userLogged.setCittaResidenza(this.city.getText());
-				this.userLogged.setCapResidenza(this.cap.getText());
-				this.userLogged.setTelefono(this.telNumber.getText());
-				this.userLogged.setPw(this.pw.getText());
+				this.userLogged.setNome(this.name.getText().trim());
+				this.userLogged.setCognome(this.surname.getText().trim());
+				this.userLogged.setIndirizzoResidenza(this.address.getText().trim());
+				this.userLogged.setCittaResidenza(this.city.getText().trim());
+				this.userLogged.setCapResidenza(this.cap.getText().trim());
+				this.userLogged.setTelefono(this.telNumber.getText().trim());
+				this.userLogged.setPw(this.pw.getText().trim());
 				
 				
 				this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList); //per aggiornare la situa
@@ -215,19 +215,19 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		if(this.pw.getText() == null || this.pw.getText().trim().isEmpty())
 			return false;
-		if(!((Long.valueOf(this.cap.getText())instanceof Long) && (Long.valueOf(this.telNumber.getText())instanceof Long)))
+		if(!((Long.valueOf(this.cap.getText().trim())instanceof Long) && (Long.valueOf(this.telNumber.getText().trim())instanceof Long)))
 			return false;
 		
-		if(this.cap.getText().length() != 5) {//il cap deve essere esattamente di 5 cifre
+		if(this.cap.getText().trim().length() != 5) {//il cap deve essere esattamente di 5 cifre
 			AlertBox.display("Error", "Cap must be numeric and composed by five numbers");
 			return false;		}
-		else if(this.telNumber.getText().length() > 11 || this.telNumber.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
+		else if(this.telNumber.getText().trim().length() > 11 || this.telNumber.getText().length() < 10) { //il numero telefonico deve essere di 10-11 caratteri
 			AlertBox.display("Error", "Insert a valid telephone number");
 			return false;		}
-		else if(this.email.getText().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
+		else if(this.email.getText().trim().length() < 6) {//non è possibile inserire una email con meno di 6 caratteri
 			AlertBox.display("error", "Email must be at least 6 characters long");
 			return false;		}
-		else if(this.pw.getText().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
+		else if(this.pw.getText().trim().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
 			AlertBox.display("error", "Password must be at least 6 characters long");
 			return false;		}
 		
@@ -263,12 +263,12 @@ public class PersonalAreaController implements Initializable{
 	public void addAddressButtonPushed() {
 		try{
 			if(checkAddressInput()) {
-				if(this.capAdded.getText().length() != 5) {
+				if(this.capAdded.getText().trim().length() != 5) {
 					AlertBox.display("Error", "CAP must be 5 number long");
 					return;
 				}
 					
-				this.indirizziList.add(new Indirizzo(this.viaAdded.getText(), this.cittaAdded.getText(), this.capAdded.getText()));
+				this.indirizziList.add(new Indirizzo(this.viaAdded.getText().trim(), this.cittaAdded.getText().trim(), this.capAdded.getText().trim()));
 				this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList);
 				this.tableView.setItems(this.indirizziList); 
 				this.viaAdded.setText("");
@@ -293,7 +293,7 @@ public class PersonalAreaController implements Initializable{
 			return false;
 		if(this.capAdded.getText() == null || this.capAdded.getText().trim().isEmpty())
 			return false;
-		if(!(Long.valueOf(this.capAdded.getText()) instanceof Long))
+		if(!(Long.valueOf(this.capAdded.getText().trim()) instanceof Long))
 			return false;
 		
 		return true;

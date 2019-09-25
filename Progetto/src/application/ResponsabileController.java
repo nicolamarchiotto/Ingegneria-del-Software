@@ -140,8 +140,8 @@ public class ResponsabileController implements Initializable{
 		try {
 			if(verifyDateAndPrice()) {
 
-				Libro l=new Libro(titolo.getText(), toACapoMode(autori.getText(), '-'), casaEditrice.getText(), Integer.valueOf(annoPubblicazione.getText()),
-						genere.getValue().toString(), Double.valueOf(prezzo.getText()), breveDescrizione.getText(),(int)Math.round(Double.valueOf(prezzo.getText())));
+				Libro l=new Libro(titolo.getText().trim(), toACapoMode(autori.getText().trim(), '-'), casaEditrice.getText().trim(), Integer.valueOf(annoPubblicazione.getText().trim()),
+						genere.getValue().toString(), Double.valueOf(prezzo.getText().trim()), breveDescrizione.getText().trim(),(int)Math.round(Double.valueOf(prezzo.getText().trim())));
 
 				LinkedList<Libro> list=new LinkedList<Libro>();
 				list.add(l);

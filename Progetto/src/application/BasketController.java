@@ -40,6 +40,7 @@ public class BasketController implements Initializable{
 	private ArrayList<Label> labelArray=new ArrayList<Label>();
 	private ArrayList<Button> buttonArray=new ArrayList<Button>();
 	private ArrayList<ComboBox<String>> comboboxArray=new ArrayList<ComboBox<String>>();
+	private ArrayList<Label> priceArray=new ArrayList<Label>();
 	
 	
 	LoginController controller=new LoginController();
@@ -107,20 +108,31 @@ public class BasketController implements Initializable{
 	    ColumnConstraints column2 = new ColumnConstraints(80);
 	    gridPaneLocal.getColumnConstraints().add(column2);
 	    gridPaneLocal.getColumnConstraints().add(column2);
+	    gridPaneLocal.getColumnConstraints().add(column2);
 	    RowConstraints row=new RowConstraints(50);
 	    gridPaneLocal.setLayoutX(20);
 	    gridPaneLocal.setLayoutX(20);
 	    
 	     
-		
-	    gridPaneLocal.add(new Label("Title"), 0, 0);
-	    gridPaneLocal.add(new Label("Q.ty"), 1, 0);
+		Label firstRowLabel=new Label("Title");
+		firstRowLabel.setStyle("-fx-font-weight: bold");
+	    gridPaneLocal.add(firstRowLabel, 0, 0);
+	    
+	    firstRowLabel=new Label("Q.ty");
+	    firstRowLabel.setStyle("-fx-font-weight: bold");
+	    gridPaneLocal.add(firstRowLabel, 1, 0);
+	    
+	    firstRowLabel=new Label("Price");
+	    firstRowLabel.setStyle("-fx-font-weight: bold");	    
+	    gridPaneLocal.add(firstRowLabel, 2, 0);
+	    
 	    gridPaneLocal.getRowConstraints().add(row);
 		
 		
 		for(int i=0;i<numbersOfGridRows;i++) {		
 			gridPaneLocal.getRowConstraints().add(row);
 			Label label=new Label(carrelloUser.get(i).getTitolo());
+			Label price=new Label(String.valueOf(carrelloUser.get(i).getPrezzo()));
 			label.setId("label"+String.valueOf(i));
 			ComboBox<String> combobox=new ComboBox<String>();
 			combobox.getItems().addAll("1","2","3");
@@ -145,10 +157,12 @@ public class BasketController implements Initializable{
 			this.labelArray.add(label);
 			this.comboboxArray.add(combobox);
 			this.buttonArray.add(button);
+			this.priceArray.add(price);
 			
 			gridPaneLocal.add(labelArray.get(i), 0, i+1);
-			gridPaneLocal.add(comboboxArray.get(i), 1, i+1);
-			gridPaneLocal.add(buttonArray.get(i), 2, i+1);
+			gridPaneLocal.add(priceArray.get(i), 1, i+1);
+			gridPaneLocal.add(comboboxArray.get(i), 2, i+1);
+			gridPaneLocal.add(buttonArray.get(i), 3, i+1);
 			
 			}
 		this.gridPane=gridPaneLocal;
@@ -177,7 +191,16 @@ public class BasketController implements Initializable{
 		}
 		
 		for(int i=0;i<this.carrelloUser.size();i++) {
-			this.carrelloUser.get(i).setCopieVenduteSingoloOrdine(Integer.valueOf(this.comboboxArray.get(i).getValue()));
+			Integer intero;
+			try {
+				intero=Integer.valueOf(this.comboboxArray.get(i).getValue());
+			}
+			catch(NumberFormatException e){
+				AlertBox.display("Error", "The number of the copies must be numeric");
+				return;
+			}
+			
+			this.carrelloUser.get(i).setCopieVenduteSingoloOrdine(intero);
 		}
 		
 		controller.setUserLogged(userLogged);

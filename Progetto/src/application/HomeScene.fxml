@@ -40,7 +40,7 @@
                            <children>
                               <TextField fx:id="searchTextFieldCatalogo" promptText="Search by title" />
                               <Button fx:id="searchButtonCatalogo" maxWidth="65.0" minWidth="65.0" mnemonicParsing="false" onAction="#searchButtonCatalogoPushed" prefWidth="65.0" text="Search" />
-                              <Button fx:id="resetButtonCatalogo" maxWidth="65.0" minWidth="65.0" mnemonicParsing="false" onAction="#resetButtonPushed" prefWidth="65.0" text="Reset" />
+                              <Button fx:id="resetButtonCatalogo" maxWidth="65.0" minWidth="65.0" mnemonicParsing="false" onAction="#resetButtonPushed" prefWidth="65.0" text="Show all" />
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
