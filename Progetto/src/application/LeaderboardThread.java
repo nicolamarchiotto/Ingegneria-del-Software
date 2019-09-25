@@ -10,7 +10,7 @@ class LeaderboardUpdateThread extends Thread{
 	
 	private static final int WEEKASMINUTES = 30;
 	private Thread blinker;
-	private final long WEEK = 600000; //attendo WEEKASMINUTES minuti
+	//private final long WEEK = 600000; //attendo WEEKASMINUTES minuti
 	private long timePassed = 0;
 	private LocalDateTime timeFromDB = null;
 	
@@ -24,6 +24,7 @@ class LeaderboardUpdateThread extends Thread{
 		if(this.timePassed >= WEEKASMINUTES) {
 			System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 			Classifica.updateClassifica(true);
+			//se lo dici tu mi fido, non ho capito tutta la logica sorry, riferito alla riga seguente
 			this.timeFromDB = this.timeFromDB.plusMinutes(this.timePassed / WEEKASMINUTES * WEEKASMINUTES);
 			this.updateDBtime(this.timeFromDB);
 			this.timePassed = this.timePassed % WEEKASMINUTES;
@@ -34,13 +35,28 @@ class LeaderboardUpdateThread extends Thread{
 		blinker = (Thread)this;
 		while(blinker == (Thread)this) {
 			try {
-				sleep(WEEK - this.timePassed * 60000);
+				/*
+				 * FIXME GU
+				 * prima era sleep(WEEK-this.timePassed * 60000);
+				 * penso intendessi quello che ho scritto dopo
+				 * 
+				 *  dimmi cosa ne pensi 
+				 */		
+				
+				//(minutesInAWeek-minutesPassedFromWeekStart)*millisecondsInAMinute
+				sleep((WEEKASMINUTES-this.timePassed) *60000);
 				
 				if(blinker != (Thread)this) break; //last iteration must not update
 				
 				this.timePassed = 0;
 				System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 				Classifica.updateClassifica(true);
+				/*
+				 * FIXMEGU
+				 * intendevi:
+				 * this.timeFromDB = this.timeFromDB.plusMinutes(WEEKASMINUTES);
+				 * ???
+				 */
 				this.timeFromDB = this.timeFromDB.plusMinutes(10);
 				this.updateDBtime(this.timeFromDB);
 			} catch (InterruptedException e) {
