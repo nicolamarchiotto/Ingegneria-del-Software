@@ -225,15 +225,15 @@ public class LoginController implements Initializable{
 		
 		LoginController.vettoreMappe=new ArrayList<HashMap<List<Libro>, List<Integer>>>();
 		
-		vettoreMappe.add(this.classificaGenerale);
-		vettoreMappe.add(this.classificaNovita);
-		vettoreMappe.add(this.classificaNarrativa);
-		vettoreMappe.add(this.classificaStoria);
-		vettoreMappe.add(this.classificaRomanzo);
-		vettoreMappe.add(this.classificaFantascienza);
-		vettoreMappe.add(this.classificaRagazzi);
-		vettoreMappe.add(this.classificaPoliziesco);	
-		vettoreMappe.add(this.classificaAltro);
+		vettoreMappe.add(0,this.classificaGenerale);
+		vettoreMappe.add(1,this.classificaNovita);
+		vettoreMappe.add(2,this.classificaRomanzo);
+		vettoreMappe.add(3,this.classificaNarrativa);
+		vettoreMappe.add(4,this.classificaRagazzi);
+		vettoreMappe.add(5,this.classificaFantascienza);
+		vettoreMappe.add(6,this.classificaPoliziesco);
+		vettoreMappe.add(7,this.classificaStoria);
+		vettoreMappe.add(8,this.classificaAltro);
 	}
 	
 	
