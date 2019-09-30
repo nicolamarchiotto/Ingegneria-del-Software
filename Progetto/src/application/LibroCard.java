@@ -6,7 +6,7 @@ import java.util.Random;
 public class LibroCard {
 
 	private String id;
-	private int punti=0;
+	private int punti;
 	private LocalDateTime dataEmissione;
 	
 	Random r = new Random();
@@ -14,6 +14,7 @@ public class LibroCard {
 	public LibroCard(String nome, String cognome) {
 		dataEmissione=LocalDateTime.now();
 		id=getIdLibroCard(nome, cognome);
+		punti=0;
 	}
 	
 	public LibroCard(String id, int punti, int giorno, int mese, int anno, int ora) {

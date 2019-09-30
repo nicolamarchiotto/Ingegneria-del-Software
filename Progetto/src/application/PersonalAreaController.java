@@ -283,6 +283,7 @@ public class PersonalAreaController implements Initializable{
 				this.viaAdded.setText("");
 				this.cittaAdded.setText("");
 				this.capAdded.setText("");
+				this.controller.setUserLogged(userLogged);
 			}
 			else {
 				AlertBox.display("Error", "All fields must be filled");
