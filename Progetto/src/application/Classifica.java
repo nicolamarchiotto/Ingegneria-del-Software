@@ -35,6 +35,7 @@ public class Classifica {
 				ResultSet gettingPreviousGlobalPositions = Classifica.selectByGenre(null, "update", updateSettimanale);
 				List<Integer> previousGlobalPosition = new ArrayList<Integer>(); 
 				List<Integer> weeksInSamePositionGlobal = new ArrayList<Integer>();
+				List<Integer> previousCopies = new ArrayList<Integer>();
 				
 				if(gettingPreviousGlobalPositions == null) return;
 				
@@ -42,6 +43,8 @@ public class Classifica {
 					while(gettingPreviousGlobalPositions.next()) {
 						previousGlobalPosition.add(gettingPreviousGlobalPositions.getInt("precedentePosizioneClassificaGlobale"));
 						weeksInSamePositionGlobal.add(gettingPreviousGlobalPositions.getInt("settimaneStessaPosizioneGlobale"));
+						previousCopies.add(gettingPreviousGlobalPositions.getInt("copieVenduteSettimanaPrecedente"));
+						
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -60,7 +63,7 @@ public class Classifica {
 					else weeksInSamePositionGlobal.set(i, 1); //posizione di questa settimana != posizione della settimana scorsa
 				}
 				
-				Classifica.updatePosizioniClassifica(bookList, weeksInSamePositionGlobal, true, updateSettimanale);
+				Classifica.updatePosizioniClassifica(bookList, weeksInSamePositionGlobal, true, updateSettimanale, previousCopies);
 			}
 			else if(genere.equals("novità")) {//classifica delle novità
 				bookList = DBBook.getAvailableBooks(Classifica.selectByNovelty(1, updateSettimanale));
@@ -78,6 +81,7 @@ public class Classifica {
 				ResultSet gettingPreviousPositions = Classifica.selectByGenre(genere, "update", updateSettimanale);
 				List<Integer> previousPosition = new ArrayList<Integer>(); 
 				List<Integer> weeksInSamePosition = new ArrayList<Integer>();
+				List<Integer> previousCopies = new ArrayList<Integer>();
 				
 				if(gettingPreviousPositions == null) return;
 				
@@ -85,6 +89,7 @@ public class Classifica {
 					while(gettingPreviousPositions.next()) {
 						previousPosition.add(gettingPreviousPositions.getInt("precedentePosizioneClassifica"));
 						weeksInSamePosition.add(gettingPreviousPositions.getInt("settimaneStessaPosizione"));
+						previousCopies.add(gettingPreviousPositions.getInt("copieVenduteSettimanaPrecedente"));
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -103,7 +108,7 @@ public class Classifica {
 					else weeksInSamePosition.set(i, 1); //posizione di questa settimana != posizione della settimana scorsa
 				}
 				
-				Classifica.updatePosizioniClassifica(bookList, weeksInSamePosition, false, updateSettimanale);
+				Classifica.updatePosizioniClassifica(bookList, weeksInSamePosition, false, updateSettimanale, previousCopies);
 			}
 		}
 
@@ -252,7 +257,7 @@ public class Classifica {
 		
 		
 		//metodo per aggiornare i campi relativi alla classifica nella bookList
-		public static void updatePosizioniClassifica(List<Libro> bookList, List<Integer> weeksInSamePosition, boolean global, boolean updateSettimanale) {
+		public static void updatePosizioniClassifica(List<Libro> bookList, List<Integer> weeksInSamePosition, boolean global, boolean updateSettimanale, List<Integer> previousCopies) {
 			int iterator = 0;
 			String sql = "";
 			
@@ -262,8 +267,8 @@ public class Classifica {
 				if(global) {
 					sql += "UPDATE BookList \nSET "; //non voglio permettere il variare i campi PRIMARY KEY O UNIQUE quindi non c'è update del campo isbn
 					sql += "settimaneStessaPosizioneGlobale = " + weeksInSamePosition.get(iterator) + ",\n";
-					sql += "precedentePosizioneClassificaGlobale = " + ++iterator + ",\n";
-					sql += "copieVenduteSettimanaPrecedente = " + book.getCopieVendute() + (updateSettimanale ? ",\n" : "\n"); //campo a cui accederà getClassifica(), campo dunque sul quale salvare il valore finale della settimana scorsa
+					sql += "precedentePosizioneClassificaGlobale = " + (iterator + 1) + ",\n";
+					sql += "copieVenduteSettimanaPrecedente = " + (book.getCopieVendute() + (updateSettimanale ? 0 : previousCopies.get(iterator++))) + (updateSettimanale ? ",\n" : "\n"); //campo a cui accederà getClassifica(), campo dunque sul quale salvare il valore finale della settimana scorsa
 					if(updateSettimanale) sql += "copieVenduteTotali = 0\n"; //updateSettimanale quindi resetto il conteggio per la settimana successiva
 					sql += "WHERE isbn = '" + book.getIsbn() + "';";
 				}
@@ -277,7 +282,6 @@ public class Classifica {
 				Statement stmt = null;
 				
 				try {
-					System.out.println(sql);
 					stmt = connect.createStatement();
 					stmt.executeUpdate(sql);
 				}
