@@ -98,7 +98,7 @@ public class Ordine {
 	}
 	
 	public double getTotalCost() {
-		return this.totalCost;
+		return ((int)(this.totalCost*100))/100.0;
 	}
 	
 	public String getPaymentType() {

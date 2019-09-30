@@ -26,7 +26,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		
-		Classifica.randomize(); //inizializzazione dei valori
+		//Classifica.randomize(); //inizializzazione dei valori
 		
 		LeaderboardUpdateThread prova = new LeaderboardUpdateThread(); //thread to simulate week passing
 		

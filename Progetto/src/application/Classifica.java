@@ -174,7 +174,7 @@ public class Classifica {
 		//metodo per ricevere i libri di un certo genere
 		public static ResultSet selectByGenre(String genere, String getOrUpdate, boolean updateSettimanale) {
 			Connection connect = SqliteConnection.dbConnector();
-			String ordering = getOrUpdate.equals("get") ? "copieVenduteSettimanaPrecedente" : "copieVenduteTotali";
+			String ordering = getOrUpdate.equals("get") || !updateSettimanale ? "copieVenduteSettimanaPrecedente" : "copieVenduteTotali";
 			if(genere == null) { //selezione per classifica generale
 				String sql = "SELECT * FROM BookList\nWHERE disponibilita = 1";
 				if(updateSettimanale) sql += " AND copieVenduteSettimanaPrecedente != -1";
@@ -277,6 +277,7 @@ public class Classifica {
 				Statement stmt = null;
 				
 				try {
+					System.out.println(sql);
 					stmt = connect.createStatement();
 					stmt.executeUpdate(sql);
 				}

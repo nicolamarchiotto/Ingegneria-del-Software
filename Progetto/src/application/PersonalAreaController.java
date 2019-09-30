@@ -180,8 +180,10 @@ public class PersonalAreaController implements Initializable{
 				this.userLogged.setTelefono(this.telNumber.getText().trim());
 				this.userLogged.setPw(this.pw.getText().trim());
 				
+				indirizziList=this.getIndirizzi();
 				
 				this.userLogged.setIndirizziDaListaDiOggettiIndirizzi(indirizziList); //per aggiornare la situa
+				tableView.setItems(indirizziList);
 				DBUser.updateUser(this.userLogged);
 				
 				AlertBox.display("Success", "Your data have been updated");
@@ -247,7 +249,7 @@ public class PersonalAreaController implements Initializable{
 		
 		List<String> listaInStringhe=this.userLogged.getIndirizziFormattati();
 		for(String s:listaInStringhe) {
-			supList.add(new Indirizzo((s.split(",")[0]), (s.split(",")[1]), (s.split(",")[2])));
+			supList.add(new Indirizzo((s.split(",")[0].trim()), (s.split(",")[1].trim()), (s.split(",")[2].trim())));
 		}
 		return supList;
 	}

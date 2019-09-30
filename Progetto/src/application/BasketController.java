@@ -131,7 +131,7 @@ public class BasketController implements Initializable{
 		
 		for(int i=0;i<numbersOfGridRows;i++) {		
 			gridPaneLocal.getRowConstraints().add(row);
-			Label label=new Label(carrelloUser.get(i).getTitolo());
+			Label label=new Label(carrelloUser.get(i).getTitolo().trim());
 			Label price=new Label(String.valueOf(carrelloUser.get(i).getPrezzo()));
 			label.setId("label"+String.valueOf(i));
 			ComboBox<String> combobox=new ComboBox<String>();

@@ -314,9 +314,11 @@ public class ResponsabileController implements Initializable{
 		DBBook.deleteLibro(l);
 
 		AlertBox.display("Success", "Book removed");
-
-		this.libriGlobal.remove(l);
+		
+		this.loginController.setBookListStaticOfLoginController();
+		this.libriGlobal=this.loginController.getBookListGlobalFromLoginController();
 		this.tableViewCatalogo.setItems(this.libriGlobal);
+		tableViewOrders.setItems(getOrdini());
 	}
 
 	/*
@@ -332,12 +334,15 @@ public class ResponsabileController implements Initializable{
 		String selectedGenere=genereComboBoxClassifica.getValue().toString();
 
 		this.tableViewClassifica.setItems(getLibriClassifica(selectedGenere));
+		
+		
 
 	}
 
 	private ObservableList<Libro> getLibriClassifica(String genere) {
 
 		int indexComboBox=genereComboBoxClassifica.getItems().indexOf(genere);
+		
 
 		HashMap<List<Libro>, List<Integer>> mappa=this.vettoreMappe.get(indexComboBox);
 
@@ -454,7 +459,7 @@ public class ResponsabileController implements Initializable{
 		//code for the classifica section
 
 
-		genereComboBoxClassifica.getItems().addAll("Tutti","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
+		genereComboBoxClassifica.getItems().addAll("Tutti","Novità","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
 
 		titoloColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));

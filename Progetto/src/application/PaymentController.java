@@ -149,9 +149,16 @@ public class PaymentController implements Initializable{
 	}
 	
 	public void confirmButtonPushed(ActionEvent event) throws IOException {
-
-		try {
+		
+		
 			if(checkAllFields() && checkToogleGroup()) {
+				try {
+					checkCap();
+				}
+				catch(NumberFormatException e) {
+					AlertBox.display("Error", "The CAP must be numeric");
+					return;
+				}
 				if(this.capTextField.getText().trim().length() != 5){
 					AlertBox.display("Error", "CAP must be 5 number long");
 					return;
@@ -188,6 +195,7 @@ public class PaymentController implements Initializable{
 					this.userLogged.getOrdini().add(ordLoc);	
 					this.userLogged.aggiungiPunti(ordLoc.getSaldoPuntiOrdine());
 					this.userLogged.getCarrello().removeAll(this.userLogged.getCarrello());
+					this.controller.setUserLogged(userLogged);
 				}
 				
 				AlertBox.display("Hurray", "Your order has been received,\nthanks for choosing us!"+idOrdine);
@@ -201,13 +209,8 @@ public class PaymentController implements Initializable{
 				AlertBox.display("Error", "You forgot some fields");
 				return;
 			}
-		}
-		catch(NumberFormatException e) {
-			AlertBox.display("Error", "The CAP must be numeric");
-			return;
-		}
-		
 	}
+
 
 	private boolean checkToogleGroup() {
 		if(this.paymentToggleGroup.getSelectedToggle()==null)
@@ -236,7 +239,7 @@ public class PaymentController implements Initializable{
         
 	}
 
-	private boolean checkAllFields() throws NumberFormatException{
+	private boolean checkAllFields(){
 		boolean sup=true;
 		
 		if(this.viaTextField.getText() == null || this.viaTextField.getText().trim().isEmpty())
@@ -245,11 +248,17 @@ public class PaymentController implements Initializable{
 			sup=false;
 		if(this.capTextField.getText() == null || this.capTextField.getText().trim().isEmpty())
 			sup=false;
+		
+		return sup;
+	}
+	
+	private boolean checkCap() throws NumberFormatException{
+		boolean sup=true;
+		
 		if(!(Integer.valueOf(this.capTextField.getText()) instanceof Integer))
 			sup=false;
 		
 		return sup;
-		
 	}
 	
 	private String bookCopiesArrayToString() {

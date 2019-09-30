@@ -66,14 +66,15 @@ public class LoginController implements Initializable{
 
 		this.getClassifica(false);
 		
-		LoginController.vettoreMappe.add(this.classificaGenerale);
-		LoginController.vettoreMappe.add(this.classificaRomanzo);
-		LoginController.vettoreMappe.add(this.classificaNarrativa);
-		LoginController.vettoreMappe.add(this.classificaRagazzi);
-		LoginController.vettoreMappe.add(this.classificaFantascienza);
-		LoginController.vettoreMappe.add(this.classificaPoliziesco);
-		LoginController.vettoreMappe.add(this.classificaStoria);
-		LoginController.vettoreMappe.add(this.classificaAltro);
+		LoginController.vettoreMappe.add(0,this.classificaGenerale);
+		LoginController.vettoreMappe.add(1,this.classificaNovita);
+		LoginController.vettoreMappe.add(2,this.classificaRomanzo);
+		LoginController.vettoreMappe.add(3,this.classificaNarrativa);
+		LoginController.vettoreMappe.add(4,this.classificaRagazzi);
+		LoginController.vettoreMappe.add(5,this.classificaFantascienza);
+		LoginController.vettoreMappe.add(6,this.classificaPoliziesco);
+		LoginController.vettoreMappe.add(7,this.classificaStoria);
+		LoginController.vettoreMappe.add(8,this.classificaAltro);
 		
 		
 		//aggiungo i vari user salvati nel DB
@@ -185,6 +186,10 @@ public class LoginController implements Initializable{
 	
 	public ObservableList<Libro> getBookListGlobalFromLoginController() {
 		return LoginController.libriGlobal;
+	}
+	
+	public void setBookListStaticOfLoginController() {
+		LoginController.libriGlobal=getLibriCatalogoFromDB();
 	}
 	
 	//metodo che permette di copiare in locale le varie classifiche, impostando cond a true si forza l'andare a prendere

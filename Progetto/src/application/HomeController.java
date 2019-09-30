@@ -204,6 +204,10 @@ public class HomeController implements Initializable{
 		
 		this.tableViewClassifica.setItems(getLibriClassifica(indexComboBox));
 		
+		System.out.println("Valore di genere:" +selectedGenere);
+		System.out.println("Valore di indice genere:" +indexComboBox);
+		
+		
 	}
 	
 	private ObservableList<Libro> getLibriClassifica(int posizioneGenere) {
@@ -312,7 +316,7 @@ public class HomeController implements Initializable{
 		
 		
 		
-		genereComboBoxClassifica.getItems().addAll("Tutti","Novità", "Narrativa", "Storia", "Romanzo", "Fantascienza","Ragazzi", "Poliziesco", "Altro");
+		genereComboBoxClassifica.getItems().addAll("Tutti","Novità","Romanzo", "Narrativa", "Ragazzi", "Fantascienza", "Poliziesco", "Storia", "Altro");
 		
 		titoloColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("titolo"));
 		autoreColumnClassifica.setCellValueFactory(new PropertyValueFactory<Libro, String>("autore"));
