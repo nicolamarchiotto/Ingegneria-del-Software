@@ -46,7 +46,7 @@ public class AlertBox {
 	
 	    //Block events to other windows
 	    window.initModality(Modality.APPLICATION_MODAL);
-	    window.setTitle("");
+	    window.setTitle("Are you sure about that?");
 	    window.setMinWidth(250);
 	    window.setMinHeight(120);
 	    

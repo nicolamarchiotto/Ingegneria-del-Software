@@ -202,11 +202,7 @@ public class HomeController implements Initializable{
 		
 		int indexComboBox=genereComboBoxClassifica.getItems().indexOf(selectedGenere);
 		
-		this.tableViewClassifica.setItems(getLibriClassifica(indexComboBox));
-		
-		System.out.println("Valore di genere:" +selectedGenere);
-		System.out.println("Valore di indice genere:" +indexComboBox);
-		
+		this.tableViewClassifica.setItems(getLibriClassifica(indexComboBox));	
 		
 	}
 	

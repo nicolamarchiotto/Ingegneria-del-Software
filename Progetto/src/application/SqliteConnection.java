@@ -518,9 +518,6 @@ public class SqliteConnection {
 		Statement stmt = null;
 			
 		try {
-			
-			//System.out.println("*****CONNESSO PER RICEVERE DA " + tableName + "*****");
-			
 			stmt = SqliteConnection.dbConnector().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			return rs;

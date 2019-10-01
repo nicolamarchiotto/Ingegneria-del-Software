@@ -95,7 +95,6 @@ public class BasketController implements Initializable{
 		carrelloVuotoLabel.setLayoutY(50);
 		
 		if(this.carrelloUser.isEmpty()) {
-
 			this.anchorPane.getChildren().add(carrelloVuotoLabel);
 			return;
 		}
@@ -118,13 +117,15 @@ public class BasketController implements Initializable{
 		firstRowLabel.setStyle("-fx-font-weight: bold");
 	    gridPaneLocal.add(firstRowLabel, 0, 0);
 	    
-	    firstRowLabel=new Label("Q.ty");
-	    firstRowLabel.setStyle("-fx-font-weight: bold");
-	    gridPaneLocal.add(firstRowLabel, 1, 0);
-	    
 	    firstRowLabel=new Label("Price");
 	    firstRowLabel.setStyle("-fx-font-weight: bold");	    
+	    gridPaneLocal.add(firstRowLabel, 1, 0);
+	    
+	    firstRowLabel=new Label("Q.ty");
+	    firstRowLabel.setStyle("-fx-font-weight: bold");
 	    gridPaneLocal.add(firstRowLabel, 2, 0);
+	    
+	    
 	    
 	    gridPaneLocal.getRowConstraints().add(row);
 		
@@ -194,6 +195,10 @@ public class BasketController implements Initializable{
 			Integer intero;
 			try {
 				intero=Integer.valueOf(this.comboboxArray.get(i).getValue());
+				if(intero<1) {
+					AlertBox.display("Error", "Q.ty must be greater or equals than one");
+					return;
+				}
 			}
 			catch(NumberFormatException e){
 				AlertBox.display("Error", "The number of the copies must be numeric");

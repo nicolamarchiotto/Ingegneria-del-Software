@@ -26,8 +26,8 @@ public class Ordine {
 		for(Libro l: libriCollection) {
 			this.libriOrdine.add(l);
 			this.totalCost+=(l.getPrezzo()*l.getCopieVenduteNelSingoloOrdine());
-			this.saldoPuntiOrdine+=l.getPunti()*l.getCopieVenduteNelSingoloOrdine();
 		}
+		this.saldoPuntiOrdine=(int)Math.round(this.totalCost);
 		this.data=LocalDateTime.now();
 		this.idUser=idUser;
 		this.paymentType=tipoPagamento;

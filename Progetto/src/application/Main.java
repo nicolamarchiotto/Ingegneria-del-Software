@@ -28,12 +28,12 @@ public class Main extends Application {
 		
 		//Classifica.randomize(); //inizializzazione dei valori
 		
-		LeaderboardUpdateThread prova = new LeaderboardUpdateThread(); //thread to simulate week passing
+		LeaderboardUpdateThread leaderboardThread = new LeaderboardUpdateThread(); //thread to simulate week passing
 		
-		prova.start(); //starting the thread
+		leaderboardThread.start(); //starting the thread
 			
 		launch(args); //starting the application
 		
-		prova.interrupt(); //terminating thread
+		leaderboardThread.interrupt(); //terminating thread
 	}
 }

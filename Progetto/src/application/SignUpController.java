@@ -88,7 +88,11 @@ public class SignUpController implements Initializable{
 		}
 		else {
 			try {//testo se la stringa presa dal cap è effettivamente un numero o meno
-				Integer.parseInt(Cap.getText().trim());
+				if( Integer.parseInt(Cap.getText().trim())<0) {
+					AlertBox.display("Error", "Cap must be positive");
+					return false;
+				}
+					
 			}
 			catch(NumberFormatException e){
 				AlertBox.display("Error", "Insert a valid numeric CAP");
@@ -96,7 +100,11 @@ public class SignUpController implements Initializable{
 			}
 			
 			try {//testo se la stringa presa dal numero di telefono è effettivamente un numero o meno
-				Double.valueOf(TelNum.getText().trim());
+				if(Double.valueOf(TelNum.getText().trim())<0) {
+					AlertBox.display("Error", "Telephone number must be positive");
+					return false;
+				}
+					
 			}
 			catch(NumberFormatException e){
 				AlertBox.display("Error", "Insert a valid numeric telephone number");

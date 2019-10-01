@@ -115,6 +115,10 @@ public class DetailedOrdineController implements Initializable{
 	
 	public void SignOutButtonPushed(ActionEvent event) throws IOException
     {
+		if(this.lato.equals("User")) {
+			LoginController controller=new LoginController();
+			SqliteConnection.savingOnLogOut(controller.getUserLogged());
+		}
         Parent tableViewParent =  FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();

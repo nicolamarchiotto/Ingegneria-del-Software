@@ -27,7 +27,6 @@ class LeaderboardUpdateThread extends Thread{
 		if(this.timePassed >= WEEKASMINUTES) {
 			System.out.println("-----STO AGGIORNANDO LA CLASSIFICA: E' PASSATA UNA SETTIMANA-----"); 
 			Classifica.updateClassifica(true);
-			//se lo dici tu mi fido, non ho capito tutta la logica sorry, riferito alla riga seguente
 			this.timeFromDB = this.timeFromDB.plusMinutes(this.timePassed / WEEKASMINUTES * WEEKASMINUTES);
 			this.updateDBtime(this.timeFromDB);
 			this.timePassed = this.timePassed % WEEKASMINUTES;

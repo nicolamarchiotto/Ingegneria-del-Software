@@ -60,7 +60,6 @@ public class DBBook {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//System.out.println(bookList.isEmpty() + "   " + bookList);
 		if(bookList.isEmpty()) return null;
 		else return bookList;
 	}

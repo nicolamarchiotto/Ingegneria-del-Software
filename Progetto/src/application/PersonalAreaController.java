@@ -201,6 +201,8 @@ public class PersonalAreaController implements Initializable{
 		}
 		
 	}
+	
+	
 
 	private boolean verifyField() throws NumberFormatException{
 		
@@ -238,7 +240,10 @@ public class PersonalAreaController implements Initializable{
 		}
 		else if(this.pw.getText().trim().length() < 6) {//non è possibile inserire una password con meno di 6 caratteri
 			AlertBox.display("error", "Password must be at least 6 characters long");
-			return false;		
+			return false;
+		}else if((Long.valueOf(this.cap.getText().trim())<0) || (Long.valueOf(this.telNumber.getText().trim())<0)){
+			AlertBox.display("Error", "Cap and telephone number must be positive");
+			return false;
 		}
 		return true;
 	}
@@ -274,6 +279,10 @@ public class PersonalAreaController implements Initializable{
 			if(checkAddressInput()) {
 				if(this.capAdded.getText().trim().length() != 5) {
 					AlertBox.display("Error", "CAP must be 5 number long");
+					return;
+				}
+				if(Long.valueOf(this.capAdded.getText().trim())<0){
+					AlertBox.display("Error", "Cap and telephone number must be positive");
 					return;
 				}
 					
@@ -323,7 +332,7 @@ public class PersonalAreaController implements Initializable{
 		
 		//controllo se è stato selezionato qualcosa
 		if(tableViewOrder.getSelectionModel().getSelectedItem() == null) {
-			AlertBox.display("ERROR", "Non è stato selezionato nessun ordine");
+			AlertBox.display("ERROR", "No order was selected");
 			return;
 		}
 		else{
@@ -342,13 +351,13 @@ public class PersonalAreaController implements Initializable{
 	public void searchButtonPushed(ActionEvent event) throws IOException{
 			
 		if(this.searchTextField.getText() == null || this.searchTextField.getText().trim().isEmpty()) {
-			AlertBox.display("Error", "Devi inserire il codice dell'ordine");
+			AlertBox.display("Error", "Insert the order code");
 			return;
 		}
 		
 		Ordine ordineTrovato=DBOrder.getOrderByID(this.searchTextField.getText());
 		if(ordineTrovato==null) {
-			AlertBox.display("Error", "Nessun ordine corrisponde a tale identificativo");
+			AlertBox.display("Error", "No match found");
 			return;
 		}
 		else if(!ordineTrovato.getUserId().equals("#####"))

@@ -38,7 +38,8 @@ public class ResponsabileController implements Initializable{
 	private ArrayList<HashMap<List<Libro>, List<Integer>>> vettoreMappe=new ArrayList<HashMap<List<Libro>, List<Integer>>>();
 
 	@FXML private Label WellcomeLabel;
-
+	@FXML private Button signOutButton;
+	
 	//stuff for the add book part
 	@FXML private TextField titolo;
 	@FXML private TextField autori;
@@ -49,8 +50,6 @@ public class ResponsabileController implements Initializable{
 	@FXML private TextArea breveDescrizione;
 
 	@FXML private Button addToLibraryButton;
-	@FXML private Button signOutButton;
-
 
 
 	/*
@@ -84,12 +83,10 @@ public class ResponsabileController implements Initializable{
 
 	@FXML private ComboBox<String> genereComboBoxClassifica;
 	@FXML private Button searchButtonClassifica;
+	@FXML private Button updateAdminButton;
 
 	/*
 	 * stuff for the libroCard section
-	 *
-	 * TableView objects accepts only one object, created new object UserForTableView
-	 * with field contained both in User and LibroCard
 	 */
 
 	@FXML private TableView<User> tableViewCards;
@@ -98,8 +95,6 @@ public class ResponsabileController implements Initializable{
 	@FXML private TableColumn<User, String> nomeUserColumn;
 	@FXML private TableColumn<User, String> cognomeUserColumn;
 	@FXML private TableColumn<User, Integer> saldoPuntiColumn;
-
-	@FXML private Button updateAdminButton;
 
 	/*
 	 * stuff for the order section
@@ -131,8 +126,16 @@ public class ResponsabileController implements Initializable{
 			AlertBox.display("Error", "All field must be filled");
 			return;
 		}
+		try {
+			if(Long.valueOf(annoPubblicazione.getText())<=0 || Long.valueOf(prezzo.getText())<=0) {
+				AlertBox.display("Error", "Year of pubblication and price can't be negative or zero");
+				return;
+			}
+		}
+		catch(NumberFormatException e) {
+		}
 
-		if(genere.getValue() == null) {
+		if(genere.getValue() == null || genere.getValue().equals("Genre")) {
 			AlertBox.display("Error", "You have to selected a genre");
 			return;
 		}
@@ -177,7 +180,7 @@ public class ResponsabileController implements Initializable{
 	private void setTextToEmpty() {
 		titolo.setText("");
 		autori.setText("");
-		genere.setValue("Genere");
+		genere.setValue("Genre");
 		casaEditrice.setText("");
 		annoPubblicazione.setText("");
 		prezzo.setText("");
@@ -477,7 +480,6 @@ public class ResponsabileController implements Initializable{
 		nomeUserColumn.setCellValueFactory(new PropertyValueFactory<User, String>("nome"));
 		saldoPuntiColumn.setCellValueFactory(new PropertyValueFactory<User, Integer>("puntiCard"));
 
-		//populates the tableView with dummy items
 		//setItems must have an ObservableList as parameter, ObservableList almost like ArrayList	
 
 		tableViewCards.setItems(getUser());
@@ -490,8 +492,6 @@ public class ResponsabileController implements Initializable{
 		dataAcquistoColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("data"));
 		statoColumn.setCellValueFactory(new PropertyValueFactory<Ordine, String>("stato"));
 
-
-		System.out.println("-----FETCHING ORDERS FOR " + this.loginController.getUserLogged() + "-----\n\n");
 		tableViewOrders.setItems(getOrdini());
 	}
 }

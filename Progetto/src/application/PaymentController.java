@@ -153,7 +153,10 @@ public class PaymentController implements Initializable{
 		
 			if(checkAllFields() && checkToogleGroup()) {
 				try {
-					checkCap();
+					if(!checkCap()) {
+						AlertBox.display("Error", "The CAP must positive");
+						return;
+					}
 				}
 				catch(NumberFormatException e) {
 					AlertBox.display("Error", "The CAP must be numeric");
@@ -255,7 +258,7 @@ public class PaymentController implements Initializable{
 	private boolean checkCap() throws NumberFormatException{
 		boolean sup=true;
 		
-		if(!(Integer.valueOf(this.capTextField.getText()) instanceof Integer))
+		if((Integer.valueOf(this.capTextField.getText()) <0))
 			sup=false;
 		
 		return sup;
